@@ -1,6 +1,6 @@
-package Model.tree;
+package model.tree;
 
-import Model.operations.Operation;
+import model.operations.Operation;
 
 import java.util.List;
 
