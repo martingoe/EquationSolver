@@ -1,17 +1,23 @@
 package model.operations;
 
-public class Operation {
-    Object[] elements;
+import model.tree.Node;
+import model.tree.Variable;
 
-    float operationFunction(float x1, float x2){
+import java.util.List;
+
+public class Operation extends Node {
+
+    public Operation(List<Node> elements) {
+        super(elements);
+
+    }
+
+    float operationFunction(Object[] objects) {
         return 0f;
     }
-    public float getResult() {
-        return this.getResult(this.elements);
-    }
 
-    public Operation(Object[] elements) {
-        this.elements = elements;
+    public float getResult() {
+        return this.getResult(this.getChildrenNodes());
     }
 
     /**
@@ -20,27 +26,24 @@ public class Operation {
      * @param elements The input elements
      * @return The validated result
      */
-    Object[] validateObjects(Object[] elements) {
-        int lengthOfObjects = elements.length;
+    Object[] validateObjects(List<Node> elements) {
+        int lengthOfObjects = elements.size();
         Object[] validatedObjects = new Object[lengthOfObjects];
         for (int i = 0; i < lengthOfObjects; i++) {
-            Object element = elements[i];
-            if (element instanceof Operation) {
+            Object element = elements.get(i);
+            if (element instanceof Variable) {
+                return null;
+            } else if(element instanceof Operation){
                 validatedObjects[i] = ((Operation) element).getResult();
-            }
-            else {
-                validatedObjects[i] = elements[i];
+            } else {
+                validatedObjects[i] = element;
             }
         }
         return validatedObjects;
     }
 
-    Float getResult(Object[] elements) {
+    Float getResult(List elements) {
         Object[] validatedElements = validateObjects(elements);
-        float result = (float) validatedElements[0];
-        for (int i = 1; i < validatedElements.length; i++) {
-            result = operationFunction(result, (Float) validatedElements[i]);
-        }
-        return result;
+        return validatedElements != null ? operationFunction(validatedElements) : null;
     }
 }

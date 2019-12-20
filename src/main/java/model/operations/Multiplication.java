@@ -1,14 +1,23 @@
 package model.operations;
 
+import model.tree.Node;
+
+import java.util.List;
+
 public class Multiplication extends Operation {
 
-    public Multiplication(Object[] elements) {
+
+    public Multiplication(List<Node> elements) {
         super(elements);
     }
 
-
     @Override
-    public float operationFunction(float x1, float x2) {
-        return x1 * x2;
+    public float operationFunction(Object[] objects) {
+        float result = (float) objects[0];
+
+        for (int i = 1; i < objects.length; i++) {
+            result *= (float) objects[i];
+        }
+        return result;
     }
 }
