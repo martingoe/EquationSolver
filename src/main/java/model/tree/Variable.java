@@ -1,9 +1,10 @@
 package model.tree;
 
-public class Variable  {
+public class Variable extends Node {
     char variableName;
 
     public Variable(char variableName) {
+        super(null);
         this.variableName = variableName;
     }
 
