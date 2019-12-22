@@ -28,4 +28,8 @@ public class Node<T> {
     public List<Node<T>> getChildrenNodes() {
         return childrenNodes;
     }
+
+    public void setChildrenNodes(List<Node<T>> childrenNodes) {
+        this.childrenNodes = childrenNodes;
+    }
 }
