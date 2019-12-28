@@ -4,7 +4,9 @@ import model.operations.*;
 
 import java.util.HashMap;
 
-public class OperationSelector<T> {
+public class OperationSelector {
+
+
     static Class getOperationFromOperationString(String operation) {
         HashMap<String, Class> operationHashMap = new HashMap<>();
         operationHashMap.put("+", Addition.class);
