@@ -1,6 +1,8 @@
-package model.tree;
+package model.equation;
 
 import model.operations.Operation;
+import model.tree.Node;
+import model.tree.Variable;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -8,16 +10,19 @@ import java.util.HashMap;
 import java.util.List;
 
 @SuppressWarnings("rawtypes")
-public class EquationTree extends Node {
+public class Equation extends Node {
 
     /**
-     * Initializes an {@link EquationTree}. This is what saves an equation
+     * Initializes an {@link Equation}. This is what saves an equation
      * @param childrenNodes The nodes that are contained in the equation. Usually 2 elements long
      */
-    public EquationTree(List<Node> childrenNodes) {
+    public Equation(List<Node> childrenNodes) {
         super(childrenNodes);
     }
 
+    public Equation(String equation){
+    super(new EquationInitializer(equation).getChildrenNodes());
+    }
 
     /**
      * Applies an operation on every children node of the equation
@@ -31,8 +36,8 @@ public class EquationTree extends Node {
         // Initializes a List of new the new Nodes that are included in the parent Node
         List<Node> newChildrenNodes = new ArrayList();
 
-        for (int i = 0; i < childrenNodes.size(); i++) {
-            Object childrenNode = childrenNodes.get(i);
+        for (int i = 0; i < this.getChildrenNodes().size(); i++) {
+            Object childrenNode = this.getChildrenNodes().get(i);
             // Continues with the next iteration if the children node should be excluded
             if (nodesToExclude.contains(childrenNode)) continue;
             // Insert a new operation with the new node as the first parameter
@@ -76,4 +81,5 @@ public class EquationTree extends Node {
         // Return the list of Variables
         return vars;
     }
+
 }
