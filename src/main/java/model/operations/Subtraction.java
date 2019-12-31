@@ -1,22 +1,24 @@
 package model.operations;
 
 import model.tree.Node;
+import model.tree.Number;
 
-import java.util.List;
+public class Subtraction extends Node implements Operation {
 
-public class Subtraction extends Operation {
+    final Class OPPOSITE_OPERATION = Addition.class;
 
-    public Subtraction(List<Node> elements) {
-        super(elements);
+    public Subtraction(Node right, Node left) {
+        super(right, left);
+    }
+
+
+    @Override
+    public void simplify() {
+
     }
 
     @Override
-    public float operationFunction(Object[] objects) {
-        float result = (float) objects[0];
-
-        for (int i = 1; i < objects.length; i++) {
-            result -= (float) objects[i];
-        }
-        return result;
+    public Number getResultFromNumbers(Number n1, Number n2) {
+        return new Number(n1.getNumber() - n2.getNumber());
     }
 }

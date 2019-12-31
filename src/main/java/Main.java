@@ -1,29 +1,20 @@
-import model.equation.EquationInitializer;
 import model.operations.Addition;
 import model.operations.Multiplication;
 import model.operations.Operation;
 import model.equation.Equation;
 import model.tree.Node;
+import model.tree.Number;
+import model.tree.Variable;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        List list = new ArrayList<>() {{
-            add(5f);
-            add(new Addition(new ArrayList() {{
-                add(6f);
-                add(2f);
-            }}));
-        }};
 
-        List x = new ArrayList<Node>(){{
-            add(new Multiplication(list));
-        }};
-        Operation node = (Operation) new Equation(x).getChildrenNodes().get(0);
-        System.out.println(node.getResult());
+        Equation node = (Equation) new Equation(new Addition(new Number(4f), new Number(3f)), new Variable('x'));
+        System.out.println(node.getVariables());
 
-        new EquationInitializer("Hello=World").getChildrenNodes();
     }
 }

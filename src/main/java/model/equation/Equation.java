@@ -5,7 +5,6 @@ import model.tree.Node;
 import model.tree.Variable;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -14,14 +13,9 @@ public class Equation extends Node {
 
     /**
      * Initializes an {@link Equation}. This is what saves an equation
-     * @param childrenNodes The nodes that are contained in the equation. Usually 2 elements long
      */
-    public Equation(List<Node> childrenNodes) {
-        super(childrenNodes);
-    }
-
-    public Equation(String equation){
-    super(new EquationInitializer(equation).getChildrenNodes());
+    public Equation(Node right, Node left) {
+        super(right, left);
     }
 
     /**
@@ -33,28 +27,18 @@ public class Equation extends Node {
      */
     @SuppressWarnings("unchecked")
     public void applyOperationToNodes(Class operationClass, Object secondObjectOfOperation, List<Node> nodesToExclude) {
-        // Initializes a List of new the new Nodes that are included in the parent Node
-        List<Node> newChildrenNodes = new ArrayList();
-
-        for (int i = 0; i < this.getChildrenNodes().size(); i++) {
-            Object childrenNode = this.getChildrenNodes().get(i);
-            // Continues with the next iteration if the children node should be excluded
-            if (nodesToExclude.contains(childrenNode)) continue;
-            // Insert a new operation with the new node as the first parameter
-            try {
-                List elements = new ArrayList<>() {{
-                    add(childrenNode);
-                    add(secondObjectOfOperation);
-                }};
-                // Add the new element to the List of new Nodes
-                newChildrenNodes.add((Node) operationClass.getDeclaredConstructor(List.class).newInstance(elements));
-            } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
-                e.printStackTrace();
+        try {
+            if (!nodesToExclude.contains(this.getRight())) {
+                this.setRight((Node) operationClass.getDeclaredConstructor(Node.class, Node.class)
+                        .newInstance(this.getRight(), secondObjectOfOperation));
             }
-
+            if (!nodesToExclude.contains(this.getLeft())) {
+                this.setLeft((Node) operationClass.getDeclaredConstructor(Node.class, Node.class)
+                        .newInstance(this.getLeft(), secondObjectOfOperation));
+            }
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            e.printStackTrace();
         }
-        // Set the new children nodes to the parent node
-        setChildrenNodes(newChildrenNodes);
     }
 
     /**
@@ -65,21 +49,28 @@ public class Equation extends Node {
      * @param parentNode The current {@link Node} that of the recursion
      * @return Returns the {@link Variable}s as a {@link HashMap}
      */
-    public HashMap<Variable, Node> getVariables(Node parentNode) {
+    private HashMap<Variable, Node> getVariables(Node parentNode) {
         HashMap<Variable, Node> vars = new HashMap<>();
-        // Iterate over the children nodes in order to check them all
-        for (Node childrenNode : parentNode.getChildrenNodes()) {
-            // Add the node to the List of Variables
-            if (childrenNode instanceof Variable) {
-                vars.put((Variable) childrenNode, parentNode);
-            }
-            // If the children node is a operation, add the variables in that operation
-            else if (childrenNode instanceof Operation) {
-                vars.putAll(getVariables(childrenNode));
-            }
+
+        if (parentNode.getRight() instanceof Variable) {
+            vars.put((Variable) parentNode.getRight(), parentNode);
+        }
+        // If the children node is a operation, add the variables in that operation
+        else if (parentNode.getRight() instanceof Operation) {
+            vars.putAll(getVariables(parentNode.getRight()));
+        }
+        if (parentNode.getLeft() instanceof Variable) {
+            vars.put((Variable) parentNode.getLeft(), parentNode);
+        }
+        // If the children node is a operation, add the variables in that operation
+        else if (parentNode.getLeft() instanceof Operation) {
+            vars.putAll(getVariables(parentNode.getLeft()));
         }
         // Return the list of Variables
         return vars;
     }
 
+    public HashMap<Variable, Node> getVariables() {
+        return getVariables(this);
+    }
 }

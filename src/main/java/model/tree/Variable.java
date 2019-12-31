@@ -5,7 +5,7 @@ public class Variable extends Node {
 
 
     public Variable(char variableName) {
-        super(null);
+        super(null, null);
         this.variableName = variableName;
     }
 
