@@ -18,6 +18,7 @@ public class Equation extends Node {
         super(right, left);
     }
 
+
     /**
      * Applies an operation on every children node of the equation
      *
@@ -25,7 +26,7 @@ public class Equation extends Node {
      * @param secondObjectOfOperation The secondObjectOfOperation that is applied to the {@link Operation}
      * @param nodesToExclude          A {@link java.util.List} of {@link Node} that should be excluded from the change
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "JavaReflectionInvocation"})
     public void applyOperationToNodes(Class operationClass, Object secondObjectOfOperation, List<Node> nodesToExclude) {
         try {
             if (!nodesToExclude.contains(this.getRight())) {
@@ -40,6 +41,7 @@ public class Equation extends Node {
             e.printStackTrace();
         }
     }
+
 
     /**
      * Gets the {@link Variable}s with the {@link Node}s that are in the equation

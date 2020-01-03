@@ -1,20 +1,17 @@
 package model.regex;
 
-import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RegExUtilities {
 
-    HashMap<String, Integer> getSubstrings(String baseString, String regExString) {
-        HashMap<String, Integer> result = new HashMap<>();
+    public static Integer getFirstSubstring(String baseString, String regExString, int startIndex) {
         Pattern pattern = Pattern.compile(regExString);
         Matcher matcher = pattern.matcher(baseString);
 
-        while (matcher.find()) {
-            result.put(matcher.group(), matcher.start());
+        while (matcher.find(startIndex)) {
+            return matcher.start();
         }
-
-        return result.size() == 0 ? null : result;
+        return null;
     }
 }
