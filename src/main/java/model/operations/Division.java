@@ -1,23 +1,24 @@
 package model.operations;
 
 import model.tree.Node;
+import model.tree.Number;
 
 import java.util.List;
 
-public class Division extends Operation {
+public class Division extends Node implements Operation {
 
 
-    public Division(List<Node> elements) {
-        super(elements);
+    public Division(Node right, Node left) {
+        super(right, left);
     }
 
     @Override
-    public float operationFunction(Object[] objects) {
-        float result = (float) objects[0];
+    public void simplify() {
 
-        for (int i = 1; i < objects.length; i++) {
-            result /= (float) objects[i];
-        }
-        return result;
+    }
+
+    @Override
+    public Number getResultFromNumbers(Number n1, Number n2) {
+        return new Number(n1.getNumber() / n2.getNumber());
     }
 }

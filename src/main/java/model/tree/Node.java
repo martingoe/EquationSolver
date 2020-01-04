@@ -2,34 +2,28 @@ package model.tree;
 
 import java.util.List;
 
-public class Node<T> {
-    List<Node<T>> childrenNodes;
+public class Node {
+    Node left;
+    Node right;
 
-    public Node(List<Node<T>> childrenNodes) {
-        this.childrenNodes = childrenNodes;
+    public Node(Node right, Node left) {
+        this.right = right;
+        this.left = left;
     }
 
-    public List<Node<T>> removeChildrenNode(Node<T> nodeToBeRemoved) {
-        this.childrenNodes.remove(nodeToBeRemoved);
-        return childrenNodes;
+    public Node getLeft() {
+        return left;
     }
 
-    public List<Node<T>> removeChildrenNode(int index) {
-        this.childrenNodes.remove(index);
-        return childrenNodes;
+    public void setLeft(Node left) {
+        this.left = left;
     }
 
-    public List<Node<T>> insertChildrenNode(Node<T> nodeToBeInserted) {
-        this.childrenNodes.add(nodeToBeInserted);
-
-        return this.childrenNodes;
+    public Node getRight() {
+        return right;
     }
 
-    public List<Node<T>> getChildrenNodes() {
-        return childrenNodes;
-    }
-
-    public void setChildrenNodes(List<Node<T>> childrenNodes) {
-        this.childrenNodes = childrenNodes;
+    public void setRight(Node right) {
+        this.right = right;
     }
 }
