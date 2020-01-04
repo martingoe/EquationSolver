@@ -9,7 +9,7 @@ public class RegExUtilities {
         Pattern pattern = Pattern.compile(regExString);
         Matcher matcher = pattern.matcher(baseString);
 
-        while (matcher.find(startIndex)) {
+        if (matcher.find(startIndex)) {
             return matcher.start();
         }
         return null;
