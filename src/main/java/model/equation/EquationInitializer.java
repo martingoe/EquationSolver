@@ -72,7 +72,7 @@ public class EquationInitializer {
         int operationIndex = RegExUtilities.getFirstSubstring(operation, OPERATION_REGEX, startingIndex);
         Class operationClass = OperationSelector.getOperationFromOperationString(operation.charAt(operationIndex));
 
-        Node left = parseOperationOrNumberOrVariable(operation.substring(0, operationIndex));
+        Node left = parseOperationOrNumberOrVariable(removeBracketsFromOperationIfNecessary(operation.substring(0, operationIndex)));
         Node right = parseOperationOrNumberOrVariable(
                 removeBracketsFromOperationIfNecessary(operation.substring(operationIndex + 1)));
 
@@ -102,7 +102,7 @@ public class EquationInitializer {
             return v;
         }
 
-        return parseOperation(string);
+        return (Node) parseOperation(string);
     }
 
     private static int getLastIndexOfFirstBrackets(String equationPart) {
