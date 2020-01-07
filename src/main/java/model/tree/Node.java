@@ -1,7 +1,5 @@
 package model.tree;
 
-import java.util.List;
-
 public class Node {
     Node left;
     Node right;

@@ -3,7 +3,7 @@ package model.operations;
 import model.tree.Node;
 import model.tree.Number;
 
-public class Subtraction extends Node implements Operation {
+public class Subtraction extends Operation {
 
     final Class OPPOSITE_OPERATION = Addition.class;
 
@@ -13,12 +13,17 @@ public class Subtraction extends Node implements Operation {
 
 
     @Override
-    public void simplify() {
-
+    public Node simplify() {
+        return null;
     }
 
     @Override
-    public Number getResultFromNumbers(Number n1, Number n2) {
+    public Number getResult() {
+        return getResultFromNumbers((Number) this.getLeft(), (Number) this.getRight());
+    }
+
+    @Override
+    public Number getResultFromNumbers(Number n1, Number n2){
         return new Number(n1.getNumber() - n2.getNumber());
     }
 }

@@ -7,7 +7,7 @@ import java.util.HashMap;
 public class OperationSelector {
 
 
-    public static Class getOperationFromOperationString(char operation) {
+    public static Class<Operation> getOperationFromOperationString(char operation) {
         HashMap<Character, Class> operationHashMap = new HashMap<>();
         operationHashMap.put('+', Addition.class);
         operationHashMap.put('-', Subtraction.class);

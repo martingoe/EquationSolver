@@ -2,10 +2,11 @@ package model.operations;
 
 import model.tree.Node;
 import model.tree.Number;
+import model.tree.Variable;
 
-import java.util.List;
+import java.lang.reflect.InvocationTargetException;
 
-public class Multiplication extends Node implements Operation {
+public class Multiplication extends Operation {
 
     final Class OPPOSITE_OPERATION = Division.class;
 
@@ -15,8 +16,23 @@ public class Multiplication extends Node implements Operation {
 
 
     @Override
-    public void simplify() {
+    public Node simplify() {
+        if (this.getRight() instanceof Variable && (this.getLeft() instanceof Addition) || (this.getLeft() instanceof Subtraction)){
+            return distributive_law((Operation) this.getLeft(),(Variable) this.getRight());
+        }
+        else if((this.getLeft() instanceof Variable) && (this.getLeft() instanceof Addition || this.getLeft() instanceof Subtraction)){
+            return distributive_law((Operation) this.getRight(), (Variable) this.getLeft());
+        }
+        return this;
+    }
 
+    private Node distributive_law(Operation left, Variable right) {
+        try {
+            return left.getClass().getDeclaredConstructor(Node.class, Node.class).newInstance(new Multiplication(left.getLeft(), right), new Multiplication(left.getRight(), right));
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override

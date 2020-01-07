@@ -3,9 +3,7 @@ package model.operations;
 import model.tree.Node;
 import model.tree.Number;
 
-import java.util.List;
-
-public class Addition extends Node implements Operation{
+public class Addition extends Operation{
 final Class OPPOSITE_OPERATION = Subtraction.class;
 
     public Addition(Node right, Node left) {
@@ -14,8 +12,8 @@ final Class OPPOSITE_OPERATION = Subtraction.class;
 
 
     @Override
-    public void simplify() {
-
+    public Node simplify() {
+        return null;
     }
 
     @Override

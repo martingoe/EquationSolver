@@ -3,9 +3,7 @@ package model.operations;
 import model.tree.Node;
 import model.tree.Number;
 
-import java.util.List;
-
-public class Division extends Node implements Operation {
+public class Division extends Operation {
 
 
     public Division(Node right, Node left) {
@@ -13,8 +11,8 @@ public class Division extends Node implements Operation {
     }
 
     @Override
-    public void simplify() {
-
+    public Node simplify() {
+        return null;
     }
 
     @Override

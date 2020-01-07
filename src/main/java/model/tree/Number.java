@@ -1,6 +1,13 @@
 package model.tree;
 
-public class Number extends Node{
+public class Number extends Node {
+
+    private Float number;
+
+    public Number(Float n) {
+        super(null, null);
+        this.number = n;
+    }
 
     public Float getNumber() {
         return number;
@@ -10,10 +17,8 @@ public class Number extends Node{
         this.number = number;
     }
 
-    private Float number;
-
-    public Number(Float n) {
-        super(null, null);
-        this.number = n;
+    public void setToNegative() {
+        this.setNumber(-number);
     }
+
 }
