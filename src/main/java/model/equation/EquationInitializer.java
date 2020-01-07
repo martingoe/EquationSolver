@@ -21,7 +21,7 @@ public class EquationInitializer {
      */
     public static Equation parseEquation(String equationString) {
         String[] split = equationString.split("=");
-        return new Equation(parseOperationOrNumberOrVariable(split[0]), parseOperationOrNumberOrVariable(split[1]));
+        return new Equation(parseOperationOrNumberOrVariable(split[1]), parseOperationOrNumberOrVariable(split[0]));
     }
 
     /**
@@ -70,14 +70,14 @@ public class EquationInitializer {
         }
 
         int operationIndex = RegExUtilities.getFirstSubstring(operation, OPERATION_REGEX, startingIndex);
-        Class operationClass = OperationSelector.getOperationFromOperationString(operation.charAt(operationIndex));
+        Class<Operation> operationClass = OperationSelector.getOperationFromOperationString(operation.charAt(operationIndex));
 
         Node left = parseOperationOrNumberOrVariable(removeBracketsFromOperationIfNecessary(operation.substring(0, operationIndex)));
         Node right = parseOperationOrNumberOrVariable(
                 removeBracketsFromOperationIfNecessary(operation.substring(operationIndex + 1)));
 
         try {
-            return (Operation) operationClass.getDeclaredConstructor(Node.class, Node.class).newInstance(right, left);
+            return operationClass.getDeclaredConstructor(Node.class, Node.class).newInstance(right, left);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             e.printStackTrace();
         }
@@ -102,7 +102,7 @@ public class EquationInitializer {
             return v;
         }
 
-        return (Node) parseOperation(string);
+        return parseOperation(string);
     }
 
     private static int getLastIndexOfFirstBrackets(String equationPart) {
