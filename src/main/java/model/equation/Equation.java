@@ -2,6 +2,7 @@ package model.equation;
 
 import model.operations.Operation;
 import model.tree.Node;
+import model.tree.Number;
 import model.tree.Variable;
 
 import java.lang.reflect.InvocationTargetException;
@@ -40,6 +41,29 @@ public class Equation extends Node {
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             e.printStackTrace();
         }
+    }
+    public Node simplifyOperation(Operation parentNode){
+        return parentNode.simplify();
+    }
+
+    public Node simplifySimpleOperations(Operation parentNode){
+        Node right = parentNode.getRight();
+        Node left = parentNode.getLeft();
+
+
+        if(right instanceof Operation) {
+            right = simplifySimpleOperations((Operation) right);
+        }
+        if(left instanceof Operation) {
+            left = simplifySimpleOperations((Operation) left);
+        }
+
+        parentNode.setLeft(left);
+        parentNode.setRight(right);
+        if(right instanceof Number && left instanceof Number){
+            return parentNode.getResult();
+        }
+        return parentNode;
     }
 
 
