@@ -6,8 +6,8 @@ import model.tree.Number;
 public class Division extends Operation {
 
 
-    public Division(Node right, Node left) {
-        super(right, left);
+    public Division(Node left, Node right) {
+        super(left, right);
     }
 
     @Override
@@ -18,5 +18,10 @@ public class Division extends Operation {
     @Override
     public Number getResultFromNumbers(Number n1, Number n2) {
         return new Number(n1.getNumber() / n2.getNumber());
+    }
+
+    @Override
+    public Node applyToNode(Node node) {
+        return null;
     }
 }

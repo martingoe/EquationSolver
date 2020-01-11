@@ -10,8 +10,8 @@ public class Multiplication extends Operation {
 
     final Class OPPOSITE_OPERATION = Division.class;
 
-    public Multiplication(Node right, Node left) {
-        super(right, left);
+    public Multiplication(Node left, Node right) {
+        super(left, right);
     }
 
 
@@ -38,5 +38,10 @@ public class Multiplication extends Operation {
     @Override
     public Number getResultFromNumbers(Number n1, Number n2) {
         return new Number(n1.getNumber() * n2.getNumber());
+    }
+
+    @Override
+    public Node applyToNode(Node node) {
+        return null;
     }
 }

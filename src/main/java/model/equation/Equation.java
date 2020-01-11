@@ -5,12 +5,11 @@ import model.tree.Node;
 import model.tree.Number;
 import model.tree.Variable;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.List;
 
-@SuppressWarnings("rawtypes")
 public class Equation extends Node {
+
 
     /**
      * Initializes an {@link Equation}. This is what saves an equation
@@ -23,52 +22,57 @@ public class Equation extends Node {
     /**
      * Applies an operation on every children node of the equation
      *
-     * @param operationClass          the {@link java.lang.Class} of the {@link Operation} that is supposed to be applied
-     * @param secondObjectOfOperation The secondObjectOfOperation that is applied to the {@link Operation}
-     * @param nodesToExclude          A {@link java.util.List} of {@link Node} that should be excluded from the change
+     * @param operation      The {@link Operation} that should be applied to the {@link Node}
+     * @param nodesToExclude A {@link java.util.List} of {@link Node} that should be excluded from the change
      */
-    @SuppressWarnings({"unchecked", "JavaReflectionInvocation"})
-    public void applyOperationToNodes(Class operationClass, Object secondObjectOfOperation, List<Node> nodesToExclude) {
-        try {
-            if (!nodesToExclude.contains(this.getRight())) {
-                this.setRight((Node) operationClass.getDeclaredConstructor(Node.class, Node.class)
-                        .newInstance(this.getRight(), secondObjectOfOperation));
-            }
-            if (!nodesToExclude.contains(this.getLeft())) {
-                this.setLeft((Node) operationClass.getDeclaredConstructor(Node.class, Node.class)
-                        .newInstance(this.getLeft(), secondObjectOfOperation));
-            }
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            e.printStackTrace();
+    public void applyOperationToNodes(Operation operation, List<Node> nodesToExclude) {
+        if (!nodesToExclude.contains(this.getRight())) {
+            this.setRight(operation.applyToNode(this.getRight()));
+        }
+        if (!nodesToExclude.contains(this.getLeft())) {
+            this.setLeft(operation.applyToNode(this.getLeft()));
         }
     }
-    public Node simplifyOperation(Operation parentNode){
-        return parentNode.simplify();
+
+    /**
+     * Calls the simplify function of the operation provided
+     *
+     * @param operation The {@link Operation} to simplify
+     * @return returns the new and simplified {@link Node}
+     */
+    public Node simplifyOperation(Operation operation) {
+        return operation.simplify();
     }
 
-    public Node simplifySimpleOperations(Operation parentNode){
-        Node right = parentNode.getRight();
-        Node left = parentNode.getLeft();
+    /**
+     * Simplifies a very basic operation. It does not use the simplify function of the operation itself
+     *
+     * @param operation The {@link Operation} that should be simplified
+     * @return Returns the {@link Node} that represent the simplified operation
+     */
+    public Node simplifySimpleOperations(Operation operation) {
+        Node right = operation.getRight();
+        Node left = operation.getLeft();
 
 
-        if(right instanceof Operation) {
+        if (right instanceof Operation) {
             right = simplifySimpleOperations((Operation) right);
         }
-        if(left instanceof Operation) {
+        if (left instanceof Operation) {
             left = simplifySimpleOperations((Operation) left);
         }
 
-        parentNode.setLeft(left);
-        parentNode.setRight(right);
-        if(right instanceof Number && left instanceof Number){
-            return parentNode.getResult();
+        operation.setLeft(left);
+        operation.setRight(right);
+        if (right instanceof Number && left instanceof Number) {
+            return operation.getResult();
         }
-        return parentNode;
+        return operation;
     }
 
 
     /**
-     * Gets the {@link Variable}s with the {@link Node}s that are in the equation
+     * Gets the {@link Variable}s with the {@link Node}s that are in the parentNode
      * <p>
      * This function is recursive and hence needs a {@link List} of {@link Variable}s as a Argument
      *
@@ -96,6 +100,11 @@ public class Equation extends Node {
         return vars;
     }
 
+    /**
+     * Gets the {@link Variable}s that are in the whole {@link Equation}
+     *
+     * @return Returns the {@link Variable} in a {@link HashMap}
+     */
     public HashMap<Variable, Node> getVariables() {
         return getVariables(this);
     }

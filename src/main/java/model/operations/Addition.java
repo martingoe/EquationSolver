@@ -6,8 +6,8 @@ import model.tree.Number;
 public class Addition extends Operation{
 final Class OPPOSITE_OPERATION = Subtraction.class;
 
-    public Addition(Node right, Node left) {
-        super(right, left);
+    public Addition(Node left, Node right) {
+        super(left, right);
     }
 
 
@@ -19,5 +19,10 @@ final Class OPPOSITE_OPERATION = Subtraction.class;
     @Override
     public Number getResultFromNumbers(Number n1, Number n2) {
         return new Number(n1.getNumber() + n2.getNumber());
+    }
+
+    @Override
+    public Node applyToNode(Node node) {
+        return null;
     }
 }

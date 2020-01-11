@@ -16,7 +16,7 @@ public class EquationInitializerTest {
 
     @Test
     public void parseEquation() {
-        assertEquationEquals(EquationInitializer.parseEquation("4=2"),
+        assertEquationEquals(EquationInitializer.parseEquation("2=4"),
                 new Equation(new Number(2f), new Number(4f)));
 
         Equation expected = new Equation(
@@ -26,19 +26,21 @@ public class EquationInitializerTest {
                         new Multiplication(
                                 new Number(2f),
                                 new Number(7f)));
-        assertEquationEquals(EquationInitializer.parseEquation("7*2=4+x"), expected);
+        assertEquationEquals(EquationInitializer.parseEquation("x+4=2*7"), expected);
 
 
         expected = new Equation(
+                new Variable('x'),
                 new Division(
+                        new Number(5f),
                         new Addition(
-                                new Variable('x'),
                                 new Addition(
-                                        new Number(6f),
-                                        new Variable('x')
-                                )),
-                        new Number(5f)),
-                new Variable('x'));
+                                        new Variable('x'),
+                                        new Number(6f)
+                                ),
+                                new Variable('x')
+                        )
+                ));
         assertEquationEquals(EquationInitializer.parseEquation("x=5/((x+6)+x)"), expected);
     }
 

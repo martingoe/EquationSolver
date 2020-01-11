@@ -4,7 +4,7 @@ public class Node {
     Node left;
     Node right;
 
-    public Node(Node right, Node left) {
+    public Node(Node left, Node right) {
         this.right = right;
         this.left = left;
     }

@@ -21,7 +21,7 @@ public class EquationInitializer {
      */
     public static Equation parseEquation(String equationString) {
         String[] split = equationString.split("=");
-        return new Equation(parseOperationOrNumberOrVariable(split[1]), parseOperationOrNumberOrVariable(split[0]));
+        return new Equation(parseNode(split[0]), parseNode(split[1]));
     }
 
     /**
@@ -72,26 +72,38 @@ public class EquationInitializer {
         int operationIndex = RegExUtilities.getFirstSubstring(operation, OPERATION_REGEX, startingIndex);
         Class<Operation> operationClass = OperationSelector.getOperationFromOperationString(operation.charAt(operationIndex));
 
-        Node left = parseOperationOrNumberOrVariable(removeBracketsFromOperationIfNecessary(operation.substring(0, operationIndex)));
-        Node right = parseOperationOrNumberOrVariable(
+        Node left = parseNode(removeBracketsFromOperationIfNecessary(operation.substring(0, operationIndex)));
+        Node right = parseNode(
                 removeBracketsFromOperationIfNecessary(operation.substring(operationIndex + 1)));
 
         try {
-            return operationClass.getDeclaredConstructor(Node.class, Node.class).newInstance(right, left);
+            return operationClass.getDeclaredConstructor(Node.class, Node.class).newInstance(left, right);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    private static String removeBracketsFromOperationIfNecessary(String operation) {
-        if (operation.startsWith("(")) {
-            return operation.substring(1, operation.length() - 1);
+    /**
+     * Removes the brackets from a String that is to be parsed to an {@link Operation}
+     *
+     * @param operationString The operationString whose brackets should be removed
+     * @return Returns the new String that contains the Operation
+     */
+    private static String removeBracketsFromOperationIfNecessary(String operationString) {
+        if (operationString.startsWith("(")) {
+            return operationString.substring(1, operationString.length() - 1);
         }
-        return operation;
+        return operationString;
     }
 
-    private static Node parseOperationOrNumberOrVariable(String string) {
+    /**
+     * Parses a {@link Node} from a {@link String} by trying to parse every option of a {@link Node}
+     *
+     * @param string The {@link String} that contains the {@link Node}
+     * @return Returns the parsed Node
+     */
+    private static Node parseNode(String string) {
         Number n = parseNumber(string);
         if (n != null) {
             return n;
@@ -105,6 +117,15 @@ public class EquationInitializer {
         return parseOperation(string);
     }
 
+    /**
+     * Gets the index of the closing bracket of the first starting bracket.
+     * Example:
+     * ((4+2)*3)-(3+2)
+     * Returns: 8
+     *
+     * @param equationPart The {@link String} that contains the part of the {@link Equation} with the brackets
+     * @return Returns the index of the closing bracket
+     */
     private static int getLastIndexOfFirstBrackets(String equationPart) {
         int bracketAmount = 0;
         for (int i = 0; i < equationPart.length(); i++) {

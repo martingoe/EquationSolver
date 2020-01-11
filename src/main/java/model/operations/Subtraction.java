@@ -7,8 +7,8 @@ public class Subtraction extends Operation {
 
     final Class OPPOSITE_OPERATION = Addition.class;
 
-    public Subtraction(Node right, Node left) {
-        super(right, left);
+    public Subtraction(Node left, Node right) {
+        super(left, right);
     }
 
 
@@ -18,12 +18,14 @@ public class Subtraction extends Operation {
     }
 
     @Override
-    public Number getResult() {
-        return getResultFromNumbers((Number) this.getLeft(), (Number) this.getRight());
-    }
-
-    @Override
     public Number getResultFromNumbers(Number n1, Number n2){
         return new Number(n1.getNumber() - n2.getNumber());
     }
+
+    @Override
+    public Node applyToNode(Node node) {
+        return null;
+    }
+
+
 }
