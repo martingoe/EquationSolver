@@ -1,10 +1,10 @@
 package model.operations;
 
+import model.operations.utils.MultiplicationLikeOperationUtils;
 import model.tree.Node;
 import model.tree.Number;
 
 public class Division extends Operation {
-
 
     public Division(Node left, Node right) {
         super(left, right);
@@ -12,7 +12,7 @@ public class Division extends Operation {
 
     @Override
     public Node simplify() {
-        return null;
+        return MultiplicationLikeOperationUtils.distributiveLaw(this);
     }
 
     @Override
@@ -22,6 +22,6 @@ public class Division extends Operation {
 
     @Override
     public Node applyToNode(Node node) {
-        return null;
+        return MultiplicationLikeOperationUtils.applyToNode(node, this);
     }
 }

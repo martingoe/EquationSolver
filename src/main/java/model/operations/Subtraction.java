@@ -24,7 +24,8 @@ public class Subtraction extends Operation {
 
     @Override
     public Node applyToNode(Node node) {
-        return null;
+        setLeft(node);
+        return this;
     }
 
 

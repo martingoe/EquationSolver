@@ -23,6 +23,7 @@ final Class OPPOSITE_OPERATION = Subtraction.class;
 
     @Override
     public Node applyToNode(Node node) {
-        return null;
+        setLeft(node);
+        return this;
     }
 }
