@@ -13,7 +13,7 @@ final Class OPPOSITE_OPERATION = Subtraction.class;
 
     @Override
     public Node simplify() {
-        return null;
+        return this;
     }
 
     @Override

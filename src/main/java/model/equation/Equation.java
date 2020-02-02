@@ -34,13 +34,27 @@ public class Equation extends Node {
         }
     }
 
+    public void simplify(){
+        if (this.getLeft() instanceof Operation){
+            this.setLeft(simplify((Operation) this.getLeft()));
+        }
+        if(this.getRight() instanceof Operation){
+            this.setRight(simplify((Operation) this.getRight()));
+        }
+    }
+
+    private Node simplify(Operation node) {
+        Node result = simplifySimpleOperations(node);
+        return result instanceof Operation ? simplifyOperation((Operation) result) : result;
+    }
+
     /**
      * Calls the simplify function of the operation provided
      *
      * @param operation The {@link Operation} to simplify
      * @return returns the new and simplified {@link Node}
      */
-    public Node simplifyOperation(Operation operation) {
+    private Node simplifyOperation(Operation operation) {
         return operation.simplify();
     }
 
@@ -50,16 +64,16 @@ public class Equation extends Node {
      * @param operation The {@link Operation} that should be simplified
      * @return Returns the {@link Node} that represent the simplified operation
      */
-    public Node simplifySimpleOperations(Operation operation) {
+    private Node simplifySimpleOperations(Operation operation) {
         Node right = operation.getRight();
         Node left = operation.getLeft();
 
 
         if (right instanceof Operation) {
-            right = simplifySimpleOperations((Operation) right);
+            right = simplify((Operation) right);
         }
         if (left instanceof Operation) {
-            left = simplifySimpleOperations((Operation) left);
+            left = simplify((Operation) left);
         }
 
         operation.setLeft(left);

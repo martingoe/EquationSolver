@@ -3,6 +3,7 @@ package model.operations;
 import model.operations.utils.MultiplicationLikeOperationUtils;
 import model.tree.Node;
 import model.tree.Number;
+import model.tree.utils.NodeUtilities;
 
 public class Division extends Operation {
 
@@ -12,7 +13,11 @@ public class Division extends Operation {
 
     @Override
     public Node simplify() {
-        return MultiplicationLikeOperationUtils.distributiveLaw(this);
+        Node result = MultiplicationLikeOperationUtils.distributiveLaw(this);
+        if (NodeUtilities.ifNodeEquals(this.getRight(), this.getLeft())){
+            return new Number(1f);
+        }
+        return result;
     }
 
     @Override

@@ -1,12 +1,8 @@
 package model.operations;
 
+import model.operations.utils.MultiplicationLikeOperationUtils;
 import model.tree.Node;
 import model.tree.Number;
-import model.tree.Variable;
-import model.operations.utils.MultiplicationLikeOperationUtils;
-
-import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
 
 public class Multiplication extends Operation {
 
@@ -21,7 +17,6 @@ public class Multiplication extends Operation {
     public Node simplify() {
         return MultiplicationLikeOperationUtils.distributiveLaw(this);
     }
-
 
 
     @Override

@@ -7,6 +7,7 @@ import model.operations.Subtraction;
 import model.tree.Node;
 import model.tree.Variable;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
@@ -26,17 +27,18 @@ public class MultiplicationLikeOperationUtils {
 
     public static Node distributiveLaw(Operation operation){
         if (operation.getRight() instanceof Variable && (operation.getLeft() instanceof Addition) || (operation.getLeft() instanceof Subtraction)){
-            return distributiveLaw((Operation) operation.getLeft(),(Variable) operation.getRight());
+            return distributiveLaw((Operation) operation.getLeft(),(Variable) operation.getRight(), operation.getClass());
         }
         else if((operation.getLeft() instanceof Variable) && (operation.getLeft() instanceof Addition || operation.getLeft() instanceof Subtraction)){
-            return distributiveLaw((Operation) operation.getRight(), (Variable) operation.getLeft());
+            return distributiveLaw((Operation) operation.getRight(), (Variable) operation.getLeft(), operation.getClass());
         }
         return operation;
     }
 
-    private static Node distributiveLaw(Operation left, Variable right) {
+    private static Node distributiveLaw(Operation left, Variable right, Class baseOperationClass) {
         try {
-            return left.getClass().getDeclaredConstructor(Node.class, Node.class).newInstance(new Multiplication(left.getLeft(), right), new Multiplication(left.getRight(), right));
+            Constructor baseOperationClassDeclaredConstructor = baseOperationClass.getDeclaredConstructor(Node.class, Node.class);
+            return left.getClass().getDeclaredConstructor(Node.class, Node.class).newInstance((Node) baseOperationClassDeclaredConstructor.newInstance(left.getLeft(), right), baseOperationClassDeclaredConstructor.newInstance(left.getRight(), right));
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             e.printStackTrace();
         }

@@ -14,7 +14,7 @@ public class Subtraction extends Operation {
 
     @Override
     public Node simplify() {
-        return null;
+        return this;
     }
 
     @Override
@@ -27,6 +27,4 @@ public class Subtraction extends Operation {
         setLeft(node);
         return this;
     }
-
-
 }
