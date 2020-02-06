@@ -1,4 +1,4 @@
-package model.tree;
+package com.cubearrow.model.tree;
 
 public class Variable extends Node {
     char variableName;

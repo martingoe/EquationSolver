@@ -1,11 +1,11 @@
-package model.equation;
+package com.cubearrow.model.equation;
 
-import model.operations.Operation;
-import model.regex.OperationSelector;
-import model.regex.RegExUtilities;
-import model.tree.Node;
-import model.tree.Number;
-import model.tree.Variable;
+import com.cubearrow.model.operations.Operation;
+import com.cubearrow.model.regex.OperationSelector;
+import com.cubearrow.model.regex.RegExUtilities;
+import com.cubearrow.model.tree.Node;
+import com.cubearrow.model.tree.Number;
+import com.cubearrow.model.tree.Variable;
 
 import java.lang.reflect.InvocationTargetException;
 

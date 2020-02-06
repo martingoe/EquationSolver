@@ -1,6 +1,6 @@
-package model.regex;
+package com.cubearrow.model.regex;
 
-import model.operations.*;
+import com.cubearrow.model.operations.*;
 
 import java.util.HashMap;
 

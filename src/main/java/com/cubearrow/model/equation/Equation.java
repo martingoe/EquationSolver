@@ -1,14 +1,14 @@
-package model.equation;
+package com.cubearrow.model.equation;
 
-import model.operations.Operation;
-import model.tree.Node;
-import model.tree.Number;
-import model.tree.Variable;
+import com.cubearrow.model.operations.Operation;
+import com.cubearrow.model.tree.Node;
+import com.cubearrow.model.tree.Number;
+import com.cubearrow.model.tree.Variable;
 
 import java.util.HashMap;
 import java.util.List;
 
-public class Equation extends Node {
+public class Equation extends Node implements Cloneable{
 
 
     /**
@@ -18,7 +18,9 @@ public class Equation extends Node {
         super(right, left);
     }
 
-
+    public Object clone()throws CloneNotSupportedException{
+        return super.clone();
+    }
     /**
      * Applies an operation on every children node of the equation
      *
@@ -34,13 +36,14 @@ public class Equation extends Node {
         }
     }
 
-    public void simplify(){
+    public Equation simplify(){
         if (this.getLeft() instanceof Operation){
             this.setLeft(simplify((Operation) this.getLeft()));
         }
         if(this.getRight() instanceof Operation){
             this.setRight(simplify((Operation) this.getRight()));
         }
+        return this;
     }
 
     private Node simplify(Operation node) {

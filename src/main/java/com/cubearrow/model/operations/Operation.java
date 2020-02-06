@@ -1,8 +1,8 @@
-package model.operations;
+package com.cubearrow.model.operations;
 
 
-import model.tree.Node;
-import model.tree.Number;
+import com.cubearrow.model.tree.Node;
+import com.cubearrow.model.tree.Number;
 
 public abstract class Operation extends Node {
     public Operation(Node left, Node right) {

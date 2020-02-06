@@ -1,7 +1,7 @@
-package model.operations;
+package com.cubearrow.model.operations;
 
-import model.tree.Node;
-import model.tree.Number;
+import com.cubearrow.model.tree.Node;
+import com.cubearrow.model.tree.Number;
 
 public class Addition extends Operation{
 final Class OPPOSITE_OPERATION = Subtraction.class;

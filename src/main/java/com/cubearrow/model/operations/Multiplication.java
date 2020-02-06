@@ -1,8 +1,8 @@
-package model.operations;
+package com.cubearrow.model.operations;
 
-import model.operations.utils.MultiplicationLikeOperationUtils;
-import model.tree.Node;
-import model.tree.Number;
+import com.cubearrow.model.operations.utils.MultiplicationLikeOperationUtils;
+import com.cubearrow.model.tree.Node;
+import com.cubearrow.model.tree.Number;
 
 public class Multiplication extends Operation {
 

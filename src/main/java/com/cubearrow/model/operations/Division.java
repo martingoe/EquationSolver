@@ -1,9 +1,9 @@
-package model.operations;
+package com.cubearrow.model.operations;
 
-import model.operations.utils.MultiplicationLikeOperationUtils;
-import model.tree.Node;
-import model.tree.Number;
-import model.tree.utils.NodeUtilities;
+import com.cubearrow.model.operations.utils.MultiplicationLikeOperationUtils;
+import com.cubearrow.model.tree.Node;
+import com.cubearrow.model.tree.Number;
+import com.cubearrow.model.tree.utils.NodeUtilities;
 
 public class Division extends Operation {
 
