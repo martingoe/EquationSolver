@@ -21,6 +21,12 @@ public class Equation extends Node implements Cloneable{
     public Object clone()throws CloneNotSupportedException{
         return super.clone();
     }
+
+    @Override
+    public String toString() {
+        return EquationPrinter.equationToString(this);
+    }
+
     /**
      * Applies an operation on every children node of the equation
      *

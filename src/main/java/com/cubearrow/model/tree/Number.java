@@ -21,4 +21,9 @@ public class Number extends Node {
         this.setNumber(-number);
     }
 
+    @Override
+    public String toString(){
+        return String.valueOf(number);
+    }
+
 }

@@ -19,6 +19,6 @@ public class Main {
             test.simplify();
         }
 
-        System.out.println("DEBUG FUCKERS");
+        System.out.println(test.toString());
     }
 }

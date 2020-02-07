@@ -36,12 +36,13 @@ public class MultiplicationLikeOperationUtils {
 
     private static Node distributiveLaw(Operation left, Variable right, Class baseOperationClass) {
         try {
-            Constructor baseOperationClassDeclaredConstructor = baseOperationClass.getDeclaredConstructor(Node.class, Node.class);
-            return left.getClass().getDeclaredConstructor(Node.class, Node.class).newInstance((Node) baseOperationClassDeclaredConstructor.newInstance(left.getLeft(), right), baseOperationClassDeclaredConstructor.newInstance(left.getRight(), right));
+            Constructor<Operation> baseOperationClassDeclaredConstructor = baseOperationClass.getDeclaredConstructor(Node.class, Node.class);
+            return left.getClass().getDeclaredConstructor(Node.class, Node.class).newInstance(
+                    (Node) baseOperationClassDeclaredConstructor.newInstance(left.getLeft(), right),
+                    baseOperationClassDeclaredConstructor.newInstance(left.getRight(), right));
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             e.printStackTrace();
         }
         return null;
     }
-
 }
