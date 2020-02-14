@@ -43,6 +43,9 @@ public class Equation extends Node implements Cloneable{
         }
     }
 
+    /**
+     * Simplifies one step of the entire equation
+     */
     public void simplify(){
         if (this.getLeft() instanceof Operation){
             this.setLeft(simplify((Operation) this.getLeft()));
@@ -52,6 +55,11 @@ public class Equation extends Node implements Cloneable{
         }
     }
 
+    /**
+     * Simplifies one step of the node specified
+     * @param node The node to specified
+     * @return Returns the simplified node
+     */
     private Node simplify(Operation node) {
         Node result = simplifySimpleOperations(node);
         return result instanceof Operation ? simplifyOperation((Operation) result) : result;
@@ -105,13 +113,19 @@ public class Equation extends Node implements Cloneable{
     private HashMap<Variable, Node> getVariables(Node parentNode) {
         HashMap<Variable, Node> vars = new HashMap<>();
 
-        vars.putAll(getVariablesInNode(parentNode.getLeft(), parentNode));
+        vars.putAll( getVariablesInNode(parentNode.getLeft(), parentNode));
         vars.putAll(getVariablesInNode(parentNode.getRight(), parentNode));
 
         // Return the list of Variables
         return vars;
     }
 
+    /**
+     * Return the Variables in a single node
+     * @param node The node that is checked for variables
+     * @param parentNode The parent of the node being checked
+     * @return Returns a HashMap with the variables in the node
+     */
     private HashMap<Variable, Node> getVariablesInNode(Node node, Node parentNode){
         if (node instanceof Variable) {
             return new HashMap<>() {{
@@ -123,7 +137,7 @@ public class Equation extends Node implements Cloneable{
         else if (node instanceof Operation) {
             return getVariables(node);
         }
-        return null;
+        return new HashMap<>();
     }
 
     /**
