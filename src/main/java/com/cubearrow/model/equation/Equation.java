@@ -7,6 +7,7 @@ import com.cubearrow.model.tree.Variable;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Equation extends Node implements Cloneable{
 
@@ -33,7 +34,7 @@ public class Equation extends Node implements Cloneable{
      * @param operation      The {@link Operation} that should be applied to the {@link Node}
      * @param nodesToExclude A {@link java.util.List} of {@link Node} that should be excluded from the change
      */
-    public void applyOperationToNodes(Operation operation, List<Node> nodesToExclude) {
+    private void applyOperationToNodes(Operation operation, List<Node> nodesToExclude) {
         if (!nodesToExclude.contains(this.getRight())) {
             this.setRight(operation.applyToNode(this.getRight()));
         }
@@ -42,14 +43,13 @@ public class Equation extends Node implements Cloneable{
         }
     }
 
-    public Equation simplify(){
+    public void simplify(){
         if (this.getLeft() instanceof Operation){
             this.setLeft(simplify((Operation) this.getLeft()));
         }
         if(this.getRight() instanceof Operation){
             this.setRight(simplify((Operation) this.getRight()));
         }
-        return this;
     }
 
     private Node simplify(Operation node) {
@@ -105,22 +105,25 @@ public class Equation extends Node implements Cloneable{
     private HashMap<Variable, Node> getVariables(Node parentNode) {
         HashMap<Variable, Node> vars = new HashMap<>();
 
-        if (parentNode.getRight() instanceof Variable) {
-            vars.put((Variable) parentNode.getRight(), parentNode);
-        }
-        // If the children node is a operation, add the variables in that operation
-        else if (parentNode.getRight() instanceof Operation) {
-            vars.putAll(getVariables(parentNode.getRight()));
-        }
-        if (parentNode.getLeft() instanceof Variable) {
-            vars.put((Variable) parentNode.getLeft(), parentNode);
-        }
-        // If the children node is a operation, add the variables in that operation
-        else if (parentNode.getLeft() instanceof Operation) {
-            vars.putAll(getVariables(parentNode.getLeft()));
-        }
+        vars.putAll(getVariablesInNode(parentNode.getLeft(), parentNode));
+        vars.putAll(getVariablesInNode(parentNode.getRight(), parentNode));
+
         // Return the list of Variables
         return vars;
+    }
+
+    private HashMap<Variable, Node> getVariablesInNode(Node node, Node parentNode){
+        if (node instanceof Variable) {
+            return new HashMap<>() {{
+                put((Variable) node, parentNode);
+            }};
+        }
+
+        // If the children node is a operation, add the variables in that operation
+        else if (node instanceof Operation) {
+            return getVariables(node);
+        }
+        return null;
     }
 
     /**

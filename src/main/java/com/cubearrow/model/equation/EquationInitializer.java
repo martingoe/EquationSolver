@@ -62,6 +62,7 @@ public class EquationInitializer {
      * @param operation The String of the operation
      * @return Returns a instance of {@link Operation}
      */
+    @SuppressWarnings("unchecked")
     private static Operation parseOperation(String operation) {
 
         int startingIndex = 0;
@@ -70,7 +71,7 @@ public class EquationInitializer {
         }
 
         int operationIndex = RegExUtilities.getFirstSubstring(operation, OPERATION_REGEX, startingIndex);
-        Class<Operation> operationClass = OperationSelector.getOperationFromOperationString(operation.charAt(operationIndex));
+        Class<Operation> operationClass = OperationSelector.getOperationFromOperationString(String.valueOf(operation.charAt(operationIndex)));
 
         Node left = parseNode(removeBracketsFromOperationIfNecessary(operation.substring(0, operationIndex)));
         Node right = parseNode(
@@ -140,6 +141,6 @@ public class EquationInitializer {
             }
 
         }
-        return 0;
+        return -1;
     }
 }
