@@ -23,7 +23,7 @@ public abstract class Operation extends Node {
     @Override
     public String toString(){
         try {
-            return String.format("(%s%s%s)", this.getLeft().toString(), this.getClass().getDeclaredField("operationString").get(this), this.getRight().toString());
+            return String.format("(%s%s%s)", this.getLeft().toString(), this.getClass().getDeclaredField("OPERATION_STRING").get(this), this.getRight().toString());
         } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
             return null;

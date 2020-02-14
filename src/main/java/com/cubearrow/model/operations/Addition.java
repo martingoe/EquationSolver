@@ -3,9 +3,9 @@ package com.cubearrow.model.operations;
 import com.cubearrow.model.tree.Node;
 import com.cubearrow.model.tree.Number;
 
-public class Addition extends Operation{
-    public final String operationString = "+";
-final Class OPPOSITE_OPERATION = Subtraction.class;
+public class Addition extends Operation {
+    public final static String OPERATION_STRING = "+";
+    final Class OPPOSITE_OPERATION = Subtraction.class;
 
     public Addition(Node left, Node right) {
         super(left, right);

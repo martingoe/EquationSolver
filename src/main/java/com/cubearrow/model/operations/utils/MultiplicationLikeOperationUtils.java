@@ -10,6 +10,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
+@SuppressWarnings("unchecked")
 public class MultiplicationLikeOperationUtils {
     final static Class[] NODES_TO_APPLY_TO_DIRECTLY = {Addition.class, Subtraction.class};
 

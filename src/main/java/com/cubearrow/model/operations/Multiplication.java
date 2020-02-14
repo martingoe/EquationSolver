@@ -7,7 +7,7 @@ import com.cubearrow.model.tree.Number;
 public class Multiplication extends Operation {
 
     final Class OPPOSITE_OPERATION = Division.class;
-    public final String operationString = "*";
+    public final static String OPERATION_STRING = "*";
 
     public Multiplication(Node left, Node right) {
         super(left, right);
