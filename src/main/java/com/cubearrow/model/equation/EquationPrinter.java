@@ -7,7 +7,7 @@ public class EquationPrinter {
         return printNode(equation.getLeft()) + "=" + printNode(equation.getRight());
     }
 
-    static String printNode(Node node){
+    static private String printNode(Node node){
         return node.toString();
     }
 }
