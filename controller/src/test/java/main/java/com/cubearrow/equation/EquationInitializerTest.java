@@ -1,6 +1,8 @@
-package main.java.com.cubearrow.equation;
+package test.java.main.java.com.cubearrow.equation;
 
 
+import main.java.com.cubearrow.equation.Equation;
+import main.java.com.cubearrow.equation.EquationInitializer;
 import main.java.com.cubearrow.operations.Addition;
 import main.java.com.cubearrow.operations.Division;
 import main.java.com.cubearrow.operations.Multiplication;
@@ -20,12 +22,12 @@ public class EquationInitializerTest {
                 new Equation(new Number(2f), new Number(4f)));
 
         Equation expected = new Equation(
-                        new Addition(
-                                new Variable('x'),
-                                new Number(4f)),
-                        new Multiplication(
-                                new Number(2f),
-                                new Number(7f)));
+                new Addition(
+                        new Variable('x'),
+                        new Number(4f)),
+                new Multiplication(
+                        new Number(2f),
+                        new Number(7f)));
         assertEquationEquals(EquationInitializer.parseEquation("x+4=2*7"), expected);
 
 
