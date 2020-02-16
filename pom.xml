@@ -31,7 +31,7 @@
                     <arguments>
                         <argument>-classpath</argument>
                         <classpath />
-                        <argument>com.cubearrow.controller.Main</argument>
+                        <argument>main.java.com.cubearrow.controller.Main</argument>
                     </arguments>
                     <workingDirectory>${project.build.outputDirectory}</workingDirectory>
                 </configuration>
