@@ -1,4 +1,4 @@
-package main.java.com.cubearrow.tree;
+package com.cubearrow.model.tree;
 
 public class Node {
     Node left;

@@ -1,6 +1,6 @@
-package main.java.com.cubearrow.equation;
+package com.cubearrow.model.equation;
 
-import main.java.com.cubearrow.tree.Node;
+import com.cubearrow.model.tree.Node;
 
 public class EquationPrinter {
     public static String equationToString(Equation equation){

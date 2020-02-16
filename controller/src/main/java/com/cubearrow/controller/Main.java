@@ -1,9 +1,9 @@
-package main.java.com.cubearrow.controller;
+package com.cubearrow.controller;
 
-import main.java.com.cubearrow.equation.Equation;
-import main.java.com.cubearrow.equation.EquationInitializer;
-import main.java.com.cubearrow.tree.utils.NodeUtilities;
-import main.java.com.cubearrow.view.Interaction;
+import com.cubearrow.model.equation.Equation;
+import com.cubearrow.model.equation.EquationInitializer;
+import com.cubearrow.model.tree.utils.NodeUtilities;
+import com.cubearrow.view.Interaction;
 
 public class Main {
     public static void main(String[] args) {

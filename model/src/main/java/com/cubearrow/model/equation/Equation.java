@@ -1,9 +1,10 @@
-package main.java.com.cubearrow.equation;
+package com.cubearrow.model.equation;
 
-import main.java.com.cubearrow.operations.Operation;
-import main.java.com.cubearrow.tree.Node;
-import main.java.com.cubearrow.tree.Number;
-import main.java.com.cubearrow.tree.Variable;
+import com.cubearrow.model.tree.Node;
+import com.cubearrow.model.operations.Operation;
+import com.cubearrow.model.tree.Node;
+import com.cubearrow.model.tree.Number;
+import com.cubearrow.model.tree.Variable;
 
 import java.util.HashMap;
 import java.util.List;

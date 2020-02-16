@@ -1,10 +1,10 @@
-package main.java.com.cubearrow.tree.utils;
+package com.cubearrow.model.tree.utils;
 
-import main.java.com.cubearrow.equation.Equation;
-import main.java.com.cubearrow.operations.Operation;
-import main.java.com.cubearrow.tree.Node;
-import main.java.com.cubearrow.tree.Number;
-import main.java.com.cubearrow.tree.Variable;
+import com.cubearrow.model.equation.Equation;
+import com.cubearrow.model.operations.Operation;
+import com.cubearrow.model.tree.Node;
+import com.cubearrow.model.tree.Number;
+import com.cubearrow.model.tree.Variable;
 
 public class NodeUtilities {
     public static boolean ifNodeEquals(Node actual, Node expected) {

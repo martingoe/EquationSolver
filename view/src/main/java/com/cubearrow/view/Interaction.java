@@ -1,15 +1,15 @@
-package main.java.com.cubearrow.view;
+package com.cubearrow.view;
 
-import main.java.com.cubearrow.equation.Equation;
-import main.java.com.cubearrow.tree.Node;
-import main.java.com.cubearrow.tree.Variable;
-import main.java.com.cubearrow.view.utils.ConsoleColors;
+import com.cubearrow.model.equation.Equation;
+import com.cubearrow.model.tree.Node;
+import com.cubearrow.model.tree.Variable;
+import com.cubearrow.view.utils.ConsoleColors;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
-import static main.java.com.cubearrow.view.utils.VariableUtilities.getVariableCharSet;
+import static com.cubearrow.view.utils.VariableUtilities.getVariableCharSet;
 
 public class Interaction {
     private Equation equation;

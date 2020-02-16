@@ -1,10 +1,10 @@
-package main.java.com.cubearrow.operations.utils;
+package com.cubearrow.model.operations.utils;
 
-import main.java.com.cubearrow.operations.Addition;
-import main.java.com.cubearrow.operations.Operation;
-import main.java.com.cubearrow.operations.Subtraction;
-import main.java.com.cubearrow.tree.Node;
-import main.java.com.cubearrow.tree.Variable;
+import com.cubearrow.model.operations.Addition;
+import com.cubearrow.model.operations.Operation;
+import com.cubearrow.model.operations.Subtraction;
+import com.cubearrow.model.tree.Node;
+import com.cubearrow.model.tree.Variable;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

@@ -1,6 +1,6 @@
-package main.java.com.cubearrow.regex;
+package com.cubearrow.model.regex;
 
-import main.java.com.cubearrow.operations.Operation;
+import com.cubearrow.model.operations.Operation;
 import org.reflections.Reflections;
 
 import java.util.HashMap;
@@ -11,7 +11,7 @@ public class OperationSelector {
 
     public static Class getOperationFromOperationString(String operation) {
         HashMap<String, Class> operationHashMap = new HashMap<>();
-        Reflections reflection = new Reflections("main.java.com.cubearrow.operations");
+        Reflections reflection = new Reflections("com.cubearrow.model.operations");
         Set<Class<? extends Operation>> operationClasses = reflection.getSubTypesOf(Operation.class);
         operationClasses.forEach(operationClass -> {
             try {

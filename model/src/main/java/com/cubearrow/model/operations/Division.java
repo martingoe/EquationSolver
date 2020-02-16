@@ -1,9 +1,9 @@
-package main.java.com.cubearrow.operations;
+package com.cubearrow.model.operations;
 
-import main.java.com.cubearrow.operations.utils.MultiplicationLikeOperationUtils;
-import main.java.com.cubearrow.tree.Node;
-import main.java.com.cubearrow.tree.Number;
-import main.java.com.cubearrow.tree.utils.NodeUtilities;
+import com.cubearrow.model.operations.utils.MultiplicationLikeOperationUtils;
+import com.cubearrow.model.tree.Node;
+import com.cubearrow.model.tree.Number;
+import com.cubearrow.model.tree.utils.NodeUtilities;
 
 public class Division extends Operation {
     public final static String OPERATION_STRING = "/";

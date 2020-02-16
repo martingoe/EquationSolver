@@ -1,11 +1,11 @@
-package main.java.com.cubearrow.equation;
+package com.cubearrow.model.equation;
 
-import main.java.com.cubearrow.operations.Operation;
-import main.java.com.cubearrow.regex.OperationSelector;
-import main.java.com.cubearrow.regex.RegExUtilities;
-import main.java.com.cubearrow.tree.Node;
-import main.java.com.cubearrow.tree.Number;
-import main.java.com.cubearrow.tree.Variable;
+import com.cubearrow.model.operations.Operation;
+import com.cubearrow.model.regex.OperationSelector;
+
+import com.cubearrow.model.tree.Node;
+import com.cubearrow.model.tree.Number;
+import com.cubearrow.model.tree.Variable;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -70,7 +70,7 @@ public class EquationInitializer {
             startingIndex = getLastIndexOfFirstBrackets(operation);
         }
 
-        int operationIndex = RegExUtilities.getFirstSubstring(operation, OPERATION_REGEX, startingIndex);
+        int operationIndex = main.java.com.cubearrow.regex.RegExUtilities.getFirstSubstring(operation, OPERATION_REGEX, startingIndex);
         Class<Operation> operationClass = OperationSelector.getOperationFromOperationString(String.valueOf(operation.charAt(operationIndex)));
 
         Node left = parseNode(removeBracketsFromOperationIfNecessary(operation.substring(0, operationIndex)));
