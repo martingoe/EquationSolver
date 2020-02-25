@@ -16,30 +16,53 @@ public class Interaction {
 
     public Interaction(Equation equation) {
         this.equation = equation;
+        printInformation(String.format("This is the equation to be solved: %s%s", ConsoleColors.ANSI_CYAN, equation.toString()));
     }
 
-    public char askUserForVariableToIsolate(){
+    public Interaction() {
+
+    }
+
+    public char askUserForVariableToIsolate() {
         HashMap<Variable, Node> variables = equation.getVariables();
         List<Character> variableCharSet = getVariableCharSet(variables);
-        if(variableCharSet.size() == 1){
+        if (variableCharSet.size() == 1) {
             return variableCharSet.get(0);
         }
 
-        System.out.println(String.format("%sInput | %sWhich of these Variables should be solved? %s", ConsoleColors.ANSI_YELLOW,ConsoleColors.ANSI_RESET, variableCharSet));
+        String selectedChar = getInput(String.format("Which variable should be isolated? %s", variableCharSet.toString()));
 
-        Scanner sc = new Scanner(System.in);
-        String selectedChar = sc.next();
 
-        if(selectedChar.length() != 1){
-            System.out.println(String.format("%SError | %sPlease only specify one character.", ConsoleColors.ANSI_RED, ConsoleColors.ANSI_RESET));
-        }
-        else if(!variableCharSet.contains(selectedChar.charAt(0))){
-            System.out.println(String.format("%sError | %sThe specified character is not an option.", ConsoleColors.ANSI_RED, ConsoleColors.ANSI_RESET));
-        }
-        else {
-            System.out.println(String.format("%sSuccess | %sThe variable %s will be isolated.", ConsoleColors.ANSI_GREEN, ConsoleColors.ANSI_RESET, selectedChar));
+        if (selectedChar.length() != 1) {
+                printError("Please only specify one character.");
+        } else if (!variableCharSet.contains(selectedChar.charAt(0))) {
+            printError("The specified character is not an option.");
+        } else {
+            printSuccess(String.format("The variable %s will be isolated.", selectedChar));
             return selectedChar.charAt(0);
         }
         return '\u0000';
+    }
+
+    private String getInput(String message){
+        System.out.println(String.format("%sInput %s| %s%s", ConsoleColors.ANSI_YELLOW, ConsoleColors.ANSI_GREY, ConsoleColors.ANSI_RESET, message));
+
+        Scanner sc = new Scanner(System.in);
+        return sc.next();
+
+    }
+    public void printInformation(String message){
+        System.out.println(String.format("%sInformation %s| %s%s", ConsoleColors.ANSI_BLUE, ConsoleColors.ANSI_GREY, ConsoleColors.ANSI_RESET, message));
+    }
+    public void printError(String message){
+        System.out.println(String.format("%sError %s| %s%s", ConsoleColors.ANSI_RED, ConsoleColors.ANSI_GREY, ConsoleColors.ANSI_RESET, message));
+    }
+
+    public void printSuccess(String message) {
+        System.out.println(String.format("%sSuccess %s| %s%s", ConsoleColors.ANSI_GREEN, ConsoleColors.ANSI_GREY, ConsoleColors.ANSI_RESET, message));
+    }
+
+    public void displayResult(Equation simplifiedEquation) {
+        System.out.println(String.format("%sSuccess %s| %sThis is the simplified/solved equation:\n%s", ConsoleColors.ANSI_GREEN, ConsoleColors.ANSI_GREY, ConsoleColors.ANSI_RESET, simplifiedEquation.toString()));
     }
 }

@@ -1,4 +1,4 @@
-package main.java.com.cubearrow.regex;
+package com.cubearrow.model.regex;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

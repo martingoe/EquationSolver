@@ -4,8 +4,8 @@ public class Variable extends Node {
     char variableName;
 
 
-    public Variable(char variableName) {
-        super(null, null);
+    public Variable(char variableName, Node parent) {
+        super(null, null, parent);
         this.variableName = variableName;
     }
 

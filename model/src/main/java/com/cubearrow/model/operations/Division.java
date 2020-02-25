@@ -7,22 +7,24 @@ import com.cubearrow.model.tree.utils.NodeUtilities;
 
 public class Division extends Operation {
     public final static String OPERATION_STRING = "/";
-    public Division(Node left, Node right) {
-        super(left, right);
+    public Division(Node left, Node right, Node parent) {
+        super(left, right, parent);
+    }
+
+    public Division() {
     }
 
     @Override
     public Node simplify() {
-        Node result = MultiplicationLikeOperationUtils.distributiveLaw(this);
         if (NodeUtilities.ifNodeEquals(this.getRight(), this.getLeft())){
-            return new Number(1f);
+            return new Number(1f, this.getParent());
         }
-        return result;
+        return this;
     }
 
     @Override
     public Number getResultFromNumbers(Number n1, Number n2) {
-        return new Number(n1.getNumber() / n2.getNumber());
+        return new Number(n1.getNumber() / n2.getNumber(), this.getParent());
     }
 
     @Override

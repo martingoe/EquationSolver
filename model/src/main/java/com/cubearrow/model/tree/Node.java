@@ -3,10 +3,20 @@ package com.cubearrow.model.tree;
 public class Node {
     Node left;
     Node right;
+    Node parent;
 
-    public Node(Node left, Node right) {
-        this.right = right;
+    public Node(Node left, Node right, Node parent) {
         this.left = left;
+        this.right = right;
+        this.parent = parent;
+    }
+
+    public Node getParent() {
+        return parent;
+    }
+
+    public void setParent(Node parent) {
+        this.parent = parent;
     }
 
     public Node getLeft() {

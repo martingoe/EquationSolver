@@ -7,9 +7,8 @@ import java.util.HashMap;
 import java.util.Set;
 
 public class OperationSelector {
-
-
-    public static Class getOperationFromOperationString(String operation) {
+    private HashMap<String, Class> operationHashMap;
+    public OperationSelector() {
         HashMap<String, Class> operationHashMap = new HashMap<>();
         Reflections reflection = new Reflections("com.cubearrow.model.operations");
         Set<Class<? extends Operation>> operationClasses = reflection.getSubTypesOf(Operation.class);
@@ -20,8 +19,10 @@ public class OperationSelector {
                 e.printStackTrace();
             }
         });
+        this.operationHashMap = operationHashMap;
+    }
 
-
-        return operationHashMap.get(operation);
+    public Class getOperationFromOperationString(String operation) {
+        return this.operationHashMap.get(operation);
     }
 }

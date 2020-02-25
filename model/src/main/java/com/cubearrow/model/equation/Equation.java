@@ -1,6 +1,5 @@
 package com.cubearrow.model.equation;
 
-import com.cubearrow.model.tree.Node;
 import com.cubearrow.model.operations.Operation;
 import com.cubearrow.model.tree.Node;
 import com.cubearrow.model.tree.Number;
@@ -9,17 +8,21 @@ import com.cubearrow.model.tree.Variable;
 import java.util.HashMap;
 import java.util.List;
 
-public class Equation extends Node implements Cloneable{
+public class Equation extends Node implements Cloneable {
 
 
     /**
      * Initializes an {@link Equation}. This is what saves an equation
      */
     public Equation(Node right, Node left) {
-        super(right, left);
+        super(right, left, null);
     }
 
-    public Object clone()throws CloneNotSupportedException{
+    public Equation() {
+        super(null, null, null);
+    }
+
+    public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
 
@@ -46,17 +49,18 @@ public class Equation extends Node implements Cloneable{
     /**
      * Simplifies one step of the entire equation
      */
-    public void simplify(){
-        if (this.getLeft() instanceof Operation){
+    public void simplify() {
+        if (this.getLeft() instanceof Operation) {
             this.setLeft(simplify((Operation) this.getLeft()));
         }
-        if(this.getRight() instanceof Operation){
+        if (this.getRight() instanceof Operation) {
             this.setRight(simplify((Operation) this.getRight()));
         }
     }
 
     /**
      * Simplifies one step of the node specified
+     *
      * @param node The node to specified
      * @return Returns the simplified node
      */
@@ -113,7 +117,7 @@ public class Equation extends Node implements Cloneable{
     private HashMap<Variable, Node> getVariables(Node parentNode) {
         HashMap<Variable, Node> vars = new HashMap<>();
 
-        vars.putAll( getVariablesInNode(parentNode.getLeft(), parentNode));
+        vars.putAll(getVariablesInNode(parentNode.getLeft(), parentNode));
         vars.putAll(getVariablesInNode(parentNode.getRight(), parentNode));
 
         // Return the list of Variables
@@ -122,11 +126,12 @@ public class Equation extends Node implements Cloneable{
 
     /**
      * Return the Variables in a single node
-     * @param node The node that is checked for variables
+     *
+     * @param node       The node that is checked for variables
      * @param parentNode The parent of the node being checked
      * @return Returns a HashMap with the variables in the node
      */
-    private HashMap<Variable, Node> getVariablesInNode(Node node, Node parentNode){
+    private HashMap<Variable, Node> getVariablesInNode(Node node, Node parentNode) {
         if (node instanceof Variable) {
             return new HashMap<>() {{
                 put((Variable) node, parentNode);

@@ -8,8 +8,11 @@ public class Addition extends Operation {
     public final static String OPERATION_STRING = "+";
     final Class OPPOSITE_OPERATION = Subtraction.class;
 
-    public Addition(Node left, Node right) {
-        super(left, right);
+    public Addition() {
+    }
+
+    public Addition(Node left, Node right, Node parent) {
+        super(left, right, parent);
     }
 
 
@@ -20,7 +23,7 @@ public class Addition extends Operation {
 
     @Override
     public Number getResultFromNumbers(Number n1, Number n2) {
-        return new Number(n1.getNumber() + n2.getNumber());
+        return new Number(n1.getNumber() + n2.getNumber(), this.getParent());
     }
 
     @Override

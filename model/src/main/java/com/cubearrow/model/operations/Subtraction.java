@@ -7,10 +7,12 @@ public class Subtraction extends Operation {
     public final static String OPERATION_STRING = "-";
     final Class OPPOSITE_OPERATION = Addition.class;
 
-    public Subtraction(Node left, Node right) {
-        super(left, right);
+    public Subtraction(Node left, Node right, Node parent) {
+        super(left, right, parent);
     }
 
+    public Subtraction() {
+    }
 
     @Override
     public Node simplify() {
@@ -19,7 +21,7 @@ public class Subtraction extends Operation {
 
     @Override
     public Number getResultFromNumbers(Number n1, Number n2){
-        return new Number(n1.getNumber() - n2.getNumber());
+        return new Number(n1.getNumber() - n2.getNumber(), this.getParent());
     }
 
     @Override

@@ -4,8 +4,8 @@ public class Number extends Node {
 
     private Float number;
 
-    public Number(Float n) {
-        super(null, null);
+    public Number(Float n, Node parent) {
+        super(null, null, parent);
         this.number = n;
     }
 

@@ -6,10 +6,14 @@ import com.cubearrow.model.tree.Number;
 
 public abstract class Operation extends Node {
 
-    public Operation(Node left, Node right) {
-        super(left, right);
+    public Operation(Node left, Node right, Node parent) {
+        super(left, right, parent);
     }
 
+
+    public Operation() {
+        super(null, null, null);
+    }
 
     public abstract Node simplify();
 

@@ -2,7 +2,7 @@ package com.cubearrow.model.equation;
 
 import com.cubearrow.model.operations.Operation;
 import com.cubearrow.model.regex.OperationSelector;
-
+import com.cubearrow.model.regex.RegExUtilities;
 import com.cubearrow.model.tree.Node;
 import com.cubearrow.model.tree.Number;
 import com.cubearrow.model.tree.Variable;
@@ -11,17 +11,13 @@ import java.lang.reflect.InvocationTargetException;
 
 public class EquationInitializer {
     private static final String OPERATION_REGEX = "\\+|\\*|\\-|\\/";
+    private OperationSelector operationSelector;
+    private String equationString;
 
-    /**
-     * Initializes an equation based on a String.
-     * It uses recursion to get the information in the brackets of the operation and generates a
-     *
-     * @param equationString The String that hold the equation, both sides are separated with a "="
-     * @return Returns an {@link Equation} instance with the information
-     */
-    public static Equation parseEquation(String equationString) {
-        String[] split = equationString.split("=");
-        return new Equation(parseNode(split[0]), parseNode(split[1]));
+    public EquationInitializer(String equationString) {
+        this.equationString = equationString;
+        this.operationSelector = new OperationSelector();
+
     }
 
     /**
@@ -30,14 +26,13 @@ public class EquationInitializer {
      * @param numberString The String that holds the Number. Can have the following formats: "4", "4.0"
      * @return Returns the parsed number in a {@link Number}. If it does not have the right format, it returns null.
      */
-    private static Number parseNumber(String numberString) {
+    private static Number parseNumber(String numberString, Node parent) {
         try {
-            return new Number(Float.valueOf(numberString));
+            return new Number(Float.valueOf(numberString), parent);
         } catch (NumberFormatException e) {
             return null;
         }
     }
-
 
     /**
      * Parses a {@link Variable} from a String
@@ -45,77 +40,13 @@ public class EquationInitializer {
      * @param numberString The String that contains the char which represents the Variable as a String.
      * @return Returns the generated {@link Variable}. If the input is more than one char and is not a lowercase character it returns null
      */
-    private static Variable parseVariable(String numberString) {
+    private static Variable parseVariable(String numberString, Node parent) {
         if (numberString.length() > 1) return null;
 
         if (numberString.matches("[a-z]")) {
-            return new Variable(numberString.toCharArray()[0]);
+            return new Variable(numberString.toCharArray()[0], parent);
         }
         return null;
-    }
-
-
-    /**
-     * Parses an {@link Operation} from a String.
-     * This function calls the recursive part when a part of the parsed Operation is an operation itself.
-     *
-     * @param operation The String of the operation
-     * @return Returns a instance of {@link Operation}
-     */
-    @SuppressWarnings("unchecked")
-    private static Operation parseOperation(String operation) {
-
-        int startingIndex = 0;
-        if (operation.startsWith("(")) {
-            startingIndex = getLastIndexOfFirstBrackets(operation);
-        }
-
-        int operationIndex = main.java.com.cubearrow.regex.RegExUtilities.getFirstSubstring(operation, OPERATION_REGEX, startingIndex);
-        Class<Operation> operationClass = OperationSelector.getOperationFromOperationString(String.valueOf(operation.charAt(operationIndex)));
-
-        Node left = parseNode(removeBracketsFromOperationIfNecessary(operation.substring(0, operationIndex)));
-        Node right = parseNode(
-                removeBracketsFromOperationIfNecessary(operation.substring(operationIndex + 1)));
-
-        try {
-            return operationClass.getDeclaredConstructor(Node.class, Node.class).newInstance(left, right);
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    /**
-     * Removes the brackets from a String that is to be parsed to an {@link Operation}
-     *
-     * @param operationString The operationString whose brackets should be removed
-     * @return Returns the new String that contains the Operation
-     */
-    private static String removeBracketsFromOperationIfNecessary(String operationString) {
-        if (operationString.startsWith("(")) {
-            return operationString.substring(1, operationString.length() - 1);
-        }
-        return operationString;
-    }
-
-    /**
-     * Parses a {@link Node} from a {@link String} by trying to parse every option of a {@link Node}
-     *
-     * @param string The {@link String} that contains the {@link Node}
-     * @return Returns the parsed Node
-     */
-    private static Node parseNode(String string) {
-        Number n = parseNumber(string);
-        if (n != null) {
-            return n;
-        }
-
-        Variable v = parseVariable(string);
-        if (v != null) {
-            return v;
-        }
-
-        return parseOperation(string);
     }
 
     /**
@@ -142,5 +73,80 @@ public class EquationInitializer {
 
         }
         return -1;
+    }
+
+    /**
+     * Initializes an equation based on a String.
+     * It uses recursion to get the information in the brackets of the operation and generates a
+     *
+     * @return Returns an {@link Equation} instance with the information
+     */
+    public Equation parseEquation() throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+        String[] split = this.equationString.split("=");
+        Equation equation = new Equation();
+        equation.setLeft(parseNode(split[0], equation));
+        equation.setRight(parseNode(split[1], equation));
+        return equation;
+    }
+
+    /**
+     * Parses an {@link Operation} from a String.
+     * This function calls the recursive part when a part of the parsed Operation is an operation itself.
+     *
+     * @param operation The String of the operation
+     * @param parent
+     * @return Returns a instance of {@link Operation}
+     */
+    @SuppressWarnings("unchecked")
+    private Operation parseOperation(String operation, Node parent) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+
+        int startingIndex = 0;
+        if (operation.startsWith("(")) {
+            startingIndex = getLastIndexOfFirstBrackets(operation);
+        }
+
+        int operationIndex = RegExUtilities.getFirstSubstring(operation, OPERATION_REGEX, startingIndex);
+        Class<Operation> operationClass = this.operationSelector.getOperationFromOperationString(String.valueOf(operation.charAt(operationIndex)));
+        Operation result = operationClass.getDeclaredConstructor().newInstance();
+
+        result.setLeft(parseNode(removeBracketsFromOperationIfNecessary(operation.substring(0, operationIndex)), result));
+        result.setRight(parseNode(
+                removeBracketsFromOperationIfNecessary(operation.substring(operationIndex + 1)), result));
+        result.setParent(parent);
+
+        return result;
+    }
+
+    /**
+     * Removes the brackets from a String that is to be parsed to an {@link Operation}
+     *
+     * @param operationString The operationString whose brackets should be removed
+     * @return Returns the new String that contains the Operation
+     */
+    private String removeBracketsFromOperationIfNecessary(String operationString) {
+        if (operationString.startsWith("(")) {
+            return operationString.substring(1, operationString.length() - 1);
+        }
+        return operationString;
+    }
+
+    /**
+     * Parses a {@link Node} from a {@link String} by trying to parse every option of a {@link Node}
+     *
+     * @param string The {@link String} that contains the {@link Node}
+     * @return Returns the parsed Node
+     */
+    private Node parseNode(String string, Node parent) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        Number n = parseNumber(string, parent);
+        if (n != null) {
+            return n;
+        }
+
+        Variable v = parseVariable(string, parent);
+        if (v != null) {
+            return v;
+        }
+
+        return parseOperation(string, parent);
     }
 }
