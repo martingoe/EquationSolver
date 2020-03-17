@@ -6,6 +6,7 @@ import com.cubearrow.model.tree.Number;
 import com.cubearrow.model.tree.utils.NodeUtilities;
 
 public class Division extends Operation {
+    public final static int PRIORITY = 2;
     public final static String OPERATION_STRING = "/";
     public Division(Node left, Node right, Node parent) {
         super(left, right, parent);

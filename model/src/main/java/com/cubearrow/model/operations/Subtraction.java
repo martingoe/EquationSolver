@@ -4,6 +4,7 @@ import com.cubearrow.model.tree.Node;
 import com.cubearrow.model.tree.Number;
 
 public class Subtraction extends Operation {
+    public final static int PRIORITY = 1;
     public final static String OPERATION_STRING = "-";
     final Class OPPOSITE_OPERATION = Addition.class;
 
