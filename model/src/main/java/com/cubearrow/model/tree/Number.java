@@ -26,4 +26,13 @@ public class Number extends Node {
         return String.valueOf(number);
     }
 
+
+    public static Number fromString(String numberString, Node parent) {
+        try {
+            return new Number(Float.valueOf(numberString), parent);
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
+
 }
