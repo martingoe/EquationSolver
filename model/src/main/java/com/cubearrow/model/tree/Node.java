@@ -1,5 +1,6 @@
 package com.cubearrow.model.tree;
 
+import com.cubearrow.model.equation.Equation;
 import com.cubearrow.model.operations.Operation;
 
 public class Node {
