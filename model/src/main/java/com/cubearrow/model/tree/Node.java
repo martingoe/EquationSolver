@@ -6,9 +6,9 @@ public class Node {
     private static final String OPERATION_REGEX = "\\+|\\*|\\-|\\/";
 
 
-    Node left;
-    Node right;
-    Node parent;
+    private Node left;
+    private Node right;
+    private Node parent;
 
     public Node(Node left, Node right, Node parent) {
         this.left = left;
