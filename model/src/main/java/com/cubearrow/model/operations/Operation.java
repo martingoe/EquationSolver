@@ -27,7 +27,7 @@ public abstract class Operation extends Node {
      * This function calls the recursive part when a part of the parsed Operation is an operation itself.
      *
      * @param operation The String of the operation
-     * @param parent The parent of the Operation
+     * @param parent    The parent of the Operation
      * @return Returns a instance of {@link Operation}
      */
     public static Operation fromString(String operation, Node parent) {

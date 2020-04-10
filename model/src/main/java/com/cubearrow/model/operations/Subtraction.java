@@ -21,7 +21,7 @@ public class Subtraction extends Operation {
     }
 
     @Override
-    public Number getResultFromNumbers(Number n1, Number n2){
+    public Number getResultFromNumbers(Number n1, Number n2) {
         return new Number(n1.getNumber() - n2.getNumber(), this.getParent());
     }
 
