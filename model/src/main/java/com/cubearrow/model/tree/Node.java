@@ -61,4 +61,14 @@ public class Node {
     public void setRight(Node right) {
         this.right = right;
     }
+
+    public boolean equals(Node node) {
+        if (this instanceof Operation && node instanceof Operation || this instanceof Equation && node instanceof Equation)
+            return this.getRight().equals(node.getRight()) && this.getLeft().equals(node.getLeft());
+        else if (this instanceof Variable thisVariable && node instanceof Variable nodeVariable)
+            return thisVariable.getVariableName() == nodeVariable.getVariableName();
+        else if (this instanceof Number thisNumber&& node instanceof Number nodeNumber)
+            return thisNumber.getNumber().equals(nodeNumber.getNumber());
+        return false;
+    }
 }
