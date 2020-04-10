@@ -21,4 +21,13 @@ public class Variable extends Node {
     public String toString() {
         return String.valueOf(variableName);
     }
+
+    public static Variable fromString(String numberString, Node parent) {
+        if (numberString.length() > 1) return null;
+
+        if (numberString.matches("[a-z]")) {
+            return new Variable(numberString.toCharArray()[0], parent);
+        }
+        return null;
+    }
 }
