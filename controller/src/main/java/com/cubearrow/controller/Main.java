@@ -7,19 +7,9 @@ import com.cubearrow.view.Interaction;
 
 public class Main {
     public static void main(String[] args) {
-
-
-        Equation test = null;
-
-        try {
-            test = new EquationInitializer("((4-2)+x)/x=y").parseEquation();
-        } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            new Interaction().printError(e.toString());
-            e.printStackTrace();
-        }
-
+        Equation test = new EquationInitializer("((3/4)*x)+x=y").parseEquation();
         Interaction interaction = new Interaction(test);
-        char c = interaction.askUserForVariableToIsolate();
+        interaction.askUserForVariableToIsolate();
         Equation previous = null;
         while (!test.equals(previous)) {
             try {
@@ -30,7 +20,8 @@ public class Main {
             test.simplify();
         }
         interaction.displayResult(test);
+        Class[] classes = new OperationSelector().sortClassesByPriority(new OperationSelector().getOperationHashMap().values().toArray(new Class[0]));
 
-
+        System.out.println("DEBUG");
     }
 }
