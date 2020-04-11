@@ -12,6 +12,9 @@ public class Multiplication extends Operation {
     public Multiplication(Node left, Node right, Node parent) {
         super(left, right, parent);
     }
+    public Multiplication(Node left, Node right) {
+        super(left, right, null);
+    }
 
     public Multiplication() {
     }
