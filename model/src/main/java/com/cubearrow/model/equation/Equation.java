@@ -28,7 +28,7 @@ public class Equation extends Node implements Cloneable {
 
     @Override
     public String toString() {
-        return EquationPrinter.equationToString(this);
+        return "%s=%s".formatted(this.getLeft().toString(), this.getRight().toString());
     }
 
     /**
