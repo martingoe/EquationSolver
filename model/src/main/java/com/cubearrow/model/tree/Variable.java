@@ -9,6 +9,11 @@ public class Variable extends Node {
         this.variableName = variableName;
     }
 
+    public Variable(char variableName) {
+        super(null, null, null);
+        this.variableName = variableName;
+    }
+
     public char getVariableName() {
         return variableName;
     }
@@ -29,5 +34,9 @@ public class Variable extends Node {
             return new Variable(numberString.toCharArray()[0], parent);
         }
         return null;
+    }
+
+    public static Variable fromString(String numberString){
+        return fromString(numberString, null);
     }
 }

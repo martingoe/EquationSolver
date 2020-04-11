@@ -3,20 +3,17 @@ package com.cubearrow.model.regex;
 import com.cubearrow.model.operations.Operation;
 import org.reflections.Reflections;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.LinkedHashMap;
-import java.util.Set;
+import java.util.*;
 import java.util.function.IntFunction;
 
 public class OperationSelector {
-    private final LinkedHashMap<String, Class<Operation>> operationHashMap;
+    private final HashMap<String, Class<Operation>> operationHashMap;
 
     /**
      * Returns the {@link LinkedHashMap} that represents the operations and their operation string
      * @return Return the {@link LinkedHashMap}
      */
-    public LinkedHashMap<String, Class<Operation>> getOperationHashMap() {
+    public HashMap<String, Class<Operation>> getOperationHashMap() {
         return operationHashMap;
     }
 
@@ -24,7 +21,8 @@ public class OperationSelector {
      * Initializes an OperationSelector by adding all of the subclasses of {@link Operation} to a HashMap
      */
     public OperationSelector() {
-        LinkedHashMap<String, Class<Operation>> operationHashMap = new LinkedHashMap<>();
+        HashMap<String, Class<Operation>> operationHashMap = new HashMap<>();
+
         Reflections reflection = new Reflections("com.cubearrow.model.operations");
         Set<Class<? extends Operation>> operationClasses = reflection.getSubTypesOf(Operation.class);
         operationClasses.forEach(operationClass -> {

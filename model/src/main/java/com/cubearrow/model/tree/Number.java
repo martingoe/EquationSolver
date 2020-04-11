@@ -9,6 +9,11 @@ public class Number extends Node {
         this.number = n;
     }
 
+    public Number(float number) {
+        super(null, null, null);
+        this.number = number;
+    }
+
     public Float getNumber() {
         return number;
     }
@@ -33,6 +38,9 @@ public class Number extends Node {
         } catch (NumberFormatException e) {
             return null;
         }
+    }
+    public static Number fromString(String numberString){
+        return fromString(numberString, null);
     }
 
 }
