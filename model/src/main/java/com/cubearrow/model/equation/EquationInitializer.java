@@ -3,11 +3,8 @@ package com.cubearrow.model.equation;
 import com.cubearrow.model.operations.Operation;
 import com.cubearrow.model.tree.Node;
 
-import java.lang.reflect.InvocationTargetException;
-
 public class EquationInitializer {
-    private static final String OPERATION_REGEX = "\\+|\\*|\\-|\\/";
-    private String equationString;
+    private final String equationString;
 
     public EquationInitializer(String equationString) {
         this.equationString = equationString;
