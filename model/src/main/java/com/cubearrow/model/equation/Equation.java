@@ -12,23 +12,41 @@ public class Equation extends Node implements Cloneable {
 
 
     /**
-     * Initializes an {@link Equation}. This is what saves an equation
+     * Initializes an {@link Equation}.
      */
     public Equation(Node right, Node left) {
         super(right, left, null);
     }
 
+    /**
+     * Initializes an empty Equation using null as every parameter.
+     */
     public Equation() {
         super(null, null, null);
     }
 
-    public Object clone() throws CloneNotSupportedException {
-        return super.clone();
+    /**
+     * Clones the equation by creating a new Object with a different address in Memory.
+     *
+     * @return Returns the cloned Object, if a {@link CloneNotSupportedException} is thrown, returns null
+     */
+    public Object clone() {
+        try {
+            return super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
+    /**
+     * Returns a {@link String} representation of the Equation
+     *
+     * @return a {@link String} representing the Equation
+     */
     @Override
     public String toString() {
-        return EquationPrinter.equationToString(this);
+        return "%s=%s".formatted(this.getLeft().toString(), this.getRight().toString());
     }
 
     /**

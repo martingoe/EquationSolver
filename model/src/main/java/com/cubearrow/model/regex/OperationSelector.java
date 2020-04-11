@@ -10,12 +10,19 @@ import java.util.Set;
 import java.util.function.IntFunction;
 
 public class OperationSelector {
-    private LinkedHashMap<String, Class<Operation>> operationHashMap;
+    private final LinkedHashMap<String, Class<Operation>> operationHashMap;
 
+    /**
+     * Returns the {@link LinkedHashMap} that represents the operations and their operation string
+     * @return Return the {@link LinkedHashMap}
+     */
     public LinkedHashMap<String, Class<Operation>> getOperationHashMap() {
         return operationHashMap;
     }
 
+    /**
+     * Initializes an OperationSelector by adding all of the subclasses of {@link Operation} to a HashMap
+     */
     public OperationSelector() {
         LinkedHashMap<String, Class<Operation>> operationHashMap = new LinkedHashMap<>();
         Reflections reflection = new Reflections("com.cubearrow.model.operations");
@@ -30,7 +37,12 @@ public class OperationSelector {
         this.operationHashMap = operationHashMap;
     }
 
-    public Class<Operation>[] sortClassesByPriority(Class<Operation>[] classes) {
+    /**
+     * Sorts the provided classes by the priority field and return it in an Array of Classes
+     * @param classes The classes to be sorted
+     * @return Returns the sorted array
+     */
+    public static Class<Operation>[] sortClassesByPriority(Class<Operation>[] classes) {
         return Arrays.stream(classes).sorted(Comparator.comparingInt((Class<Operation> o) -> {
             try {
                 return (o.getDeclaredField("PRIORITY").getInt(o)) * -1;
@@ -41,6 +53,11 @@ public class OperationSelector {
         })).toArray((IntFunction<Class<Operation>[]>) Class[]::new);
     }
 
+    /**
+     * Returns the Class that is represented by an operationString like "+"
+     * @param operation The operation String to search by
+     * @return the representing Class
+     */
     public Class<Operation> getOperationFromOperationString(String operation) {
         return this.operationHashMap.get(operation);
     }
