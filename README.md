@@ -1,4 +1,5 @@
 # EquationSolver
+![Gitlab pipeline status](https://img.shields.io/gitlab/pipeline/CubeArrow/EquationSolver?style=flat-square)
 
 This is a project designed to compute and simplify simple arithmetic equations using a binary tree. 
 
