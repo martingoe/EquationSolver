@@ -1,9 +1,8 @@
-image: maven:3.6.3-openjdk-14, openjdk-14
+image: maven:3.6.3-jdk-14
 
 before_script:
-  - maven package
+  - mvn install
 
 build:
   script:
-    - cd target
-    - java -jar EquationSolver-1.0-SNAPSHOT-jar-with-dependencies.jar --enable-preview
+    - mvn package
