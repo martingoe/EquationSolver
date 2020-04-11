@@ -34,7 +34,7 @@ mvn package
 
 Run the program making sure you use `--enable-preview`
 ```
-java -jar controller/target/controller-1.0-SNAPSHOT-jar-with-dependencies.jar --enable-preview
+java --enable-preview -jar controller/target/controller-1.0-SNAPSHOT-jar-with-dependencies.jar
 ```
 
 
