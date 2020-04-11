@@ -6,11 +6,16 @@ import com.cubearrow.model.operations.Operation;
 public class Node {
     private static final String OPERATION_REGEX = "\\+|\\*|\\-|\\/";
 
-
     private Node left;
     private Node right;
     private Node parent;
 
+    /**
+     * Initializes a new Node
+     * @param left The left child of the new Node
+     * @param right The right child of the new Node
+     * @param parent The parent of the new Node
+     */
     public Node(Node left, Node right, Node parent) {
         this.left = left;
         this.right = right;
@@ -39,30 +44,58 @@ public class Node {
 
     }
 
+    /**
+     * Returns the parent Node of the current Node
+     * @return the parent of the Node
+     */
     public Node getParent() {
         return parent;
     }
 
+    /**
+     * Sets the parent Node
+     * @param parent The node to be set as parent
+     */
     public void setParent(Node parent) {
         this.parent = parent;
     }
 
+    /**
+     * Returns the left child Node of the current Node
+     * @return the left child of the Node
+     */
     public Node getLeft() {
         return left;
     }
 
+    /**
+     * Sets the left child Node
+     * @param left The node to be set as left child
+     */
     public void setLeft(Node left) {
         this.left = left;
     }
 
+    /**
+     * Returns the right child Node of the current Node
+     * @return the right child of the Node
+     */
     public Node getRight() {
         return right;
     }
-
+    /**
+     * Sets the right child Node
+     * @param right The node to be set as right child
+     */
     public void setRight(Node right) {
         this.right = right;
     }
 
+    /**
+     * Indicates weather a {@link Node} has the same content as this {@link Node}
+     * @param node The {@link Node} to be compared to
+     * @return {@code true} if the content is the same; {@code false} if not
+     */
     public boolean equals(Node node) {
         if (this instanceof Operation && node instanceof Operation || this instanceof Equation && node instanceof Equation)
             return this.getRight().equals(node.getRight()) && this.getLeft().equals(node.getLeft());

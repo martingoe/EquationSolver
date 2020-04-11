@@ -12,15 +12,11 @@ public class Main {
         interaction.askUserForVariableToIsolate();
         Equation previous = null;
         while (!test.equals(previous)) {
-            try {
-                previous = (Equation) test.clone();
-            } catch (CloneNotSupportedException e) {
-                e.printStackTrace();
-            }
+            previous = (Equation) test.clone();
             test.simplify();
         }
         interaction.displayResult(test);
-        Class[] classes = new OperationSelector().sortClassesByPriority(new OperationSelector().getOperationHashMap().values().toArray(new Class[0]));
+        OperationSelector.sortClassesByPriority(new OperationSelector().getOperationHashMap().values().toArray(new Class[0]));
 
         System.out.println("DEBUG");
     }
