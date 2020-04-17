@@ -5,6 +5,7 @@ import com.cubearrow.model.tree.Node;
 import com.cubearrow.model.tree.Number;
 import com.cubearrow.model.tree.Variable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -25,19 +26,6 @@ public class Equation extends Node implements Cloneable {
         super(null, null, null);
     }
 
-    /**
-     * Clones the equation by creating a new Object with a different address in Memory.
-     *
-     * @return Returns the cloned Object, if a {@link CloneNotSupportedException} is thrown, returns null
-     */
-    public Object clone() {
-        try {
-            return super.clone();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
 
     /**
      * Returns a {@link String} representation of the Equation
@@ -55,12 +43,13 @@ public class Equation extends Node implements Cloneable {
      * @param operation      The {@link Operation} that should be applied to the {@link Node}
      * @param nodesToExclude A {@link java.util.List} of {@link Node} that should be excluded from the change
      */
-    private void applyOperationToNodes(Operation operation, List<Node> nodesToExclude) {
+    public void applyOperationToNodes(Operation operation, List<Node> nodesToExclude) {
         if (!nodesToExclude.contains(this.getRight())) {
             this.setRight(operation.applyToNode(this.getRight()));
         }
         if (!nodesToExclude.contains(this.getLeft())) {
-            this.setLeft(operation.applyToNode(this.getLeft()));
+            Operation clonedOperation = (Operation) operation.clone();
+            this.setLeft(clonedOperation.applyToNode(this.getLeft()));
         }
     }
 
@@ -84,17 +73,7 @@ public class Equation extends Node implements Cloneable {
      */
     private Node simplify(Operation node) {
         Node result = simplifySimpleOperations(node);
-        return result instanceof Operation ? simplifyOperation((Operation) result) : result;
-    }
-
-    /**
-     * Calls the simplify function of the operation provided
-     *
-     * @param operation The {@link Operation} to simplify
-     * @return returns the new and simplified {@link Node}
-     */
-    private Node simplifyOperation(Operation operation) {
-        return operation.simplify();
+        return result instanceof Operation operation ? operation.simplify() : result;
     }
 
     /**
@@ -132,11 +111,11 @@ public class Equation extends Node implements Cloneable {
      * @param parentNode The current {@link Node} that of the recursion
      * @return Returns the {@link Variable}s as a {@link HashMap}
      */
-    private HashMap<Variable, Node> getVariables(Node parentNode) {
-        HashMap<Variable, Node> vars = new HashMap<>();
+    private List<Variable> getVariables(Node parentNode) {
+        List<Variable> vars = new ArrayList<>();
 
-        vars.putAll(getVariablesInNode(parentNode.getLeft(), parentNode));
-        vars.putAll(getVariablesInNode(parentNode.getRight(), parentNode));
+        vars.addAll(getVariablesInNode(parentNode.getLeft()));
+        vars.addAll(getVariablesInNode(parentNode.getRight()));
 
         // Return the list of Variables
         return vars;
@@ -146,13 +125,12 @@ public class Equation extends Node implements Cloneable {
      * Return the Variables in a single node
      *
      * @param node       The node that is checked for variables
-     * @param parentNode The parent of the node being checked
      * @return Returns a HashMap with the variables in the node
      */
-    private HashMap<Variable, Node> getVariablesInNode(Node node, Node parentNode) {
+    private List<Variable> getVariablesInNode(Node node) {
         if (node instanceof Variable) {
-            return new HashMap<>() {{
-                put((Variable) node, parentNode);
+            return new ArrayList<>() {{
+                add((Variable) node);
             }};
         }
 
@@ -160,7 +138,7 @@ public class Equation extends Node implements Cloneable {
         else if (node instanceof Operation) {
             return getVariables(node);
         }
-        return new HashMap<>();
+        return new ArrayList<>();
     }
 
     /**
@@ -168,7 +146,7 @@ public class Equation extends Node implements Cloneable {
      *
      * @return Returns the {@link Variable} in a {@link HashMap}
      */
-    public HashMap<Variable, Node> getVariables() {
+    public List<Variable> getVariables() {
         return getVariables(this);
     }
 }
