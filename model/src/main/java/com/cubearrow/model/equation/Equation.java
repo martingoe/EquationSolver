@@ -83,23 +83,20 @@ public class Equation extends Node implements Cloneable {
      * @return Returns the {@link Node} that represent the simplified operation
      */
     private Node simplifySimpleOperations(Operation operation) {
-        Node right = operation.getRight();
-        Node left = operation.getLeft();
-
-
-        if (right instanceof Operation) {
-            right = simplify((Operation) right);
-        }
-        if (left instanceof Operation) {
-            left = simplify((Operation) left);
-        }
-
-        operation.setLeft(left);
-        operation.setRight(right);
-        if (right instanceof Number && left instanceof Number) {
+        simplifyNestedOperation(operation);
+        if (operation.getLeft() instanceof Number && operation.getRight() instanceof Number) {
             return operation.getResult();
         }
         return operation;
+    }
+
+    private void simplifyNestedOperation(Operation operation) {
+        if (operation.getRight() instanceof Operation operationRight) {
+            operation.setRight(simplify(operationRight));
+        }
+        if (operation.getLeft() instanceof Operation operationLeft) {
+            operation.setLeft(simplify(operationLeft));
+        }
     }
 
 
