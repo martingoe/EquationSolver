@@ -1,10 +1,12 @@
 package com.cubearrow.model.equation;
 
 import com.cubearrow.model.operations.Operation;
+import com.cubearrow.model.regex.OperationSelector;
 import com.cubearrow.model.tree.Node;
 
 public class EquationInitializer {
     private final String equationString;
+    public static final OperationSelector operationSelector = new OperationSelector();
 
     public EquationInitializer(String equationString) {
         this.equationString = equationString;
