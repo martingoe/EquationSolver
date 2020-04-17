@@ -28,6 +28,7 @@ public class Number extends Node {
 
     @Override
     public String toString(){
+        if(number % 1 == 0) return String.valueOf(number.intValue());
         return String.valueOf(number);
     }
 
