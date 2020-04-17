@@ -32,8 +32,8 @@ public class MultiplicationLikeOperationUtils {
 
     public static Node applyToNode(Node node, Operation operation) {
         if (node instanceof Operation && Arrays.asList(NODES_TO_APPLY_TO_DIRECTLY).contains(node.getClass())) {
-            node.setLeft(applyToNode(node.getLeft(), operation));
-            node.setRight(applyToNode(node.getRight(), operation));
+            node.setLeft(applyToNode(node.getLeft(), (Operation) operation.clone()));
+            node.setRight(applyToNode(node.getRight(), (Operation) operation.clone()));
             return node;
         }
         operation.setLeft(node);

@@ -3,8 +3,7 @@ package com.cubearrow.model.tree;
 import com.cubearrow.model.equation.Equation;
 import com.cubearrow.model.operations.Operation;
 
-public class Node {
-    private static final String OPERATION_REGEX = "\\+|\\*|\\-|\\/";
+public class Node implements Cloneable{
 
     private Node left;
     private Node right;
@@ -12,14 +11,28 @@ public class Node {
 
     /**
      * Initializes a new Node
-     * @param left The left child of the new Node
-     * @param right The right child of the new Node
+     *
+     * @param left   The left child of the new Node
+     * @param right  The right child of the new Node
      * @param parent The parent of the new Node
      */
     public Node(Node left, Node right, Node parent) {
         this.left = left;
         this.right = right;
         this.parent = parent;
+    }
+    /**
+     * Clones the Node by creating a new Object with a different address in Memory.
+     *
+     * @return Returns the cloned Object, if a {@link CloneNotSupportedException} is thrown, returns null
+     */
+    public Node clone() {
+        try {
+            return (Node) super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
@@ -46,6 +59,7 @@ public class Node {
 
     /**
      * Returns the parent Node of the current Node
+     *
      * @return the parent of the Node
      */
     public Node getParent() {
@@ -54,6 +68,7 @@ public class Node {
 
     /**
      * Sets the parent Node
+     *
      * @param parent The node to be set as parent
      */
     public void setParent(Node parent) {
@@ -62,6 +77,7 @@ public class Node {
 
     /**
      * Returns the left child Node of the current Node
+     *
      * @return the left child of the Node
      */
     public Node getLeft() {
@@ -70,6 +86,7 @@ public class Node {
 
     /**
      * Sets the left child Node
+     *
      * @param left The node to be set as left child
      */
     public void setLeft(Node left) {
@@ -78,13 +95,16 @@ public class Node {
 
     /**
      * Returns the right child Node of the current Node
+     *
      * @return the right child of the Node
      */
     public Node getRight() {
         return right;
     }
+
     /**
      * Sets the right child Node
+     *
      * @param right The node to be set as right child
      */
     public void setRight(Node right) {
@@ -93,28 +113,27 @@ public class Node {
 
     /**
      * Indicates weather a {@link Node} has the same content as this {@link Node}
+     *
      * @param node The {@link Node} to be compared to
      * @return {@code true} if the content is the same; {@code false} if not
      */
     public boolean equals(Node node) {
-        if(this == null || node == null){
+        if (this == null || node == null) {
             return this == node;
         }
 
-        if(this.getLeft() == node.getLeft() &&
+        if (this.getLeft() == node.getLeft() &&
                 this.getRight() == node.getRight() &&
-                this.getParent() == node.getParent()){
+                this.getParent() == node.getParent()) {
             return true;
         }
 
 
         if (this instanceof Operation && node instanceof Operation || this instanceof Equation && node instanceof Equation) {
             return this.getRight().equals(node.getRight()) && this.getLeft().equals(node.getLeft());
-        }
-        else if (this instanceof Variable thisVariable && node instanceof Variable nodeVariable) {
+        } else if (this instanceof Variable thisVariable && node instanceof Variable nodeVariable) {
             return thisVariable.getVariableName() == nodeVariable.getVariableName();
-        }
-        else if (this instanceof Number thisNumber&& node instanceof Number nodeNumber) {
+        } else if (this instanceof Number thisNumber && node instanceof Number nodeNumber) {
             return (thisNumber.getNumber().equals(nodeNumber.getNumber()));
         }
         return false;
