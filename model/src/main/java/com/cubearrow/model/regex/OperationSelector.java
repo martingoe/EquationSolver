@@ -20,6 +20,7 @@ public class OperationSelector {
     /**
      * Initializes an OperationSelector by adding all of the subclasses of {@link Operation} to a HashMap
      */
+    @SuppressWarnings("unchecked")
     public OperationSelector() {
         HashMap<String, Class<Operation>> operationHashMap = new HashMap<>();
 
