@@ -8,11 +8,11 @@ import java.util.HashMap;
 import java.util.List;
 
 public class VariableUtilities {
-    public static List<Character> getVariableCharSet(HashMap<Variable, Node> variables) {
+    public static List<Character> getVariableCharSet(List<Variable> variables) {
         ArrayList<Character> resultList = new ArrayList<>();
 
 
-        variables.forEach((variable, node) -> {
+        variables.forEach(variable -> {
             char variableName = variable.getVariableName();
             if (!resultList.contains(variableName)) {
                 resultList.add(variableName);

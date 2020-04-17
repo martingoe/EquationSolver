@@ -24,7 +24,7 @@ public class Interaction {
     }
 
     public char askUserForVariableToIsolate() {
-        HashMap<Variable, Node> variables = equation.getVariables();
+        List<Variable> variables = equation.getVariables();
         List<Character> variableCharSet = getVariableCharSet(variables);
         if (variableCharSet.size() == 1) {
             return variableCharSet.get(0);
