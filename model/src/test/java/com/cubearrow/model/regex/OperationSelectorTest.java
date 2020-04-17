@@ -5,10 +5,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 
+@SuppressWarnings("unchecked")
 public class OperationSelectorTest {
     OperationSelector operationSelector;
 
@@ -40,6 +39,6 @@ public class OperationSelectorTest {
     public void getOperationFromOperationString() {
         Assert.assertEquals(Addition.class,
                 operationSelector.getOperationFromOperationString("+"));
-        Assert.assertNotSame(Subtraction.class, operationSelector.getOperationFromOperationString("*"));
+        Assert.assertEquals(Subtraction.class, operationSelector.getOperationFromOperationString("-"));
     }
 }

@@ -9,16 +9,13 @@ public class NodeTest {
     @Test
     public void equals() {
         Equation equation = new Equation();
-
         Variable n1 = new Variable('x', equation);
         Variable n2 = new Variable('x', equation);
-
         assert n1.equals(n2);
 
 
         Addition a1 = new Addition(new Number(1f), new Variable('x'));
         Addition a2 = new Addition(new Number(1f), new Variable('x'));
-
         assert a1.equals(a2);
     }
 

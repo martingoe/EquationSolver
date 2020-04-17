@@ -1,6 +1,5 @@
 package com.cubearrow.model.tree;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 public class NumberTest {
