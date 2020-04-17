@@ -15,6 +15,10 @@ public class Subtraction extends Operation {
     public Subtraction() {
     }
 
+    public Subtraction(Node left, Node right) {
+        super(left, right, null);
+    }
+
     @Override
     public Node simplify() {
         return this;

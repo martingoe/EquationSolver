@@ -1,6 +1,5 @@
 package com.cubearrow.model.operations;
 
-
 import com.cubearrow.model.operations.utils.MultiplicationLikeOperationUtils;
 import com.cubearrow.model.tree.Node;
 import com.cubearrow.model.tree.Number;
@@ -28,7 +27,6 @@ public class Addition extends Operation {
         if (this.getLeft() instanceof Number left && this.getRight() instanceof Number right) {
             return getResultFromNumbers(right, left);
         }
-
         return simplifyIfMultiplication();
     }
 

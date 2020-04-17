@@ -3,6 +3,7 @@ package com.cubearrow.model.operations;
 import com.cubearrow.model.operations.utils.MultiplicationLikeOperationUtils;
 import com.cubearrow.model.tree.Node;
 import com.cubearrow.model.tree.Number;
+import com.cubearrow.model.tree.Variable;
 
 public class Division extends Operation {
     public final static int PRIORITY = 2;
@@ -13,6 +14,10 @@ public class Division extends Operation {
     }
 
     public Division() {
+    }
+
+    public Division(Node left, Node right) {
+        super(left, right, null);
     }
 
     @Override
