@@ -1,6 +1,7 @@
 package com.cubearrow.model.equation;
 
 import com.cubearrow.model.operations.Operation;
+import com.cubearrow.model.rewriting.EquationRewriter;
 import com.cubearrow.model.tree.Node;
 import com.cubearrow.model.tree.Number;
 import com.cubearrow.model.tree.Variable;
@@ -10,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Equation extends Node implements Cloneable {
-
+    private char variableToIsolate;
 
     /**
      * Initializes an {@link Equation}.
@@ -26,6 +27,17 @@ public class Equation extends Node implements Cloneable {
         super(null, null, null);
     }
 
+    public char getVariableToIsolate() {
+        return variableToIsolate;
+    }
+
+    public void setVariableToIsolate(char variableToIsolate) {
+        this.variableToIsolate = variableToIsolate;
+    }
+
+    public void isolateVariable(){
+
+    }
 
     /**
      * Returns a {@link String} representation of the Equation
@@ -55,25 +67,17 @@ public class Equation extends Node implements Cloneable {
 
     /**
      * Simplifies one step of the entire equation
+     * @return Returns the simplified Operation
      */
-    public void simplify() {
-        if (this.getLeft() instanceof Operation) {
-            this.setLeft(simplify((Operation) this.getLeft()));
+    public Equation simplify(EquationRewriter equationRewriter) {
+        if (this.getLeft() instanceof Operation leftOperation) {
+            this.setLeft(simplifyOperation(leftOperation, equationRewriter));
         }
-        if (this.getRight() instanceof Operation) {
-            this.setRight(simplify((Operation) this.getRight()));
-        }
-    }
+        if (this.getRight() instanceof Operation rightOperation) {
+            this.setRight(simplifyOperation(rightOperation, equationRewriter));
 
-    /**
-     * Simplifies one step of the node specified
-     *
-     * @param node The node to specified
-     * @return Returns the simplified node
-     */
-    private Node simplify(Operation node) {
-        Node result = simplifySimpleOperations(node);
-        return result instanceof Operation operation ? operation.simplify() : result;
+        }
+        return this;
     }
 
     /**
@@ -82,21 +86,20 @@ public class Equation extends Node implements Cloneable {
      * @param operation The {@link Operation} that should be simplified
      * @return Returns the {@link Node} that represent the simplified operation
      */
-    private Node simplifySimpleOperations(Operation operation) {
-        simplifyNestedOperation(operation);
-        if (operation.getLeft() instanceof Number && operation.getRight() instanceof Number) {
-            return operation.getResult();
-        }
-        return operation;
-    }
+    private Node simplifyOperation(Operation operation, EquationRewriter equationRewriter) {
+        Operation result = operation;
 
-    private void simplifyNestedOperation(Operation operation) {
-        if (operation.getRight() instanceof Operation operationRight) {
-            operation.setRight(simplify(operationRight));
+        Node testOperation = equationRewriter.applyRulesToOperation(result);
+        if(!testOperation.equals(result)) result = (Operation) testOperation;
+
+
+        if(result.getLeft() instanceof Operation leftOperation) result.setLeft(simplifyOperation(leftOperation, equationRewriter));
+        if(result.getRight() instanceof Operation rightOperation) result.setRight(simplifyOperation(rightOperation, equationRewriter));
+
+        if (result.getLeft() instanceof Number && result.getRight() instanceof Number) {
+            return result.getResult();
         }
-        if (operation.getLeft() instanceof Operation operationLeft) {
-            operation.setLeft(simplify(operationLeft));
-        }
+        return result;
     }
 
 
@@ -121,7 +124,7 @@ public class Equation extends Node implements Cloneable {
     /**
      * Return the Variables in a single node
      *
-     * @param node       The node that is checked for variables
+     * @param node The node that is checked for variables
      * @return Returns a HashMap with the variables in the node
      */
     private List<Variable> getVariablesInNode(Node node) {
