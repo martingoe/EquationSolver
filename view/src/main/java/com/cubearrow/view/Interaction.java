@@ -1,11 +1,9 @@
 package com.cubearrow.view;
 
 import com.cubearrow.model.equation.Equation;
-import com.cubearrow.model.tree.Node;
 import com.cubearrow.model.tree.Variable;
 import com.cubearrow.view.utils.ConsoleColors;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
@@ -34,7 +32,7 @@ public class Interaction {
 
 
         if (selectedChar.length() != 1) {
-                printError("Please only specify one character.");
+            printError("Please only specify one character.");
         } else if (!variableCharSet.contains(selectedChar.charAt(0))) {
             printError("The specified character is not an option.");
         } else {
@@ -44,17 +42,19 @@ public class Interaction {
         return '\u0000';
     }
 
-    private String getInput(String message){
+    private String getInput(String message) {
         System.out.println(String.format("%sInput %s| %s%s", ConsoleColors.ANSI_YELLOW, ConsoleColors.ANSI_GREY, ConsoleColors.ANSI_RESET, message));
 
         Scanner sc = new Scanner(System.in);
         return sc.next();
 
     }
-    public void printInformation(String message){
+
+    public void printInformation(String message) {
         System.out.println(String.format("%sInformation %s| %s%s", ConsoleColors.ANSI_BLUE, ConsoleColors.ANSI_GREY, ConsoleColors.ANSI_RESET, message));
     }
-    public void printError(String message){
+
+    public void printError(String message) {
         System.out.println(String.format("%sError %s| %s%s", ConsoleColors.ANSI_RED, ConsoleColors.ANSI_GREY, ConsoleColors.ANSI_RESET, message));
     }
 
