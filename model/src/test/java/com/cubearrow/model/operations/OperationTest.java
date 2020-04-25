@@ -32,8 +32,8 @@ public class OperationTest {
 
     @Test
     public void getResult() {
-        assert new Multiplication(new Number(4f), new Number(2f)).getResult().getNumber().equals(8f);
+        assert new Multiplication(new Number(4f), new Number(2f)).getResult().getValue().equals(8f);
         assert new Multiplication(new Variable('x'), new Number(2f)).getResult() == null;
-        assert new Addition(new Number(4f), new Number(2f)).getResult().getNumber().equals(6f);
+        assert new Addition(new Number(4f), new Number(2f)).getResult().getValue().equals(6f);
     }
 }

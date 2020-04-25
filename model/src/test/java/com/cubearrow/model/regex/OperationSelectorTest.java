@@ -1,6 +1,7 @@
 package com.cubearrow.model.regex;
 
 import com.cubearrow.model.operations.*;
+import com.cubearrow.model.operations.Addition;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,15 +19,15 @@ public class OperationSelectorTest {
 
     @Test
     public void sortClassesByPriority(){
-        Class[] expectedClasses = {Multiplication.class, Division.class, Addition.class, Subtraction.class};
-        Class[] classes = {Addition.class, Subtraction.class, Multiplication.class, Division.class};
+        java.lang.Class[] expectedClasses = {Multiplication.class, Division.class, Addition.class, Subtraction.class};
+        java.lang.Class[] classes = {Addition.class, Subtraction.class, Multiplication.class, Division.class};
         classes = OperationSelector.sortClassesByPriority(classes);
         Assert.assertArrayEquals(expectedClasses, classes);
     }
 
     @Test
     public void getOperationHashMap() {
-        HashMap<String, Class> expectedResult = new HashMap<>();
+        HashMap<String, java.lang.Class> expectedResult = new HashMap<>();
         expectedResult.put("+", Addition.class);
         expectedResult.put("-", Subtraction.class);
         expectedResult.put("*", Multiplication.class);

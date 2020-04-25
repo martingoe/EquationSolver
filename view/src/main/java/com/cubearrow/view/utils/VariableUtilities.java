@@ -1,10 +1,8 @@
 package com.cubearrow.view.utils;
 
-import com.cubearrow.model.tree.Node;
 import com.cubearrow.model.tree.Variable;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class VariableUtilities {
@@ -13,7 +11,7 @@ public class VariableUtilities {
 
 
         variables.forEach(variable -> {
-            char variableName = variable.getVariableName();
+            char variableName = variable.getValue();
             if (!resultList.contains(variableName)) {
                 resultList.add(variableName);
             }

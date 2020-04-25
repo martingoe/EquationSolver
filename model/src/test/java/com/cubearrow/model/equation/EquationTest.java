@@ -4,7 +4,6 @@ import com.cubearrow.model.operations.Addition;
 import com.cubearrow.model.operations.Division;
 import com.cubearrow.model.operations.Multiplication;
 import com.cubearrow.model.operations.Subtraction;
-import com.cubearrow.model.tree.Node;
 import com.cubearrow.model.tree.Number;
 import com.cubearrow.model.tree.Variable;
 import org.junit.Test;
