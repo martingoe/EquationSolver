@@ -22,4 +22,13 @@ public class RegExUtilities {
         }
         return -1;
     }
+    public static String getFirstSubstring(String baseString, String regexExpression, int startIndex){
+        Pattern pattern = Pattern.compile(regexExpression);
+        Matcher matcher = pattern.matcher(baseString);
+
+        if (matcher.find(startIndex)) {
+            return matcher.group();
+        }
+        return null;
+    }
 }
