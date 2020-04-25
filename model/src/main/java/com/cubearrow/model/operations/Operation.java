@@ -77,8 +77,6 @@ public abstract class Operation extends Node {
         return result;
     }
 
-    public abstract Node simplify();
-
     /**
      * Gets the result of the operation when it's two numbers.
      *

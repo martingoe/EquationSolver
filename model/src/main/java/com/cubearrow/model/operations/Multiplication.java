@@ -19,15 +19,10 @@ public class Multiplication extends Operation {
     public Multiplication() {
     }
 
-    @Override
-    public Node simplify() {
-        return MultiplicationLikeOperationUtils.distributiveLaw(this);
-    }
-
 
     @Override
     public Number getResultFromNumbers(Number n1, Number n2) {
-        return new Number(n1.getNumber() * n2.getNumber(), this.getParent());
+        return new Number(n1.getValue() * n2.getValue(), this.getParent());
     }
 
     @Override

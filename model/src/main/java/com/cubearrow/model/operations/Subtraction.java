@@ -6,7 +6,7 @@ import com.cubearrow.model.tree.Number;
 public class Subtraction extends Operation {
     public final static int PRIORITY = 1;
     public final static String OPERATION_STRING = "-";
-    final Class OPPOSITE_OPERATION = Addition.class;
+    final java.lang.Class OPPOSITE_OPERATION = Addition.class;
 
     public Subtraction(Node left, Node right, Node parent) {
         super(left, right, parent);
@@ -20,13 +20,8 @@ public class Subtraction extends Operation {
     }
 
     @Override
-    public Node simplify() {
-        return this;
-    }
-
-    @Override
     public Number getResultFromNumbers(Number n1, Number n2) {
-        return new Number(n1.getNumber() - n2.getNumber(), this.getParent());
+        return new Number(n1.getValue() - n2.getValue(), this.getParent());
     }
 
     @Override

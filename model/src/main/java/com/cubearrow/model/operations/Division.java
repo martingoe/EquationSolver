@@ -3,7 +3,6 @@ package com.cubearrow.model.operations;
 import com.cubearrow.model.operations.utils.MultiplicationLikeOperationUtils;
 import com.cubearrow.model.tree.Node;
 import com.cubearrow.model.tree.Number;
-import com.cubearrow.model.tree.Variable;
 
 public class Division extends Operation {
     public final static int PRIORITY = 2;
@@ -21,16 +20,8 @@ public class Division extends Operation {
     }
 
     @Override
-    public Node simplify() {
-        if (this.getRight().equals(this.getLeft())) {
-            return new Number(1f, this.getParent());
-        }
-        return this;
-    }
-
-    @Override
     public Number getResultFromNumbers(Number n1, Number n2) {
-        return new Number(n1.getNumber() / n2.getNumber(), this.getParent());
+        return new Number(n1.getValue() / n2.getValue(), this.getParent());
     }
 
     @Override
