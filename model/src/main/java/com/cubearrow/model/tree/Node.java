@@ -159,12 +159,6 @@ public class Node<E> implements Cloneable {
             return this == node;
         }
 
-        if (this.getLeft() == node.getLeft() &&
-                this.getRight() == node.getRight() &&
-                this.getValue() == node.getValue()) {
-            return true;
-        }
-
         if (this.getClass() == node.getClass()) {
             return equalsSameClass(node);
         }
@@ -176,7 +170,7 @@ public class Node<E> implements Cloneable {
         if (this instanceof Operation || this instanceof Equation) {
             return this.getRight().equals(node.getRight()) && this.getLeft().equals(node.getLeft());
         } else if (this instanceof Variable || this instanceof Number) {
-            return this.getValue() == node.getValue();
+            return this.getValue().equals(node.getValue());
         }
         return false;
     }
