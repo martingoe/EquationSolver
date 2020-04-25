@@ -87,17 +87,17 @@ public class Equation extends Node implements Cloneable {
      * @return Returns the {@link Node} that represent the simplified operation
      */
     private Node simplifyOperation(Operation operation, EquationRewriter equationRewriter) {
-        Operation result = operation;
+        Node result = operation;
 
-        Node testOperation = equationRewriter.applyRulesToOperation(result);
-        if(!testOperation.equals(result)) result = (Operation) testOperation;
+        Node testOperation = equationRewriter.applyRulesToOperation((Operation) result);
+        if(!testOperation.equals(result)) result = testOperation;
 
 
         if(result.getLeft() instanceof Operation leftOperation) result.setLeft(simplifyOperation(leftOperation, equationRewriter));
         if(result.getRight() instanceof Operation rightOperation) result.setRight(simplifyOperation(rightOperation, equationRewriter));
 
         if (result.getLeft() instanceof Number && result.getRight() instanceof Number) {
-            return result.getResult();
+            return ((Operation) result).getResult();
         }
         return result;
     }
