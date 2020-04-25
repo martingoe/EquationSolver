@@ -1,0 +1,26 @@
+// Explanation:
+// $: Any generic node as a teral
+// $nu: Any number
+// $var: Any variable
+// $op: Any operation
+
+// Multipcation
+1*$1;$1
+$1*1;$1
+$1*$nu1;$nu1*$1
+
+($var1+$2)*$3;($var1*$3)+($2*$3)
+$1+($1*$2);(1+$2)*$2
+($nu1*$1)+$1;(1+$nu1)*$1
+
+// Addition
+$1+$1;2*$1
+$1+0;$1
+$1+$nu1;$nu1+$1
+
+
+// Subtraction
+$1-$1;0
+
+// Division
+$1/$1;1
