@@ -1,30 +1,19 @@
 package com.cubearrow.model.tree;
 
-public class Variable extends Node {
-    char variableName;
+public class Variable extends Node<Character> {
 
 
-    public Variable(char variableName, Node parent) {
-        super(null, null, parent);
-        this.variableName = variableName;
+    public Variable(char value, Node parent) {
+        super(parent, value);
     }
 
-    public Variable(char variableName) {
-        super(null, null, null);
-        this.variableName = variableName;
-    }
-
-    public char getVariableName() {
-        return variableName;
-    }
-
-    public void setVariableName(char variableName) {
-        this.variableName = variableName;
+    public Variable(char value) {
+        super(value);
     }
 
     @Override
     public String toString() {
-        return String.valueOf(variableName);
+        return String.valueOf(value);
     }
 
     public static Variable fromString(String numberString, Node parent) {

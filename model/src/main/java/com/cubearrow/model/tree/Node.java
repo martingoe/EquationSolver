@@ -2,9 +2,18 @@ package com.cubearrow.model.tree;
 
 import com.cubearrow.model.equation.Equation;
 import com.cubearrow.model.operations.Operation;
+import com.cubearrow.model.regex.RegExUtilities;
+import com.cubearrow.model.rewriting.patterns.GenericPatternLiteral;
+import com.cubearrow.model.rewriting.patterns.GenericPatternNumber;
+import com.cubearrow.model.rewriting.patterns.GenericPatternOperation;
+import com.cubearrow.model.rewriting.patterns.GenericPatternVariable;
 
-public class Node implements Cloneable{
+/**
+ * @param <E> The type of the value of the Node. Mainly used by the Classes {@link Number} and {@link Variable} because they hold values
+ */
+public class Node<E> implements Cloneable {
 
+    protected E value;
     private Node left;
     private Node right;
     private Node parent;
@@ -21,18 +30,14 @@ public class Node implements Cloneable{
         this.right = right;
         this.parent = parent;
     }
-    /**
-     * Clones the Node by creating a new Object with a different address in Memory.
-     *
-     * @return Returns the cloned Object, if a {@link CloneNotSupportedException} is thrown, returns null
-     */
-    public Node clone() {
-        try {
-            return (Node) super.clone();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-            return null;
-        }
+
+    public Node(E value) {
+        this.value = value;
+    }
+
+    public Node(Node parent, E value) {
+        this.parent = parent;
+        this.value = value;
     }
 
     /**
@@ -42,6 +47,8 @@ public class Node implements Cloneable{
      * @return Returns the parsed Node
      */
     public static Node fromString(String stringToParse, Node parent) {
+        Node node = parsePatternVariables(stringToParse, parent);
+        if (node != null) return node;
 
         Number n = Number.fromString(stringToParse, parent);
         if (n != null) {
@@ -54,7 +61,37 @@ public class Node implements Cloneable{
         }
 
         return Operation.fromString(stringToParse, parent);
+    }
 
+    private static Node parsePatternVariables(String stringToParse, Node parent) {
+        if (stringToParse.matches("\\$nu\\d+")) {
+            return new GenericPatternNumber(Integer.parseInt(RegExUtilities.getFirstSubstring(stringToParse, "[0-9]+", 0)), parent);
+        }
+        if (stringToParse.matches("\\$op\\d+")) {
+            return new GenericPatternOperation(Integer.parseInt(RegExUtilities.getFirstSubstring(stringToParse, "[0-9]+", 0)), parent);
+        }
+        if (stringToParse.matches("\\$var\\d+")) {
+            return new GenericPatternVariable(Integer.parseInt(RegExUtilities.getFirstSubstring(stringToParse, "[0-9]+", 0)), parent);
+        }
+        if (stringToParse.matches("\\$\\d+")) {
+            return new GenericPatternLiteral(Integer.parseInt(RegExUtilities.getFirstSubstring(stringToParse, "[0-9]+", 0)), parent);
+        }
+
+        return null;
+    }
+
+    /**
+     * Clones the Node by creating a new Object with a different address in Memory.
+     *
+     * @return Returns the cloned Object, if a {@link CloneNotSupportedException} is thrown, returns null
+     */
+    public Node clone() {
+        try {
+            return (Node) super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
@@ -124,18 +161,31 @@ public class Node implements Cloneable{
 
         if (this.getLeft() == node.getLeft() &&
                 this.getRight() == node.getRight() &&
-                this.getParent() == node.getParent()) {
+                this.getValue() == node.getValue()) {
             return true;
         }
 
-
-        if (this instanceof Operation && node instanceof Operation || this instanceof Equation && node instanceof Equation) {
-            return this.getRight().equals(node.getRight()) && this.getLeft().equals(node.getLeft());
-        } else if (this instanceof Variable thisVariable && node instanceof Variable nodeVariable) {
-            return thisVariable.getVariableName() == nodeVariable.getVariableName();
-        } else if (this instanceof Number thisNumber && node instanceof Number nodeNumber) {
-            return (thisNumber.getNumber().equals(nodeNumber.getNumber()));
+        if (this.getClass() == node.getClass()) {
+            return equalsSameClass(node);
         }
         return false;
+
+    }
+
+    private boolean equalsSameClass(Node node) {
+        if (this instanceof Operation || this instanceof Equation) {
+            return this.getRight().equals(node.getRight()) && this.getLeft().equals(node.getLeft());
+        } else if (this instanceof Variable || this instanceof Number) {
+            return this.getValue() == node.getValue();
+        }
+        return false;
+    }
+
+    public E getValue() {
+        return value;
+    }
+
+    public void setValue(E value) {
+        this.value = value;
     }
 }

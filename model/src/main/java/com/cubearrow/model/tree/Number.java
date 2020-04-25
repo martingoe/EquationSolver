@@ -1,35 +1,32 @@
 package com.cubearrow.model.tree;
 
-public class Number extends Node {
+public class Number extends Node<Float> {
 
-    private Float number;
 
     public Number(Float n, Node parent) {
-        super(null, null, parent);
-        this.number = n;
+        super(parent, n);
     }
 
-    public Number(float number) {
-        super(null, null, null);
-        this.number = number;
+    public Number(float value) {
+        super(value);
     }
 
-    public Float getNumber() {
-        return number;
+    public Float getValue() {
+        return value;
     }
 
-    public void setNumber(Float number) {
-        this.number = number;
+    public void setValue(Float value) {
+        this.value = value;
     }
 
     public void setToNegative() {
-        this.setNumber(-number);
+        this.setValue(-value);
     }
 
     @Override
     public String toString(){
-        if(number % 1 == 0) return String.valueOf(number.intValue());
-        return String.valueOf(number);
+        if(value % 1 == 0) return String.valueOf(value.intValue());
+        return String.valueOf(value);
     }
 
 
