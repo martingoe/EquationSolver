@@ -5,8 +5,8 @@ import com.cubearrow.model.tree.Node;
 import com.cubearrow.model.tree.Number;
 
 public class Multiplication extends Operation {
-    public final static int PRIORITY = 2;
-    public final static String OPERATION_STRING = "*";
+    public static final int PRIORITY = 2;
+    public static final String OPERATION_STRING = "*";
     final Class OPPOSITE_OPERATION = Division.class;
 
     public Multiplication(Node left, Node right, Node parent) {
@@ -25,8 +25,4 @@ public class Multiplication extends Operation {
         return new Number(n1.getValue() * n2.getValue(), this.getParent());
     }
 
-    @Override
-    public Node applyToNode(Node node) {
-        return MultiplicationLikeOperationUtils.applyToNode(node, this);
-    }
 }

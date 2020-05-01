@@ -1,14 +1,10 @@
 package com.cubearrow.model.equation;
 
 import com.cubearrow.model.operations.Addition;
-import com.cubearrow.model.operations.Division;
-import com.cubearrow.model.operations.Multiplication;
-import com.cubearrow.model.operations.Subtraction;
 import com.cubearrow.model.tree.Number;
 import com.cubearrow.model.tree.Variable;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,83 +20,6 @@ public class EquationTest {
         assertEquals("(x+5)=x", equation.toString());
     }
 
-    @Test
-    public void additionApplicationToNodes() {
-        Equation equation = new Equation(
-                new Addition(new Variable('x'), new Number(5f)),
-                new Variable('x')
-        );
-        Addition addition = new Addition(null, new Number(2.4f));
-        equation.applyOperationToNodes(addition, new ArrayList<>());
-        Equation expectedEquation = new Equation(
-                new Addition(
-                        new Addition(new Variable('x'), new Number(5f)),
-                        new Number(2.4f)
-                ),
-                new Addition(new Variable('x'), new Number(2.4f))
-        );
-
-        assert expectedEquation.equals(equation);
-    }
-
-    @Test
-    public void subtractionApplicationToNodes() {
-        Equation equation = new Equation(
-                new Addition(new Variable('x'), new Number(5f)),
-                new Variable('x')
-        );
-        Subtraction subtraction = new Subtraction(null, new Number(2.4f));
-        equation.applyOperationToNodes(subtraction, new ArrayList<>());
-        Equation expectedEquation = new Equation(
-                new Subtraction(
-                        new Addition(new Variable('x'), new Number(5f)),
-                        new Number(2.4f)
-                ),
-                new Subtraction(new Variable('x'), new Number(2.4f))
-        );
-
-        assert expectedEquation.equals(equation);
-    }
-
-    @Test
-    public void multiplicationApplicationToNodes() {
-        Equation equation = new Equation(
-                new Addition(new Variable('x'), new Number(5f)),
-                new Variable('x')
-        );
-        Multiplication multiplication = new Multiplication(null, new Number(2.4f));
-        equation.applyOperationToNodes(multiplication, new ArrayList<>());
-
-        Equation expectedEquation = new Equation(
-                new Addition(
-                        new Multiplication(new Variable('x'), new Number(2.4f)),
-                        new Multiplication(new Number(5f), new Number(2.4f))
-                ),
-                new Multiplication(new Variable('x'), new Number(2.4f))
-        );
-
-        assert expectedEquation.equals(equation);
-    }
-
-    @Test
-    public void divisionApplicationToNode() {
-        Equation equation = new Equation(
-                new Addition(new Variable('x'), new Number(5f)),
-                new Variable('x')
-        );
-        Division division = new Division(null, new Number(2.4f));
-        equation.applyOperationToNodes(division, new ArrayList<>());
-
-        Equation expectedEquation = new Equation(
-                new Addition(
-                        new Division(new Variable('x'), new Number(2.4f)),
-                        new Division(new Number(5f), new Number(2.4f))
-                ),
-                new Division(new Variable('x'), new Number(2.4f))
-        );
-
-        assert expectedEquation.equals(equation);
-    }
 
     @Test
     public void getSimpleVariables() {
