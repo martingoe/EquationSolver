@@ -1,5 +1,7 @@
 package com.cubearrow.model.rewriting;
 
+import com.cubearrow.model.equation.Equation;
+import com.cubearrow.model.equation.EquationInitializer;
 import com.cubearrow.model.operations.Operation;
 import com.cubearrow.model.rewriting.patterns.GenericPatternLiteral;
 import com.cubearrow.model.rewriting.patterns.GenericPatternNumber;
@@ -24,7 +26,7 @@ public class Rule {
         this.rootNode = Node.fromString(pattern, null);
     }
 
-    Node applyPattern(Operation operation) {
+    Node applyPattern(Node operation) {
         HashMap<String, Node> patternVariableHashMap = new HashMap<>();
         if (matchesPatternVariables(operation, rootNode, patternVariableHashMap)) {
             return useReplacement(operation, patternVariableHashMap);
@@ -33,10 +35,11 @@ public class Rule {
     }
 
     private boolean matchesPatternVariables(Node node, Node pattern, HashMap<String, Node> patternVariableHashMap) {
-        if (node instanceof Operation operation && pattern instanceof Operation patternOperationToCompareTo) {
+        if (node instanceof Operation && pattern instanceof Operation ||
+        node instanceof Equation && pattern instanceof Equation) {
             return node.getClass() == pattern.getClass() &&
-                    matchesPatternVariables(operation.getLeft(), patternOperationToCompareTo.getLeft(), patternVariableHashMap) &&
-                    matchesPatternVariables(operation.getRight(), patternOperationToCompareTo.getRight(), patternVariableHashMap);
+                    matchesPatternVariables(node.getLeft(), pattern.getLeft(), patternVariableHashMap) &&
+                    matchesPatternVariables(node.getRight(), pattern.getRight(), patternVariableHashMap);
         }
 
         if (pattern instanceof GenericPatternVariable genericPatternVariable && node instanceof Variable) {
@@ -67,7 +70,7 @@ public class Rule {
         return true;
     }
 
-    private Node useReplacement(Operation operation, HashMap<String, Node> patternVariableHashMap) {
+    private Node useReplacement(Node operation, HashMap<String, Node> patternVariableHashMap) {
         String result = this.replacement;
         for (Map.Entry<String, Node> entry : patternVariableHashMap.entrySet()) {
             String string = entry.getKey();

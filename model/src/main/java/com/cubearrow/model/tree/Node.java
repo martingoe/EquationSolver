@@ -1,6 +1,7 @@
 package com.cubearrow.model.tree;
 
 import com.cubearrow.model.equation.Equation;
+import com.cubearrow.model.equation.EquationInitializer;
 import com.cubearrow.model.operations.Operation;
 import com.cubearrow.model.regex.RegExUtilities;
 import com.cubearrow.model.rewriting.patterns.GenericPatternLiteral;
@@ -47,6 +48,9 @@ public class Node<E> implements Cloneable {
      * @return Returns the parsed Node
      */
     public static Node fromString(String stringToParse, Node parent) {
+        if(stringToParse.contains("=")){
+            return new EquationInitializer(stringToParse).parseEquation();
+        }
         Node node = parsePatternVariables(stringToParse, parent);
         if (node != null) return node;
 

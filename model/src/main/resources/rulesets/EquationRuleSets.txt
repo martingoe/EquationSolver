@@ -1,0 +1,1 @@
+$nu1*$var1=$nu2+$var1;($nu1-1)*$var1=$nu2
