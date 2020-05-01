@@ -24,9 +24,4 @@ public class Subtraction extends Operation {
         return new Number(n1.getValue() - n2.getValue(), this.getParent());
     }
 
-    @Override
-    public Node applyToNode(Node node) {
-        setLeft(node);
-        return this;
-    }
 }

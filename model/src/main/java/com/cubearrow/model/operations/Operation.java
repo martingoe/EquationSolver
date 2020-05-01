@@ -12,13 +12,12 @@ import java.lang.reflect.InvocationTargetException;
  * The base class for an operation, every specific operation derives from this.
  */
 public abstract class Operation extends Node {
-    public static final int PRIORITY = -1;
+    public static int PRIORITY = -1;
     private static final String OPERATION_REGEX = "\\+|\\*|\\-|\\/";
 
     public Operation(Node left, Node right, Node parent) {
         super(left, right, parent);
     }
-
 
     public Operation() {
         super(null, null, null);
@@ -37,7 +36,7 @@ public abstract class Operation extends Node {
             int startingIndex = getStartingIndex(operation);
 
             int operationIndex = RegExUtilities.getStartingIndexOfFirstSubstring(operation, OPERATION_REGEX, startingIndex);
-            Class<Operation> operationClass = EquationInitializer.operationSelector.getOperationFromOperationString(String.valueOf(operation.charAt(operationIndex)));
+            Class<? extends Operation> operationClass = EquationInitializer.operationSelector.getOperationFromOperationString(String.valueOf(operation.charAt(operationIndex)));
 
             String[] operationSides = operation.split(String.format("\\%s", operationClass.getDeclaredField("OPERATION_STRING").get(null)));
             return parseOperationFromOperationSides(operationSides, operationClass, parent);
@@ -68,7 +67,7 @@ public abstract class Operation extends Node {
      * @throws InstantiationException    Thrown if the new instance can not be initiated,
      *                                   can be thrown because of multiple reasons, see {@link InstantiationException}
      */
-    private static Operation parseOperationFromOperationSides(String[] operationSides, Class<Operation> operationClass, Node parent)
+    private static Operation parseOperationFromOperationSides(String[] operationSides, Class<? extends Operation> operationClass, Node parent)
             throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         Operation result = operationClass.getDeclaredConstructor().newInstance();
         result.setLeft(Node.fromString(EquationInitializer.removeBracketsFromOperationIfNecessary(operationSides[0]), result));
@@ -92,7 +91,6 @@ public abstract class Operation extends Node {
 
     public abstract Number getResultFromNumbers(Number n1, Number n2);
 
-    public abstract Node applyToNode(Node node);
 
     /**
      * Returns the operation in a {@link String} representation

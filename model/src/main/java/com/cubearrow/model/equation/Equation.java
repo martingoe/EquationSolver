@@ -35,9 +35,6 @@ public class Equation extends Node implements Cloneable {
         this.variableToIsolate = variableToIsolate;
     }
 
-    public void isolateVariable(){
-
-    }
 
     /**
      * Returns a {@link String} representation of the Equation
@@ -50,23 +47,8 @@ public class Equation extends Node implements Cloneable {
     }
 
     /**
-     * Applies an operation on every children node of the equation
-     *
-     * @param operation      The {@link Operation} that should be applied to the {@link Node}
-     * @param nodesToExclude A {@link java.util.List} of {@link Node} that should be excluded from the change
-     */
-    public void applyOperationToNodes(Operation operation, List<Node> nodesToExclude) {
-        if (!nodesToExclude.contains(this.getRight())) {
-            this.setRight(operation.applyToNode(this.getRight()));
-        }
-        if (!nodesToExclude.contains(this.getLeft())) {
-            Operation clonedOperation = (Operation) operation.clone();
-            this.setLeft(clonedOperation.applyToNode(this.getLeft()));
-        }
-    }
-
-    /**
      * Simplifies one step of the entire equation
+     *
      * @return Returns the simplified Operation
      */
     public Equation simplify(EquationRewriter equationRewriter) {
@@ -75,9 +57,12 @@ public class Equation extends Node implements Cloneable {
         }
         if (this.getRight() instanceof Operation rightOperation) {
             this.setRight(simplifyOperation(rightOperation, equationRewriter));
-
         }
-        return this;
+        return simplifyEquation(equationRewriter);
+    }
+
+    private Equation simplifyEquation(EquationRewriter equationRewriter) {
+        return equationRewriter.applyRulesToEquation(this);
     }
 
     /**
@@ -87,14 +72,12 @@ public class Equation extends Node implements Cloneable {
      * @return Returns the {@link Node} that represent the simplified operation
      */
     private Node simplifyOperation(Operation operation, EquationRewriter equationRewriter) {
-        Node result = operation;
+        Node result = equationRewriter.applyRulesToOperation(operation);
 
-        Node testOperation = equationRewriter.applyRulesToOperation((Operation) result);
-        if(!testOperation.equals(result)) result = testOperation;
-
-
-        if(result.getLeft() instanceof Operation leftOperation) result.setLeft(simplifyOperation(leftOperation, equationRewriter));
-        if(result.getRight() instanceof Operation rightOperation) result.setRight(simplifyOperation(rightOperation, equationRewriter));
+        if (result.getLeft() instanceof Operation leftOperation)
+            result.setLeft(simplifyOperation(leftOperation, equationRewriter));
+        if (result.getRight() instanceof Operation rightOperation)
+            result.setRight(simplifyOperation(rightOperation, equationRewriter));
 
         if (result.getLeft() instanceof Number && result.getRight() instanceof Number) {
             return ((Operation) result).getResult();

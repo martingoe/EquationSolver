@@ -24,8 +24,4 @@ public class Division extends Operation {
         return new Number(n1.getValue() / n2.getValue(), this.getParent());
     }
 
-    @Override
-    public Node applyToNode(Node node) {
-        return MultiplicationLikeOperationUtils.applyToNode(node, this);
-    }
 }
