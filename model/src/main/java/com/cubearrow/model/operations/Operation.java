@@ -12,8 +12,7 @@ import java.lang.reflect.InvocationTargetException;
  * The base class for an operation, every specific operation derives from this.
  */
 public abstract class Operation extends Node {
-    public static int PRIORITY = -1;
-    private static final String OPERATION_REGEX = "\\+|\\*|\\-|\\/";
+    private static final String OPERATION_REGEX = "\\+|\\*|\\-|\\/|\\^";
 
     public Operation(Node left, Node right, Node parent) {
         super(left, right, parent);
@@ -35,23 +34,22 @@ public abstract class Operation extends Node {
         try {
             int startingIndex = getStartingIndex(operation);
 
-            int operationIndex = RegExUtilities.getStartingIndexOfFirstSubstring(operation, OPERATION_REGEX, startingIndex);
+            int operationIndex = RegExUtil.getStartingIndexOfFirstSubstring(operation, OPERATION_REGEX, startingIndex);
             Class<? extends Operation> operationClass = EquationInitializer.operationSelector.getOperationFromOperationString(String.valueOf(operation.charAt(operationIndex)));
 
-            String[] operationSides = operation.split(String.format("\\%s", operationClass.getDeclaredField("OPERATION_STRING").get(null)));
+            String[] operationSides = operation.split(String.format("\\%s", operationClass.getDeclaredMethod("getOperationString").invoke(null)), 2);
             return parseOperationFromOperationSides(operationSides, operationClass, parent);
-        } catch (NoSuchFieldException | NoSuchMethodException | InstantiationException | InvocationTargetException | IllegalAccessException e) {
+        } catch (NoSuchMethodException | InstantiationException | InvocationTargetException | IllegalAccessException e) {
             e.printStackTrace();
         }
         return null;
     }
 
     private static int getStartingIndex(String operation) {
-        int startingIndex = 0;
-        if (operation.startsWith("(")) {
-            startingIndex = EquationInitializer.getLastIndexOfFirstBrackets(operation) - 1;
+        if (operation.charAt(0) == '(') {
+            return EquationInitializer.getLastIndexOfFirstBrackets(operation) - 1;
         }
-        return startingIndex;
+        return 0;
     }
 
     /**
