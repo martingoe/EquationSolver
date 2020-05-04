@@ -5,8 +5,9 @@ import com.cubearrow.model.operations.Operation;
 import com.cubearrow.model.tree.Node;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,20 +21,16 @@ public class EquationRewriter {
     }
 
     private void initializeOperationRuleSet() {
-        try (FileReader fileReader = new FileReader("model/src/main/resources/rulesets/OperationRuleSets.txt")) {
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
+        try (BufferedReader bufferedReader = Files.newBufferedReader(Paths.get("model/src/main/resources/rulesets/OperationRuleSets.txt"))) {
             bufferedReader.lines().forEach(l -> addLineFromString(l, operationRuleSets));
-            bufferedReader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     private void initializeEquationRuleSet() {
-        try (FileReader fileReader = new FileReader("model/src/main/resources/rulesets/EquationRuleSets.txt")) {
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
+        try (BufferedReader bufferedReader = Files.newBufferedReader(Paths.get("model/src/main/resources/rulesets/EquationRuleSets.txt"))) {
             bufferedReader.lines().forEach((l) -> addLineFromString(l, equationRuleSets));
-            bufferedReader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -47,9 +44,9 @@ public class EquationRewriter {
         ruleSetToAddTo.add(new Rule(splitLine[0], splitLine[1]));
     }
 
-    public Node applyRulesToOperation(Operation operation) {
+    public Node applyRulesToOperation(Operation operation, Equation equation) {
         for (Rule rule : operationRuleSets) {
-            Node result = rule.applyPattern(operation);
+            Node result = rule.applyPattern(operation, equation);
             if (result != null) {
                 return result;
             }
@@ -59,7 +56,7 @@ public class EquationRewriter {
 
     public Equation applyRulesToEquation(Equation equation) {
         for (Rule rule : equationRuleSets) {
-            Node result = rule.applyPattern(equation);
+            Node result = rule.applyPattern(equation, equation);
             if (result != null) {
                 return (Equation) result;
             }
