@@ -17,12 +17,12 @@ public class EquationTest {
                 new Addition(new Variable('x'), new Number(5f)),
                 new Variable('x')
         );
-        assertEquals("(x+5)=x", equation.toString());
+        assertEquals("The Equation.toString() method does not equal the expected String", "(x+5)=x", equation.toString());
     }
 
 
     @Test
-    public void getSimpleVariables() {
+    public void getSimpleVariablesTest() {
         Equation equation = new Equation();
         Variable var1 = new Variable('x', equation);
         Variable var2 = new Variable('y', equation);
@@ -31,15 +31,15 @@ public class EquationTest {
 
         List<Variable> expected = Arrays.asList(var1, var2);
         List<Variable> actual = equation.getVariables();
-        assert expected.equals(actual);
+        assertEquals(expected, actual);
         for (int i = 0; i < actual.size(); i++) {
-            assert actual.get(i).getParent().equals(expected.get(i).getParent());
+            assertEquals(actual.get(i).getParent(), expected.get(i).getParent());
         }
     }
 
 
     @Test
-    public void getNestedVariables() {
+    public void getNestedVariablesTest() {
         Equation equation = new Equation();
         Addition addition = new Addition(null, new Number(3f));
         Variable var1 = new Variable('x', addition);
