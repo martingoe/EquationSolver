@@ -3,11 +3,8 @@ package com.cubearrow.model.tree;
 import com.cubearrow.model.equation.Equation;
 import com.cubearrow.model.equation.EquationInitializer;
 import com.cubearrow.model.operations.Operation;
-import com.cubearrow.model.regex.RegExUtilities;
-import com.cubearrow.model.rewriting.patterns.GenericPatternLiteral;
-import com.cubearrow.model.rewriting.patterns.GenericPatternNumber;
-import com.cubearrow.model.rewriting.patterns.GenericPatternOperation;
-import com.cubearrow.model.rewriting.patterns.GenericPatternVariable;
+import com.cubearrow.model.regex.RegExUtil;
+import com.cubearrow.model.rewriting.patterns.*;
 
 /**
  * @param <E> The type of the value of the Node. Mainly used by the Classes {@link Number} and {@link Variable} because they hold values
@@ -71,13 +68,13 @@ public class Node<E> implements Cloneable {
 
     private static Node parsePatternVariables(String stringToParse, Node parent) {
         if (stringToParse.matches("\\$nu\\d+")) {
-            return new GenericPatternNumber(Integer.parseInt(RegExUtilities.getFirstSubstring(stringToParse, "[0-9]+", 0)), parent);
+            return new GenericPatternNumber(Integer.parseInt(RegExUtil.getFirstSubstring(stringToParse, "[0-9]+", 0)), parent);
         }
         if (stringToParse.matches("\\$op\\d+")) {
-            return new GenericPatternOperation(Integer.parseInt(RegExUtilities.getFirstSubstring(stringToParse, "[0-9]+", 0)), parent);
+            return new GenericPatternOperation(Integer.parseInt(RegExUtil.getFirstSubstring(stringToParse, "[0-9]+", 0)), parent);
         }
         if (stringToParse.matches("\\$var\\d+")) {
-            return new GenericPatternVariable(Integer.parseInt(RegExUtilities.getFirstSubstring(stringToParse, "[0-9]+", 0)), parent);
+            return new GenericPatternVariable(Integer.parseInt(RegExUtil.getFirstSubstring(stringToParse, "[0-9]+", 0)), parent);
         }
         if (stringToParse.matches("\\$\\d+")) {
             return new GenericPatternLiteral(Integer.parseInt(RegExUtil.getFirstSubstring(stringToParse, "[0-9]+", 0)), parent);
