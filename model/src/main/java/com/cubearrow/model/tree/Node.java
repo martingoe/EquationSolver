@@ -52,16 +52,18 @@ public class Node<E> implements Cloneable {
             return new EquationInitializer(stringToParse).parseEquation();
         }
         Node node = parsePatternVariables(stringToParse, parent);
-        if (node != null) return node;
-
-        Number n = Number.fromString(stringToParse, parent);
-        if (n != null) {
-            return n;
+        if (node != null){
+            return node;
         }
 
-        Variable v = Variable.fromString(stringToParse, parent);
-        if (v != null) {
-            return v;
+        Number number = Number.fromString(stringToParse, parent);
+        if (number != null) {
+            return number;
+        }
+
+        Variable variable = Variable.fromString(stringToParse, parent);
+        if (variable != null) {
+            return variable;
         }
 
         return Operation.fromString(stringToParse, parent);

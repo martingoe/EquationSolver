@@ -17,7 +17,9 @@ public class Variable extends Node<Character> {
     }
 
     public static Variable fromString(String numberString, Node parent) {
-        if (numberString.length() > 1) return null;
+        if (numberString.length() > 1) {
+            return null;
+        }
 
         if (numberString.matches("[a-z]")) {
             return new Variable(numberString.toCharArray()[0], parent);

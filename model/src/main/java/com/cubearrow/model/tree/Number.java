@@ -25,7 +25,9 @@ public class Number extends Node<Float> {
 
     @Override
     public String toString(){
-        if(value % 1 == 0) return String.valueOf(value.intValue());
+        if(value % 1 == 0) {
+            return String.valueOf(value.intValue());
+        }
         return String.valueOf(value);
     }
 
