@@ -23,24 +23,6 @@ public class OperationSelector {
     }
 
     /**
-     * Sorts the provided classes by the priority field and return it in an Array of Classes
-     *
-     * @param classes The classes to be sorted
-     * @return Returns the sorted array
-     */
-    @SafeVarargs
-    public static Class<Operation>[] sortClassesByPriority(Class<Operation>... classes) {
-        return Arrays.stream(classes).sorted(Comparator.comparingInt((Class<Operation> o) -> {
-            try {
-                return (o.getDeclaredField("PRIORITY").getInt(o)) * -1;
-            } catch (IllegalAccessException | NoSuchFieldException e) {
-                e.printStackTrace();
-                return -1;
-            }
-        })).toArray((IntFunction<Class<Operation>[]>) Class[]::new);
-    }
-
-    /**
      * Returns the {@link LinkedHashMap} that represents the operations and their operation string
      *
      * @return Return the {@link LinkedHashMap}

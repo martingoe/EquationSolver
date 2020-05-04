@@ -12,7 +12,7 @@ public class OperationTest {
     public void simpleFromStringOperation() {
         Addition expectedAddition = new Addition(new Variable('x'), new Number(4f));
         Operation operation = Operation.fromString("x+4", null);
-        assertEquals(expectedAddition, operation);
+        assert expectedAddition.equals(operation);
     }
 
     @Test
@@ -22,7 +22,7 @@ public class OperationTest {
                 new Variable('x')
         );
         Operation operation = Operation.fromString("(1+6)*x", null);
-        assertEquals(expectedMultiplication, operation);
+        assert expectedMultiplication.equals(operation);
     }
 
     @Test
@@ -33,8 +33,8 @@ public class OperationTest {
 
     @Test
     public void getResult() {
-        assertEquals((float) new Multiplication(new Number(4f), new Number(2f)).getResult().getValue(), 8f);
+        assertEquals(new Multiplication(new Number(4f), new Number(2f)).getResult().getValue(), 8f, 0);
         assertNull(new Multiplication(new Variable('x'), new Number(2f)).getResult());
-        assertEquals((float) new Addition(new Number(4f), new Number(2f)).getResult().getValue(), 6f);
+        assertEquals(new Addition(new Number(4f), new Number(2f)).getResult().getValue(), 6f, 0);
     }
 }

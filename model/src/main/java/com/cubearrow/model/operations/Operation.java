@@ -37,9 +37,9 @@ public abstract class Operation extends Node {
             int operationIndex = RegExUtil.getStartingIndexOfFirstSubstring(operation, OPERATION_REGEX, startingIndex);
             Class<? extends Operation> operationClass = EquationInitializer.operationSelector.getOperationFromOperationString(String.valueOf(operation.charAt(operationIndex)));
 
-            String[] operationSides = operation.split(String.format("\\%s", operationClass.getDeclaredMethod("getOperationString").invoke(null)), 2);
+            String[] operationSides = operation.split(String.format("\\%s", operationClass.getDeclaredField("OPERATION_STRING").get(null)), 2);
             return parseOperationFromOperationSides(operationSides, operationClass, parent);
-        } catch (NoSuchMethodException | InstantiationException | InvocationTargetException | IllegalAccessException e) {
+        } catch (NoSuchMethodException | InstantiationException | InvocationTargetException | IllegalAccessException | NoSuchFieldException e) {
             e.printStackTrace();
         }
         return null;

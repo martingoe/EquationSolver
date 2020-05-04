@@ -7,7 +7,6 @@ import org.junit.Test;
 
 import java.util.HashMap;
 
-@SuppressWarnings("unchecked")
 public class OperationSelectorTest {
     OperationSelector operationSelector;
 
@@ -17,20 +16,13 @@ public class OperationSelectorTest {
     }
 
     @Test
-    public void sortClassesByPriority(){
-        Class[] expectedClasses = {Multiplication.class, Division.class, Addition.class, Subtraction.class};
-        Class[] classes = {Addition.class, Subtraction.class, Multiplication.class, Division.class};
-        classes = OperationSelector.sortClassesByPriority(classes);
-        Assert.assertArrayEquals(expectedClasses, classes);
-    }
-
-    @Test
     public void getOperationHashMap() {
         HashMap<String, Class> expectedResult = new HashMap<>();
         expectedResult.put("+", Addition.class);
         expectedResult.put("-", Subtraction.class);
         expectedResult.put("*", Multiplication.class);
         expectedResult.put("/", Division.class);
+        expectedResult.put("^", Exponentiation.class);
 
         Assert.assertEquals(expectedResult, operationSelector.getOperationHashMap());
     }
