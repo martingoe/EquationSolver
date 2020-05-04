@@ -78,7 +78,10 @@ public class Node<E> implements Cloneable {
             return new GenericPatternVariable(Integer.parseInt(RegExUtilities.getFirstSubstring(stringToParse, "[0-9]+", 0)), parent);
         }
         if (stringToParse.matches("\\$\\d+")) {
-            return new GenericPatternLiteral(Integer.parseInt(RegExUtilities.getFirstSubstring(stringToParse, "[0-9]+", 0)), parent);
+            return new GenericPatternLiteral(Integer.parseInt(RegExUtil.getFirstSubstring(stringToParse, "[0-9]+", 0)), parent);
+        }
+        if(stringToParse.matches("\\$ivar\\d+")){
+            return new GenericPatternIsolationVariable(Integer.parseInt(RegExUtil.getFirstSubstring(stringToParse, "[0-9]+", 0)), parent);
         }
 
         return null;

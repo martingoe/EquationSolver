@@ -9,8 +9,8 @@ import java.util.LinkedHashMap;
 import java.util.function.IntFunction;
 
 public class OperationSelector {
-    private final static Class<? extends Operation>[] operationClasses = new Class[]{Addition.class, Division.class, Multiplication.class, Subtraction.class};
-    private final HashMap<String, Class<? extends Operation>> operationHashMap = new HashMap<>();
+    private final static Class<? extends Operation>[] operationClasses = new Class[]{Addition.class, Division.class, Multiplication.class, Subtraction.class, Exponentiation.class};
+    private final Map<String, Class<? extends Operation>> operationHashMap = new HashMap<>();
 
     /**
      * Initializes an OperationSelector by adding all of the subclasses of {@link Operation} to a HashMap

@@ -1,5 +1,5 @@
 // Explanation:
-// $: Any generic node as a teral
+// $: Any generic node
 // $nu: Any number
 // $var: Any variable
 // $op: Any operation
@@ -24,3 +24,6 @@ $1-$1;0
 
 // Division
 $1/$1;1
+
+// Exponentiation
+($2*($1^2))+($3*$1);$1*(($2*$1)+$3)
