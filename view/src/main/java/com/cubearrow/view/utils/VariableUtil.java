@@ -5,7 +5,7 @@ import com.cubearrow.model.tree.Variable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VariableUtilities {
+public final class VariableUtil {
     public static List<Character> getVariableCharSet(List<Variable> variables) {
         ArrayList<Character> resultList = new ArrayList<>();
 
