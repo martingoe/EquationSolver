@@ -14,7 +14,9 @@ public class Equation extends Node implements Cloneable {
     private char variableToIsolate;
 
     /**
-     * Initializes an {@link Equation}.
+     * Initializes an {@link Equation} by specifying the two child nodes.
+     * @param left The left child {@link Node}
+     * @param right The right child {@link Node}
      */
     public Equation(Node right, Node left) {
         super(right, left, null);
@@ -72,7 +74,7 @@ public class Equation extends Node implements Cloneable {
      * @return Returns the {@link Node} that represent the simplified operation
      */
     private Node simplifyOperation(Operation operation, EquationRewriter equationRewriter) {
-        Node result = equationRewriter.applyRulesToOperation(operation);
+        Node result = equationRewriter.applyRulesToOperation(operation, this);
 
         if (result.getLeft() instanceof Operation leftOperation)
             result.setLeft(simplifyOperation(leftOperation, equationRewriter));
