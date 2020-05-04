@@ -1,12 +1,8 @@
 package com.cubearrow.model.rewriting;
 
 import com.cubearrow.model.equation.Equation;
-import com.cubearrow.model.equation.EquationInitializer;
 import com.cubearrow.model.operations.Operation;
-import com.cubearrow.model.rewriting.patterns.GenericPatternLiteral;
-import com.cubearrow.model.rewriting.patterns.GenericPatternNumber;
-import com.cubearrow.model.rewriting.patterns.GenericPatternOperation;
-import com.cubearrow.model.rewriting.patterns.GenericPatternVariable;
+import com.cubearrow.model.rewriting.patterns.*;
 import com.cubearrow.model.tree.Node;
 import com.cubearrow.model.tree.Number;
 import com.cubearrow.model.tree.Variable;
@@ -26,25 +22,31 @@ public class Rule {
         this.rootNode = Node.fromString(pattern, null);
     }
 
-    Node applyPattern(Node operation) {
+    Node applyPattern(Node operation, Equation equation) {
         HashMap<String, Node> patternVariableHashMap = new HashMap<>();
-        if (matchesPatternVariables(operation, rootNode, patternVariableHashMap)) {
+        if (matchesPatternVariables(operation, rootNode, patternVariableHashMap, equation)) {
             return useReplacement(operation, patternVariableHashMap);
         }
         return null;
     }
 
-    private boolean matchesPatternVariables(Node node, Node pattern, HashMap<String, Node> patternVariableHashMap) {
+    private boolean matchesPatternVariables(Node node, Node pattern, HashMap<String, Node> patternVariableHashMap, Equation equation) {
         if (node instanceof Operation && pattern instanceof Operation ||
-        node instanceof Equation && pattern instanceof Equation) {
+                node instanceof Equation && pattern instanceof Equation) {
             return node.getClass() == pattern.getClass() &&
-                    matchesPatternVariables(node.getLeft(), pattern.getLeft(), patternVariableHashMap) &&
-                    matchesPatternVariables(node.getRight(), pattern.getRight(), patternVariableHashMap);
+                    matchesPatternVariables(node.getLeft(), pattern.getLeft(), patternVariableHashMap, equation) &&
+                    matchesPatternVariables(node.getRight(), pattern.getRight(), patternVariableHashMap, equation);
         }
 
         if (pattern instanceof GenericPatternVariable genericPatternVariable && node instanceof Variable) {
             String key = "var" + genericPatternVariable.getPatternIndex();
             return AddToPatternVariablesAndGetMatch(node, patternVariableHashMap, key);
+        }
+        if(pattern instanceof GenericPatternIsolationVariable genericPatternIsolationVariable && node instanceof Variable variableNode){
+            if(equation.getVariableToIsolate() == variableNode.getValue()){
+                String key = "ivar" + genericPatternIsolationVariable.getPatternIndex();
+                return AddToPatternVariablesAndGetMatch(node, patternVariableHashMap, key);
+            }
         }
         if (pattern instanceof GenericPatternNumber genericPatternNumber && node instanceof Number) {
             String key = "nu" + genericPatternNumber.getPatternIndex();
