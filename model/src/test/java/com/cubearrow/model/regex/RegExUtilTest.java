@@ -2,9 +2,9 @@ package com.cubearrow.model.regex;
 
 import org.junit.Test;
 
-import static com.cubearrow.model.regex.RegExUtilities.getStartingIndexOfFirstSubstring;
+import static com.cubearrow.model.regex.RegExUtil.getStartingIndexOfFirstSubstring;
 
-public class RegExUtilitiesTest {
+public class RegExUtilTest {
     @Test
     public void getFirstSubstringExistingSubstring() {
         assert getStartingIndexOfFirstSubstring("3", "[1-9]", 0) == 0;

@@ -3,7 +3,7 @@ package com.cubearrow.model.regex;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class RegExUtilities {
+public final class RegExUtil {
 
     /**
      * Returns the starting index of the first substring found in a string with a RegEx expression

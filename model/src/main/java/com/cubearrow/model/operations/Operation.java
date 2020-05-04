@@ -2,7 +2,7 @@ package com.cubearrow.model.operations;
 
 
 import com.cubearrow.model.equation.EquationInitializer;
-import com.cubearrow.model.regex.RegExUtilities;
+import com.cubearrow.model.regex.RegExUtil;
 import com.cubearrow.model.tree.Node;
 import com.cubearrow.model.tree.Number;
 

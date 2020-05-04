@@ -7,7 +7,7 @@ import com.cubearrow.view.utils.ConsoleColors;
 import java.util.List;
 import java.util.Scanner;
 
-import static com.cubearrow.view.utils.VariableUtilities.getVariableCharSet;
+import static com.cubearrow.view.utils.VariableUtil.getVariableCharSet;
 
 public class Interaction {
     private Equation equation;
@@ -31,13 +31,13 @@ public class Interaction {
         String selectedChar = getInput(String.format("Which variable should be isolated? %s", variableCharSet.toString()));
 
 
-        if (selectedChar.length() != 1) {
-            printError("Please only specify one character.");
+        if (selectedChar.length() == 1) {
+            printSuccess(String.format("The variable %s will be isolated.", selectedChar));
+            return selectedChar.charAt(0);
         } else if (!variableCharSet.contains(selectedChar.charAt(0))) {
             printError("The specified character is not an option.");
         } else {
-            printSuccess(String.format("The variable %s will be isolated.", selectedChar));
-            return selectedChar.charAt(0);
+            printError("Please only specify one character.");
         }
         return '\u0000';
     }

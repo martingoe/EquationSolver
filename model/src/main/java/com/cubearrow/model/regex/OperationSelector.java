@@ -2,10 +2,7 @@ package com.cubearrow.model.regex;
 
 import com.cubearrow.model.operations.*;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.*;
 import java.util.function.IntFunction;
 
 public class OperationSelector {
@@ -31,7 +28,8 @@ public class OperationSelector {
      * @param classes The classes to be sorted
      * @return Returns the sorted array
      */
-    public static Class<Operation>[] sortClassesByPriority(Class<Operation>[] classes) {
+    @SafeVarargs
+    public static Class<Operation>[] sortClassesByPriority(Class<Operation>... classes) {
         return Arrays.stream(classes).sorted(Comparator.comparingInt((Class<Operation> o) -> {
             try {
                 return (o.getDeclaredField("PRIORITY").getInt(o)) * -1;
@@ -47,7 +45,7 @@ public class OperationSelector {
      *
      * @return Return the {@link LinkedHashMap}
      */
-    public HashMap<String, Class<? extends Operation>> getOperationHashMap() {
+    public Map<String, Class<? extends Operation>> getOperationHashMap() {
         return operationHashMap;
     }
 

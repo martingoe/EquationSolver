@@ -3,12 +3,13 @@ package com.cubearrow.model.equation;
 import com.cubearrow.model.rewriting.EquationRewriter;
 
 public class EquationManager {
-    EquationRewriter equationRewriter = new EquationRewriter();
+    private final EquationRewriter equationRewriter;
 
-    Equation solveEquation(Equation equation){
-        return equation.simplify(equationRewriter);
+    public EquationManager() {
+        this.equationRewriter = new EquationRewriter();
     }
-    Equation solveEquation(Equation equation, char variableToIsolate){
+
+    Equation solveEquation(final Equation equation) {
         return equation.simplify(equationRewriter);
     }
 }
