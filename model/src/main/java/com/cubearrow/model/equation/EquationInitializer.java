@@ -5,10 +5,12 @@ import com.cubearrow.model.regex.OperationSelector;
 import com.cubearrow.model.tree.Node;
 
 public class EquationInitializer {
+    private static final char OPENING_BRACKET = '(';
+    private static final char CLOSING_BRACKET = ')';
     private final String equationString;
     public static final OperationSelector operationSelector = new OperationSelector();
 
-    public EquationInitializer(String equationString) {
+    public EquationInitializer(final String equationString) {
         this.equationString = equationString;
     }
 
@@ -21,13 +23,13 @@ public class EquationInitializer {
      * @param equationPart The {@link String} that contains the part of the {@link Equation} with the brackets
      * @return Returns the index of the closing bracket
      */
-    public static int getLastIndexOfFirstBrackets(String equationPart) {
+    public static int getLastIndexOfFirstBrackets(final String equationPart) {
         int bracketAmount = 0;
         for (int i = 0; i < equationPart.length(); i++) {
             char charAtIndex = equationPart.charAt(i);
-            if (charAtIndex == '(') {
+            if (charAtIndex == OPENING_BRACKET) {
                 bracketAmount++;
-            } else if (charAtIndex == ')') {
+            } else if (charAtIndex == CLOSING_BRACKET) {
                 bracketAmount--;
                 if (bracketAmount == 0) {
                     return i + 1;
@@ -44,8 +46,8 @@ public class EquationInitializer {
      * @param operationString The operationString whose brackets should be removed
      * @return Returns the new String that contains the Operation
      */
-    public static String removeBracketsFromOperationIfNecessary(String operationString) {
-        if (operationString.startsWith("(")) {
+    public static String removeBracketsFromOperationIfNecessary(final String operationString) {
+        if (operationString.charAt(0) == '(') {
             return operationString.substring(1, operationString.length() - 1);
         }
         return operationString;
