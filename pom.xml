@@ -45,8 +45,6 @@
                 <version>3.0.0-M4</version>
 
                 <configuration>
-                    <forkCount>3</forkCount>
-                    <reuseForks>true</reuseForks>
                     <argLine>--enable-preview</argLine>
                 </configuration>
             </plugin>
