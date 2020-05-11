@@ -4,7 +4,11 @@ import com.cubearrow.model.tree.Node;
 import com.cubearrow.model.tree.Number;
 
 public class Subtraction extends Operation {
-    public final static String OPERATION_STRING = "-";
+    public final static char OPERATION_STRING = '-';
+
+    public Subtraction(String string, Node parent) {
+        super(string, OPERATION_STRING, parent);
+    }
 
     public Subtraction(Node left, Node right, Node parent) {
         super(left, right, parent);

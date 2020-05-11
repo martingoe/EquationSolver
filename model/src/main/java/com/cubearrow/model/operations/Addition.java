@@ -5,7 +5,11 @@ import com.cubearrow.model.tree.Number;
 
 public class Addition extends Operation {
 
-    public final static String OPERATION_STRING = "+";
+    public final static char OPERATION_STRING = '+';
+
+    public Addition(String string, Node parent) {
+        super(string, OPERATION_STRING, parent);
+    }
 
     public Addition() {
     }

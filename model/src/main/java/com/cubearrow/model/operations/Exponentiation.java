@@ -5,7 +5,11 @@ import com.cubearrow.model.tree.Number;
 
 public class Exponentiation extends Operation {
 
-    public final static String OPERATION_STRING = "^";
+    public final static char OPERATION_STRING = '^';
+
+    public Exponentiation(String string, Node parent) {
+        super(string, OPERATION_STRING, parent);
+    }
 
     public Exponentiation(Node left, Node right, Node parent) {
         super(left, right, parent);
@@ -13,7 +17,6 @@ public class Exponentiation extends Operation {
 
     public Exponentiation() {
     }
-
 
 
     @Override

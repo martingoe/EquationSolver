@@ -23,6 +23,23 @@ public abstract class Operation extends Node {
     }
 
     /**
+     * Parses an operation from a String
+     *
+     * @param string The string from which the Operation is parsed
+     * @param parent The parent of the Operation
+     */
+    protected Operation(String string, char operationChar, Node parent) {
+        super(null, null, parent);
+
+        int startingIndex = getOperationStartingIndex(string);
+        int operationIndex = string.indexOf(operationChar, startingIndex);
+
+        String[] operationSides = {string.substring(0, operationIndex), string.substring(operationIndex + 1)};
+        this.setLeft(Node.fromString(EquationInitializer.removeBracketsFromOperationIfNecessary(operationSides[0]), this));
+        this.setRight(Node.fromString(EquationInitializer.removeBracketsFromOperationIfNecessary(operationSides[1]), this));
+    }
+
+    /**
      * Parses an {@link Operation} from a String.
      * This function calls the recursive part when a part of the parsed Operation is an operation itself.
      *
@@ -32,46 +49,29 @@ public abstract class Operation extends Node {
      */
     public static Operation fromString(String operation, Node parent) {
         try {
-            int startingIndex = getStartingIndex(operation);
+            int startingIndex = getOperationStartingIndex(operation);
 
             int operationIndex = RegExUtil.getStartingIndexOfFirstSubstring(operation, OPERATION_REGEX, startingIndex);
             Class<? extends Operation> operationClass = EquationInitializer.operationSelector.getOperationFromOperationString(String.valueOf(operation.charAt(operationIndex)));
 
-            String[] operationSides = operation.split(String.format("\\%s", operationClass.getDeclaredField("OPERATION_STRING").get(null)), 2);
-            return parseOperationFromOperationSides(operationSides, operationClass, parent);
-        } catch (NoSuchMethodException | InstantiationException | InvocationTargetException | IllegalAccessException | NoSuchFieldException e) {
+            return operationClass.getConstructor(String.class, Node.class).newInstance(operation, parent);
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException | InstantiationException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    private static int getStartingIndex(String operation) {
-        if (operation.charAt(0) == '(') {
-            return EquationInitializer.getLastIndexOfFirstBrackets(operation) - 1;
+    /**
+     * Gets the starting index from which the operation Strings are to be parsed by finding if the left part starts with brackets.
+     *
+     * @param operationString The operation String on which to test for brackets in the left parts of the operation
+     * @return Returns the starting index from which to parse for operationStrings
+     */
+    private static int getOperationStartingIndex(String operationString) {
+        if (operationString.charAt(0) == '(') {
+            return EquationInitializer.getLastIndexOfFirstBrackets(operationString) - 1;
         }
         return 0;
-    }
-
-    /**
-     * Parses an Operation from two operation sides and the class type of the Operation
-     *
-     * @param operationSides The two operation sides as String in an array of strings
-     * @param operationClass The class of the operation to be generated
-     * @param parent         The parent of the new operation
-     * @return Returns an instance of the newly parsed Operation
-     * @throws NoSuchMethodException     Thrown because theoretically the needed constructor could be missing
-     * @throws IllegalAccessException    Can be thrown when the constructor needed is not accessible from this class
-     * @throws InvocationTargetException Thrown if the constructor of the operation throws an error
-     * @throws InstantiationException    Thrown if the new instance can not be initiated,
-     *                                   can be thrown because of multiple reasons, see {@link InstantiationException}
-     */
-    private static Operation parseOperationFromOperationSides(String[] operationSides, Class<? extends Operation> operationClass, Node parent)
-            throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
-        Operation result = operationClass.getDeclaredConstructor().newInstance();
-        result.setLeft(Node.fromString(EquationInitializer.removeBracketsFromOperationIfNecessary(operationSides[0]), result));
-        result.setRight(Node.fromString(EquationInitializer.removeBracketsFromOperationIfNecessary(operationSides[1]), result));
-        result.setParent(parent);
-        return result;
     }
 
     /**
@@ -79,12 +79,15 @@ public abstract class Operation extends Node {
      *
      * @return Returns the {@link Number} instance, if no result was able to be created, returns null
      */
-    public Number getResult() {
+    public Node getResult() {
         try {
-            return getResultFromNumbers((Number) this.getLeft(), (Number) this.getRight());
+            if (this.getLeft() instanceof Number leftNumber && this.getRight() instanceof Number rightNumber) {
+                return getResultFromNumbers(leftNumber, rightNumber);
+            }
         } catch (ClassCastException exception) {
             return null;
         }
+        return this;
     }
 
     public abstract Number getResultFromNumbers(Number n1, Number n2);

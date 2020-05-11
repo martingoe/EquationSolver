@@ -5,7 +5,11 @@ import com.cubearrow.model.tree.Number;
 
 public class Division extends Operation {
 
-    public final static String OPERATION_STRING = "/";
+    public final static char OPERATION_STRING = '/';
+
+    public Division(String string, Node parent) {
+        super(string, OPERATION_STRING, parent);
+    }
 
     public Division(Node left, Node right, Node parent) {
         super(left, right, parent);
