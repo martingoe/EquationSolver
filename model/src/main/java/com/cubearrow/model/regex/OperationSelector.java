@@ -15,7 +15,7 @@ public class OperationSelector {
     public OperationSelector() {
         for (Class<? extends Operation> operationClass : operationClasses) {
             try {
-                operationHashMap.put((String) operationClass.getDeclaredField("OPERATION_STRING").get(null), operationClass);
+                operationHashMap.put( operationClass.getDeclaredField("OPERATION_STRING").get(null).toString(), operationClass);
             } catch (NoSuchFieldException | IllegalAccessException e) {
                 e.printStackTrace();
             }

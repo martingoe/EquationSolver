@@ -45,25 +45,26 @@ public class Node<E> implements Cloneable {
      * @return Returns the parsed Node
      */
     public static Node fromString(String stringToParse, Node parent) {
-        if(stringToParse.contains("=")){
-            return new EquationInitializer(stringToParse).parseEquation();
+        String result = EquationInitializer.cleanOperationString(stringToParse);
+        if(result.contains("=")){
+            return new EquationInitializer(result).parseEquation();
         }
-        Node node = parsePatternVariables(stringToParse, parent);
+        Node node = parsePatternVariables(result, parent);
         if (node != null){
             return node;
         }
 
-        Number number = Number.fromString(stringToParse, parent);
+        Number number = Number.fromString(result, parent);
         if (number != null) {
             return number;
         }
 
-        Variable variable = Variable.fromString(stringToParse, parent);
+        Variable variable = Variable.fromString(result, parent);
         if (variable != null) {
             return variable;
         }
 
-        return Operation.fromString(stringToParse, parent);
+        return Operation.fromString(result, parent);
     }
 
     private static Node parsePatternVariables(String stringToParse, Node parent) {

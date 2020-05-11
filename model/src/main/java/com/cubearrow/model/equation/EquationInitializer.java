@@ -7,7 +7,7 @@ import com.cubearrow.model.tree.Node;
 public class EquationInitializer {
     private static final char OPENING_BRACKET = '(';
     private static final char CLOSING_BRACKET = ')';
-    private final String equationString;
+    private String equationString;
     public static final OperationSelector operationSelector = new OperationSelector();
 
     public EquationInitializer(final String equationString) {
@@ -60,10 +60,19 @@ public class EquationInitializer {
      * @return Returns an {@link Equation} instance with the information
      */
     public Equation parseEquation() {
+        equationString = cleanOperationString(equationString);
         String[] split = this.equationString.split("=");
         Equation equation = new Equation();
         equation.setLeft(Node.fromString(split[0], equation));
         equation.setRight(Node.fromString(split[1], equation));
         return equation;
+    }
+
+    public static String cleanOperationString(String operationString) {
+        return addMultiplicationSimbol(operationString);
+    }
+
+    private static String addMultiplicationSimbol(String operationString) {
+        return operationString.replaceAll("([0-9]+)([a-z])", "$1*$2");
     }
 }
