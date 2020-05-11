@@ -4,8 +4,7 @@ import com.cubearrow.model.tree.Number;
 import com.cubearrow.model.tree.Variable;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 public class OperationTest {
     @Test
@@ -33,8 +32,7 @@ public class OperationTest {
 
     @Test
     public void getResult() {
-        assertEquals(new Multiplication(new Number(4f), new Number(2f)).getResult().getValue(), 8f, 0);
-        assertNull(new Multiplication(new Variable('x'), new Number(2f)).getResult());
-        assertEquals(new Addition(new Number(4f), new Number(2f)).getResult().getValue(), 6f, 0);
+        assertEquals((float) new Multiplication(new Number(4f), new Number(2f)).getResult().getValue(), 8f, 0);
+        assertEquals((float) new Addition(new Number(4f), new Number(2f)).getResult().getValue(), 6f, 0);
     }
 }

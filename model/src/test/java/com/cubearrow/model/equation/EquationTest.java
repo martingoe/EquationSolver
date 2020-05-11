@@ -1,6 +1,7 @@
 package com.cubearrow.model.equation;
 
 import com.cubearrow.model.operations.Addition;
+import com.cubearrow.model.tree.Node;
 import com.cubearrow.model.tree.Number;
 import com.cubearrow.model.tree.Variable;
 import org.junit.Test;
@@ -41,7 +42,7 @@ public class EquationTest {
     @Test
     public void getNestedVariablesTest() {
         Equation equation = new Equation();
-        Addition addition = new Addition(null, new Number(3f));
+        Addition addition = new Addition((Node) null, new Number(3f));
         Variable var1 = new Variable('x', addition);
         Variable var2 = new Variable('y', equation);
         addition.setLeft(var1);
