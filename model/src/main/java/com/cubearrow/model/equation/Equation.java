@@ -3,7 +3,6 @@ package com.cubearrow.model.equation;
 import com.cubearrow.model.operations.Operation;
 import com.cubearrow.model.rewriting.EquationRewriter;
 import com.cubearrow.model.tree.Node;
-import com.cubearrow.model.tree.Number;
 import com.cubearrow.model.tree.Variable;
 
 import java.util.ArrayList;
@@ -15,7 +14,8 @@ public class Equation extends Node implements Cloneable {
 
     /**
      * Initializes an {@link Equation} by specifying the two child nodes.
-     * @param left The left child {@link Node}
+     *
+     * @param left  The left child {@link Node}
      * @param right The right child {@link Node}
      */
     public Equation(Node right, Node left) {
@@ -81,10 +81,7 @@ public class Equation extends Node implements Cloneable {
         if (result.getRight() instanceof Operation rightOperation)
             result.setRight(simplifyOperation(rightOperation, equationRewriter));
 
-        if (result.getLeft() instanceof Number && result.getRight() instanceof Number) {
-            return ((Operation) result).getResult();
-        }
-        return result;
+        return ((Operation) result).getResult();
     }
 
 
