@@ -10,6 +10,10 @@ public class GenericPatternNumber extends Node implements GenericPattern{
         super(null, null, parent);
         this.patternIndex = patternIndex;
     }
+    @Override
+    public String toString() {
+        return "num" + patternIndex;
+    }
 
     public int getPatternIndex() {
         return patternIndex;

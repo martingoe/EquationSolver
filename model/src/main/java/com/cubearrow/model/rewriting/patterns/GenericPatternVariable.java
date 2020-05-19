@@ -14,4 +14,9 @@ public class GenericPatternVariable extends Node implements GenericPattern{
     public int getPatternIndex() {
         return patternIndex;
     }
+
+    @Override
+    public String toString() {
+        return "$var" + patternIndex;
+    }
 }

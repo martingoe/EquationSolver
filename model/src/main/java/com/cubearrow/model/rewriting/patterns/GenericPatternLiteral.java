@@ -9,6 +9,10 @@ public class GenericPatternLiteral extends Node implements GenericPattern{
         super(null, null, parent);
         this.patternIndex = patternIndex;
     }
+    @Override
+    public String toString() {
+        return "$" + patternIndex;
+    }
 
     public int getPatternIndex() {
         return patternIndex;

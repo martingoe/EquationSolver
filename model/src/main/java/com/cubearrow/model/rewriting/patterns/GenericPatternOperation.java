@@ -10,6 +10,10 @@ public class GenericPatternOperation extends Node implements GenericPattern{
         super(null, null, parent);
         this.patternIndex = patternIndex;
     }
+    @Override
+    public String toString() {
+        return "$op" + patternIndex;
+    }
 
     public int getPatternIndex() {
         return patternIndex;

@@ -1,17 +1,18 @@
 package com.cubearrow.model.tree;
 
-import com.cubearrow.model.equation.Equation;
-import com.cubearrow.model.equation.EquationInitializer;
-import com.cubearrow.model.operations.Operation;
-import com.cubearrow.model.regex.RegExUtil;
+import com.cubearrow.model.tree.nodes.Equation;
+import com.cubearrow.model.utils.ProblemInitializationUtil;
+import com.cubearrow.model.tree.nodes.Number;
+import com.cubearrow.model.tree.nodes.Operation;
+import com.cubearrow.model.tree.nodes.Variable;
+import com.cubearrow.model.utils.regex.RegExUtil;
 import com.cubearrow.model.rewriting.patterns.*;
 
 /**
  * @param <E> The type of the value of the Node. Mainly used by the Classes {@link Number} and {@link Variable} because they hold values
  */
-public class Node<E> implements Cloneable {
-
-    protected E value;
+public abstract class Node<E> implements Cloneable {
+    private E value;
     private Node left;
     private Node right;
     private Node parent;
@@ -45,9 +46,9 @@ public class Node<E> implements Cloneable {
      * @return Returns the parsed Node
      */
     public static Node fromString(String stringToParse, Node parent) {
-        String result = EquationInitializer.cleanOperationString(stringToParse);
+        String result = ProblemInitializationUtil.cleanOperationString(stringToParse);
         if(result.contains("=")){
-            return new EquationInitializer(result).parseEquation();
+            return Equation.fromString(result);
         }
         Node node = parsePatternVariables(result, parent);
         if (node != null){
@@ -173,6 +174,7 @@ public class Node<E> implements Cloneable {
 
     }
 
+    public abstract String toString();
     private boolean equalsSameClass(Node node) {
         if (this instanceof Operation || this instanceof Equation) {
             return this.getRight().equals(node.getRight()) && this.getLeft().equals(node.getLeft());

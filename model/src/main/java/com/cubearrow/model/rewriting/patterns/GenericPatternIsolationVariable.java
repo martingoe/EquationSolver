@@ -14,4 +14,9 @@ public class GenericPatternIsolationVariable extends Node implements GenericPatt
     public int getPatternIndex() {
         return patternIndex;
     }
+
+    @Override
+    public String toString() {
+        return "$vari" + patternIndex;
+    }
 }
