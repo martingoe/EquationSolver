@@ -1,18 +1,22 @@
-package com.cubearrow.model.operations;
+package com.cubearrow.model.tree.nodes;
 
 
-import com.cubearrow.model.equation.EquationInitializer;
-import com.cubearrow.model.regex.RegExUtil;
+import com.cubearrow.model.problem.Problem;
+import com.cubearrow.model.rewriting.EquationRewriter;
 import com.cubearrow.model.tree.Node;
-import com.cubearrow.model.tree.Number;
+import com.cubearrow.model.tree.interfaces.Simplifyable;
+import com.cubearrow.model.utils.ProblemInitializationUtil;
+import com.cubearrow.model.utils.regex.RegExUtil;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * The base class for an operation, every specific operation derives from this.
  */
-public abstract class Operation extends Node {
-    private static final String OPERATION_REGEX = "\\+|\\*|\\-|\\/|\\^";
+public abstract class Operation extends Node implements Simplifyable {
+    private static final List<String> OPERATION_REGEXES = Arrays.asList("\\+|(?<=[0-9]|[a-z]|\\))-", "\\*", "\\/", "\\^", "sin|cos|tan");
 
     public Operation(Node left, Node right, Node parent) {
         super(left, right, parent);
@@ -28,15 +32,15 @@ public abstract class Operation extends Node {
      * @param string The string from which the Operation is parsed
      * @param parent The parent of the Operation
      */
-    protected Operation(String string, char operationChar, Node parent) {
+    public Operation(String string, char operationChar, Node parent) {
         super(null, null, parent);
 
         int startingIndex = getOperationStartingIndex(string);
         int operationIndex = string.indexOf(operationChar, startingIndex);
 
         String[] operationSides = {string.substring(0, operationIndex), string.substring(operationIndex + 1)};
-        this.setLeft(Node.fromString(EquationInitializer.removeBracketsFromOperationIfNecessary(operationSides[0]), this));
-        this.setRight(Node.fromString(EquationInitializer.removeBracketsFromOperationIfNecessary(operationSides[1]), this));
+        this.setLeft(Node.fromString(ProblemInitializationUtil.removeBracketsFromOperationIfNecessary(operationSides[0]), this));
+        this.setRight(Node.fromString(ProblemInitializationUtil.removeBracketsFromOperationIfNecessary(operationSides[1]), this));
     }
 
     /**
@@ -51,14 +55,25 @@ public abstract class Operation extends Node {
         try {
             int startingIndex = getOperationStartingIndex(operation);
 
-            int operationIndex = RegExUtil.getStartingIndexOfFirstSubstring(operation, OPERATION_REGEX, startingIndex);
-            Class<? extends Operation> operationClass = EquationInitializer.operationSelector.getOperationFromOperationString(String.valueOf(operation.charAt(operationIndex)));
+            String operationString = getOperationString(operation, startingIndex);
+
+            Class<? extends Operation> operationClass = ProblemInitializationUtil.operationSelector.getOperationFromOperationString(operationString);
 
             return operationClass.getConstructor(String.class, Node.class).newInstance(operation, parent);
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException | InstantiationException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private static String getOperationString(String operation, int startingIndex) {
+        for (String operationRegex : OPERATION_REGEXES) {
+            String operationString = RegExUtil.getFirstSubstring(operation, operationRegex + "(?![^\\(]*\\))", startingIndex);
+            if (operationString != null) {
+                return operationString;
+            }
+        }
+        return "";
     }
 
     /**
@@ -69,7 +84,7 @@ public abstract class Operation extends Node {
      */
     private static int getOperationStartingIndex(String operationString) {
         if (operationString.charAt(0) == '(') {
-            return EquationInitializer.getLastIndexOfFirstBrackets(operationString) - 1;
+            return ProblemInitializationUtil.getLastIndexOfFirstBrackets(operationString) - 1;
         }
         return 0;
     }
@@ -81,8 +96,8 @@ public abstract class Operation extends Node {
      */
     public Node getResult() {
         try {
-            if (this.getLeft() instanceof Number leftNumber && this.getRight() instanceof Number rightNumber) {
-                return getResultFromNumbers(leftNumber, rightNumber);
+            if (this.getLeft() instanceof Number && this.getRight() instanceof Number) {
+                return getResultFromNumbers();
             }
         } catch (ClassCastException exception) {
             return null;
@@ -90,7 +105,7 @@ public abstract class Operation extends Node {
         return this;
     }
 
-    public abstract Number getResultFromNumbers(Number n1, Number n2);
+    public abstract Number getResultFromNumbers();
 
 
     /**
@@ -103,8 +118,27 @@ public abstract class Operation extends Node {
         try {
             return String.format("(%s%s%s)", this.getLeft().toString(), this.getClass().getDeclaredField("OPERATION_STRING").get(this), this.getRight().toString());
         } catch (NoSuchFieldException | IllegalAccessException e) {
+            
             e.printStackTrace();
             return null;
         }
+    }
+
+    /**
+     * Simplifies a very basic operation. It does not use the simplify function of the operation itself
+     *
+     * @param problem The problem in which the Operation is, needed for the variable to isolate
+     * @return Returns the {@link Node} that represent the simplified operation
+     */
+    @Override
+    public Node simplify(EquationRewriter equationRewriter, Problem problem) {
+        Node result = equationRewriter.applyRulesToOperation(this, problem);
+
+        if (result.getLeft() instanceof Operation leftOperation)
+            result.setLeft(leftOperation.simplify(equationRewriter, problem));
+        if (result.getRight() instanceof Operation rightOperation)
+            result.setRight(rightOperation.simplify(equationRewriter, problem));
+
+        return ((Operation) result).getResult();
     }
 }

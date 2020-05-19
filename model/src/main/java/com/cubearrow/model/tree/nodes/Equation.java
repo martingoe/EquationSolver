@@ -1,15 +1,16 @@
-package com.cubearrow.model.equation;
+package com.cubearrow.model.tree.nodes;
 
-import com.cubearrow.model.operations.Operation;
 import com.cubearrow.model.rewriting.EquationRewriter;
 import com.cubearrow.model.tree.Node;
-import com.cubearrow.model.tree.Variable;
+import com.cubearrow.model.problem.Problem;
+import com.cubearrow.model.tree.interfaces.Simplifyable;
+import com.cubearrow.model.utils.ProblemInitializationUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Equation extends Node implements Cloneable {
+public class Equation extends Node implements Cloneable, Simplifyable {
     private char variableToIsolate;
 
     /**
@@ -53,38 +54,37 @@ public class Equation extends Node implements Cloneable {
      *
      * @return Returns the simplified Operation
      */
-    public Equation simplify(EquationRewriter equationRewriter) {
+    @Override
+    public Node simplify(EquationRewriter equationRewriter, Problem problem) {
         if (this.getLeft() instanceof Operation leftOperation) {
-            this.setLeft(simplifyOperation(leftOperation, equationRewriter));
+            this.setLeft(leftOperation.simplify(equationRewriter, problem));
         }
         if (this.getRight() instanceof Operation rightOperation) {
-            this.setRight(simplifyOperation(rightOperation, equationRewriter));
+            this.setRight(rightOperation.simplify(equationRewriter, problem));
         }
-        return simplifyEquation(equationRewriter);
+        return simplifyEquation(equationRewriter, problem);
     }
 
-    private Equation simplifyEquation(EquationRewriter equationRewriter) {
-        return equationRewriter.applyRulesToEquation(this);
+    private Equation simplifyEquation(EquationRewriter equationRewriter, Problem problem) {
+        return equationRewriter.applyRulesToEquation(this, problem);
     }
+
+
 
     /**
-     * Simplifies a very basic operation. It does not use the simplify function of the operation itself
+     * Initializes an equation based on a String.
+     * It uses recursion to get the information in the brackets of the operation and generates a
      *
-     * @param operation The {@link Operation} that should be simplified
-     * @return Returns the {@link Node} that represent the simplified operation
+     * @return Returns an {@link Equation} instance with the information
      */
-    private Node simplifyOperation(Operation operation, EquationRewriter equationRewriter) {
-        Node result = equationRewriter.applyRulesToOperation(operation, this);
-
-        if (result.getLeft() instanceof Operation leftOperation)
-            result.setLeft(simplifyOperation(leftOperation, equationRewriter));
-        if (result.getRight() instanceof Operation rightOperation)
-            result.setRight(simplifyOperation(rightOperation, equationRewriter));
-
-        return ((Operation) result).getResult();
+    public static Equation fromString(String string){
+        String equationString = ProblemInitializationUtil.cleanOperationString(string);
+        String[] split = equationString.split("=");
+        Equation equation = new Equation();
+        equation.setLeft(Node.fromString(split[0], equation));
+        equation.setRight(Node.fromString(split[1], equation));
+        return equation;
     }
-
-
     /**
      * Gets the {@link Variable}s with the {@link Node}s that are in the parentNode
      * <p>
@@ -131,4 +131,5 @@ public class Equation extends Node implements Cloneable {
     public List<Variable> getVariables() {
         return getVariables(this);
     }
+
 }

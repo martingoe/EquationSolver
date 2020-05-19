@@ -1,12 +1,12 @@
-package com.cubearrow.model.regex;
+package com.cubearrow.model.utils.regex;
 
-import com.cubearrow.model.operations.*;
+import com.cubearrow.model.tree.nodes.*;
+import com.cubearrow.model.tree.nodes.operations.*;
 
 import java.util.*;
-import java.util.function.IntFunction;
 
 public class OperationSelector {
-    private final static Class<? extends Operation>[] operationClasses = new Class[]{Addition.class, Division.class, Multiplication.class, Subtraction.class, Exponentiation.class};
+    private final static Class<? extends Operation>[] operationClasses = new Class[]{Addition.class, Division.class, Multiplication.class, Subtraction.class, Exponentiation.class, Sin.class, Cos.class, Tan.class};
     private final Map<String, Class<? extends Operation>> operationHashMap = new HashMap<>();
 
     /**

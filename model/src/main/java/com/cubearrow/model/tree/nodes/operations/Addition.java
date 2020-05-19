@@ -1,7 +1,8 @@
-package com.cubearrow.model.operations;
+package com.cubearrow.model.tree.nodes.operations;
 
+import com.cubearrow.model.tree.nodes.Operation;
 import com.cubearrow.model.tree.Node;
-import com.cubearrow.model.tree.Number;
+import com.cubearrow.model.tree.nodes.Number;
 
 public class Addition extends Operation {
 
@@ -25,8 +26,8 @@ public class Addition extends Operation {
 
 
     @Override
-    public Number getResultFromNumbers(Number n1, Number n2) {
-        return new Number(n1.getValue() + n2.getValue(), this.getParent());
+    public Number getResultFromNumbers() {
+        return new Number((double) this.getLeft().getValue() + (double) this.getRight().getValue(), this.getParent());
     }
 
 }

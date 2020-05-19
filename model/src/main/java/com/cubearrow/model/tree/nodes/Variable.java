@@ -1,4 +1,6 @@
-package com.cubearrow.model.tree;
+package com.cubearrow.model.tree.nodes;
+
+import com.cubearrow.model.tree.Node;
 
 public class Variable extends Node<Character> {
 
@@ -13,7 +15,7 @@ public class Variable extends Node<Character> {
 
     @Override
     public String toString() {
-        return String.valueOf(value);
+        return String.valueOf(this.getValue());
     }
 
     public static Variable fromString(String numberString, Node parent) {

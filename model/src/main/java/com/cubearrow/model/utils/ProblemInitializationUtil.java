@@ -1,18 +1,13 @@
-package com.cubearrow.model.equation;
+package com.cubearrow.model.utils;
 
-import com.cubearrow.model.operations.Operation;
-import com.cubearrow.model.regex.OperationSelector;
-import com.cubearrow.model.tree.Node;
+import com.cubearrow.model.tree.nodes.Equation;
+import com.cubearrow.model.tree.nodes.Operation;
+import com.cubearrow.model.utils.regex.OperationSelector;
 
-public class EquationInitializer {
+public class ProblemInitializationUtil {
+    public static final OperationSelector operationSelector = new OperationSelector();
     private static final char OPENING_BRACKET = '(';
     private static final char CLOSING_BRACKET = ')';
-    private String equationString;
-    public static final OperationSelector operationSelector = new OperationSelector();
-
-    public EquationInitializer(final String equationString) {
-        this.equationString = equationString;
-    }
 
     /**
      * Gets the index of the closing bracket of the first starting bracket.
@@ -53,26 +48,11 @@ public class EquationInitializer {
         return operationString;
     }
 
-    /**
-     * Initializes an equation based on a String.
-     * It uses recursion to get the information in the brackets of the operation and generates a
-     *
-     * @return Returns an {@link Equation} instance with the information
-     */
-    public Equation parseEquation() {
-        equationString = cleanOperationString(equationString);
-        String[] split = this.equationString.split("=");
-        Equation equation = new Equation();
-        equation.setLeft(Node.fromString(split[0], equation));
-        equation.setRight(Node.fromString(split[1], equation));
-        return equation;
-    }
-
     public static String cleanOperationString(String operationString) {
-        return addMultiplicationSimbol(operationString);
+        return addMultiplicationSimbol(operationString).replace(" ", "");
     }
 
     private static String addMultiplicationSimbol(String operationString) {
-        return operationString.replaceAll("([0-9]+)([a-z])", "$1*$2");
+        return operationString.replaceAll("([0-9]+|\\))([a-z])", "$1*$2");
     }
 }

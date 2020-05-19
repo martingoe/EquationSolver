@@ -1,5 +1,6 @@
 package com.cubearrow.model.tree;
 
+import com.cubearrow.model.tree.nodes.Variable;
 import org.junit.Test;
 
 public class VariableTest {

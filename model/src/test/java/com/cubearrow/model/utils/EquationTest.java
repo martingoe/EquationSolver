@@ -1,9 +1,10 @@
-package com.cubearrow.model.equation;
+package com.cubearrow.model.utils;
 
-import com.cubearrow.model.operations.Addition;
+import com.cubearrow.model.tree.nodes.Equation;
+import com.cubearrow.model.tree.nodes.operations.Addition;
 import com.cubearrow.model.tree.Node;
-import com.cubearrow.model.tree.Number;
-import com.cubearrow.model.tree.Variable;
+import com.cubearrow.model.tree.nodes.Number;
+import com.cubearrow.model.tree.nodes.Variable;
 import org.junit.Test;
 
 import java.util.Arrays;

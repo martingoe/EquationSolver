@@ -1,8 +1,8 @@
-package com.cubearrow.model.regex;
+package com.cubearrow.model.utils.regex;
 
 import org.junit.Test;
 
-import static com.cubearrow.model.regex.RegExUtil.getStartingIndexOfFirstSubstring;
+import static com.cubearrow.model.utils.regex.RegExUtil.getStartingIndexOfFirstSubstring;
 
 public class RegExUtilTest {
     @Test

@@ -1,6 +1,6 @@
 package com.cubearrow.view.utils;
 
-import com.cubearrow.model.tree.Variable;
+import com.cubearrow.model.tree.nodes.Variable;
 
 import java.util.ArrayList;
 import java.util.List;

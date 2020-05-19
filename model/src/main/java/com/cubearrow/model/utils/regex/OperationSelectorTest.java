@@ -1,6 +1,6 @@
-package com.cubearrow.model.regex;
+package com.cubearrow.model.utils.regex;
 
-import com.cubearrow.model.operations.*;
+import com.cubearrow.model.tree.nodes.operations.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,6 +23,9 @@ public class OperationSelectorTest {
         expectedResult.put("*", Multiplication.class);
         expectedResult.put("/", Division.class);
         expectedResult.put("^", Exponentiation.class);
+        expectedResult.put("sin", Sin.class);
+        expectedResult.put("cos", Cos.class);
+        expectedResult.put("tan", Tan.class);
 
         Assert.assertEquals(expectedResult, operationSelector.getOperationHashMap());
     }
