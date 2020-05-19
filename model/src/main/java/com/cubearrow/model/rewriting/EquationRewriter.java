@@ -1,19 +1,20 @@
 package com.cubearrow.model.rewriting;
 
-import com.cubearrow.model.equation.Equation;
-import com.cubearrow.model.operations.Operation;
+import com.cubearrow.model.tree.nodes.Equation;
+import com.cubearrow.model.tree.nodes.Operation;
 import com.cubearrow.model.tree.Node;
+import com.cubearrow.model.problem.Problem;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EquationRewriter {
-    Set<Rule> operationRuleSets = new HashSet<>();
-    Set<Rule> equationRuleSets = new HashSet<>();
+    List<Rule> operationRuleSets = new ArrayList<>();
+    List<Rule> equationRuleSets = new ArrayList<>();
 
     public EquationRewriter() {
         initializeOperationRuleSet();
@@ -36,7 +37,7 @@ public class EquationRewriter {
         }
     }
 
-    private void addLineFromString(String line, Set<Rule> ruleSetToAddTo) {
+    private void addLineFromString(String line, List<Rule> ruleSetToAddTo) {
         if (line.startsWith("//") || line.isBlank()) {
             return;
         }
@@ -44,9 +45,9 @@ public class EquationRewriter {
         ruleSetToAddTo.add(new Rule(splitLine[0], splitLine[1]));
     }
 
-    public Node applyRulesToOperation(Operation operation, Equation equation) {
+    public Node applyRulesToOperation(Operation operation, Problem problem) {
         for (Rule rule : operationRuleSets) {
-            Node result = rule.applyPattern(operation, equation);
+            Node result = rule.applyPattern(operation, problem);
             if (result != null) {
                 return result;
             }
@@ -54,9 +55,9 @@ public class EquationRewriter {
         return operation;
     }
 
-    public Equation applyRulesToEquation(Equation equation) {
+    public Equation applyRulesToEquation(Equation equation, Problem problem) {
         for (Rule rule : equationRuleSets) {
-            Node result = rule.applyPattern(equation, equation);
+            Node result = rule.applyPattern(equation, problem);
             if (result != null) {
                 return (Equation) result;
             }
