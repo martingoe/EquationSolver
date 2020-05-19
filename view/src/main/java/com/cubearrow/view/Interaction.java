@@ -1,7 +1,9 @@
 package com.cubearrow.view;
 
-import com.cubearrow.model.equation.Equation;
-import com.cubearrow.model.tree.Variable;
+import com.cubearrow.model.problem.Problem;
+import com.cubearrow.model.tree.nodes.Equation;
+import com.cubearrow.model.tree.nodes.Variable;
+import com.cubearrow.model.tree.Node;
 import com.cubearrow.view.utils.ConsoleColors;
 
 import java.util.List;
@@ -10,11 +12,11 @@ import java.util.Scanner;
 import static com.cubearrow.view.utils.VariableUtil.getVariableCharSet;
 
 public class Interaction {
-    private Equation equation;
+    private Problem problem;
 
-    public Interaction(Equation equation) {
-        this.equation = equation;
-        printInformation(String.format("This is the equation to be solved: %s%s", ConsoleColors.ANSI_CYAN, equation.toString()));
+    public Interaction(Problem equation) {
+        this.problem = equation;
+        printInformation(String.format("This is the problem to be solved: %s%s", ConsoleColors.ANSI_CYAN, equation.toString()));
     }
 
     public Interaction() {
@@ -22,7 +24,7 @@ public class Interaction {
     }
 
     public char askUserForVariableToIsolate() {
-        List<Variable> variables = equation.getVariables();
+        List<Variable> variables = ((Equation) problem.getTopNode()).getVariables();
         List<Character> variableCharSet = getVariableCharSet(variables);
         if (variableCharSet.size() == 1) {
             return variableCharSet.get(0);
@@ -62,7 +64,7 @@ public class Interaction {
         System.out.println(String.format("%sSuccess %s| %s%s", ConsoleColors.ANSI_GREEN, ConsoleColors.ANSI_GREY, ConsoleColors.ANSI_RESET, message));
     }
 
-    public void displayResult(Equation simplifiedEquation) {
-        System.out.println(String.format("%sSuccess %s| %sThis is the simplified/solved equation:\n%s", ConsoleColors.ANSI_GREEN, ConsoleColors.ANSI_GREY, ConsoleColors.ANSI_RESET, simplifiedEquation.toString()));
+    public void displayResult(Node simplifiedEquation) {
+        System.out.println(String.format("%sSuccess %s| %sThis is the simplified/solved problem:\n%s", ConsoleColors.ANSI_GREEN, ConsoleColors.ANSI_GREY, ConsoleColors.ANSI_RESET, simplifiedEquation.toString()));
     }
 }
