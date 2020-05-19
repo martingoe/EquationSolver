@@ -1,7 +1,9 @@
 package com.cubearrow.model.tree;
 
-import com.cubearrow.model.equation.Equation;
-import com.cubearrow.model.operations.Addition;
+import com.cubearrow.model.tree.nodes.Equation;
+import com.cubearrow.model.tree.nodes.Number;
+import com.cubearrow.model.tree.nodes.Variable;
+import com.cubearrow.model.tree.nodes.operations.Addition;
 import org.junit.Test;
 
 public class NodeTest {
