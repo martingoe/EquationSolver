@@ -1,20 +1,20 @@
 package com.cubearrow.controller;
 
-import com.cubearrow.model.equation.Equation;
-import com.cubearrow.model.equation.EquationInitializer;
-import com.cubearrow.model.rewriting.EquationRewriter;
+import com.cubearrow.model.problem.Problem;
+import com.cubearrow.model.problem.ProblemManager;
+import com.cubearrow.model.tree.Node;
 import com.cubearrow.view.Interaction;
 
 public class Main {
     public static void main(String[] args) {
-//        Equation test = new EquationInitializer("((3/4)*x)+x=2+x").parseEquation();
-
-        Equation test = new EquationInitializer("(4*4)*x=(2x)+5").parseEquation();
+        Problem test = Problem.fromString("1/4 * (4 - 1/2)", new Problem.ProblemConfig(false));
         Interaction interaction = new Interaction(test);
-        EquationRewriter equationRewriter = new EquationRewriter();
-        for (int j = 0; j < 20; j++) {
-            test = test.simplify(equationRewriter);
+        ProblemManager problemManager = new ProblemManager();
+        Node prevNode = null;
+        while (prevNode != test.getTopNode()) {
+            prevNode = test.getTopNode();
+            test.setTopNode(problemManager.solveProblem(test));
         }
-        interaction.displayResult(test);
+        interaction.displayResult(test.getTopNode());
     }
 }
