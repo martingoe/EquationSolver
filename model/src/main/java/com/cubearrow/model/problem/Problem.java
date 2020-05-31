@@ -13,16 +13,12 @@ public class Problem {
         this.problemConfig = problemConfig;
     }
 
+    public static Problem fromString(String string, ProblemConfig problemConfig) {
+        return new Problem(Node.fromString(string, null), problemConfig);
+    }
+
     public ProblemConfig getProblemConfig() {
         return problemConfig;
-    }
-
-    public void setTopNode(Node topNode) {
-        this.topNode = topNode;
-    }
-
-    public static Problem fromString(String string, ProblemConfig problemConfig){
-        return new Problem(Node.fromString(string, null), problemConfig);
     }
 
     @Override
@@ -32,7 +28,12 @@ public class Problem {
 
     public Node simplify(EquationRewriter equationRewriter) {
         if (this.topNode instanceof Simplifyable simplifyable) {
-            return simplifyable.simplify(equationRewriter, this);
+            Node prevNode = null;
+            while (prevNode != this.getTopNode()) {
+                prevNode = this.getTopNode();
+                this.setTopNode(simplifyable.simplify(equationRewriter, this));
+            }
+            this.setTopNode(prevNode);
         }
         return this.topNode;
     }
@@ -41,9 +42,17 @@ public class Problem {
         return topNode;
     }
 
+    public void setTopNode(Node topNode) {
+        this.topNode = topNode;
+    }
+
     public static class ProblemConfig {
         public boolean useRadians;
         public char variableToIsolate;
+
+        public ProblemConfig(boolean useRadians) {
+            this.useRadians = useRadians;
+        }
 
         public boolean isUseRadians() {
             return useRadians;
@@ -59,10 +68,6 @@ public class Problem {
 
         public void setVariableToIsolate(char variableToIsolate) {
             this.variableToIsolate = variableToIsolate;
-        }
-
-        public ProblemConfig(boolean useRadians) {
-            this.useRadians = useRadians;
         }
     }
 }
