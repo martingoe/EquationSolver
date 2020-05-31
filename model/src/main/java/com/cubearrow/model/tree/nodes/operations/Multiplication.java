@@ -1,5 +1,6 @@
 package com.cubearrow.model.tree.nodes.operations;
 
+import com.cubearrow.model.problem.Problem;
 import com.cubearrow.model.tree.nodes.Operation;
 import com.cubearrow.model.tree.Node;
 import com.cubearrow.model.tree.nodes.Number;
@@ -26,7 +27,8 @@ public class Multiplication extends Operation {
 
     @Override
     public String toString() {
-        if(this.getLeft() instanceof Variable || this.getRight() instanceof Variable){
+        if(this.getLeft() instanceof Variable || this.getRight() instanceof Variable ||
+        this.getLeft() instanceof Operation || this.getRight() instanceof Operation){
             return "(%s%s)".formatted(this.getLeft().toString(), this.getRight().toString());
         }
 
@@ -34,7 +36,7 @@ public class Multiplication extends Operation {
     }
 
     @Override
-    public Number getResultFromNumbers() {
+    public Number getResultFromNumbers(Problem.ProblemConfig problemConfig) {
         return new Number((double) this.getLeft().getValue() * (double) this.getRight().getValue(), this.getParent());
     }
 

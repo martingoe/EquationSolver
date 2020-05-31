@@ -1,5 +1,6 @@
 package com.cubearrow.model.tree.nodes.operations;
 
+import com.cubearrow.model.problem.Problem;
 import com.cubearrow.model.tree.nodes.Operation;
 import com.cubearrow.model.tree.Node;
 import com.cubearrow.model.tree.nodes.Number;
@@ -20,7 +21,7 @@ public class Exponentiation extends Operation {
     }
 
 
-    public Number getResultFromNumbers() {
+    public Number getResultFromNumbers(Problem.ProblemConfig problemConfig) {
         return new Number(Math.pow((double) this.getLeft().getValue(), (double) this.getRight().getValue()), this.getParent());
     }
 }

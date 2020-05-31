@@ -93,11 +93,12 @@ public abstract class Operation extends Node implements Simplifyable {
      * Gets the result of the operation when it's two numbers.
      *
      * @return Returns the {@link Number} instance, if no result was able to be created, returns null
+     * @param problemConfig
      */
-    public Node getResult() {
+    public Node getResult(Problem.ProblemConfig problemConfig) {
         try {
             if (this.getLeft() instanceof Number && this.getRight() instanceof Number) {
-                return getResultFromNumbers();
+                return getResultFromNumbers(problemConfig);
             }
         } catch (ClassCastException exception) {
             return null;
@@ -105,7 +106,7 @@ public abstract class Operation extends Node implements Simplifyable {
         return this;
     }
 
-    public abstract Number getResultFromNumbers();
+    public abstract Number getResultFromNumbers(Problem.ProblemConfig problem);
 
 
     /**
@@ -118,7 +119,7 @@ public abstract class Operation extends Node implements Simplifyable {
         try {
             return String.format("(%s%s%s)", this.getLeft().toString(), this.getClass().getDeclaredField("OPERATION_STRING").get(this), this.getRight().toString());
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            
+
             e.printStackTrace();
             return null;
         }
@@ -139,6 +140,6 @@ public abstract class Operation extends Node implements Simplifyable {
         if (result.getRight() instanceof Operation rightOperation)
             result.setRight(rightOperation.simplify(equationRewriter, problem));
 
-        return ((Operation) result).getResult();
+        return ((Operation) result).getResult(problem.getProblemConfig());
     }
 }

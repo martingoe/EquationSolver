@@ -1,5 +1,7 @@
 package com.cubearrow.model.tree;
 
+import com.cubearrow.model.problem.Problem;
+import com.cubearrow.model.rewriting.EquationRewriter;
 import com.cubearrow.model.tree.nodes.Number;
 import com.cubearrow.model.tree.nodes.Operation;
 import com.cubearrow.model.tree.nodes.Variable;
@@ -35,8 +37,7 @@ public class OperationTest {
 
     @Test
     public void getResult() {
-        assertEquals((double) new Multiplication(new Number(4.0), new Number(2.0)).getResult().getValue(), 8.0, 0);
-
-        assertEquals(6.0, (double) new Addition(new Number(4.0), new Number(2.0)).getResult().getValue(), 0);
+        Problem problem = new Problem(new Multiplication(new Number(4.0), new Number(2.0)), new Problem.ProblemConfig(false));
+        assertEquals((double) problem.simplify(new EquationRewriter()).getValue(), 8.0, 0);
     }
 }
