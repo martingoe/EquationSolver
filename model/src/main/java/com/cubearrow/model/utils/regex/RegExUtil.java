@@ -4,7 +4,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public final class RegExUtil {
-
     /**
      * Returns the starting index of the first substring found in a string with a RegEx expression
      * @param baseString The string that is matched and whose index of the substring is returned
@@ -29,6 +28,6 @@ public final class RegExUtil {
         if (matcher.find(startIndex)) {
             return matcher.group();
         }
-        return null;
+        return "";
     }
 }

@@ -1,4 +1,4 @@
-package com.cubearrow.model.utils.regex;
+package com.cubearrow.model.utils;
 
 import org.junit.Test;
 
