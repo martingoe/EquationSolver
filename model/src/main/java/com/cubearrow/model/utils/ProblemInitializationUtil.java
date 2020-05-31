@@ -4,7 +4,7 @@ import com.cubearrow.model.tree.nodes.Equation;
 import com.cubearrow.model.tree.nodes.Operation;
 import com.cubearrow.model.utils.regex.OperationSelector;
 
-public class ProblemInitializationUtil {
+public final class ProblemInitializationUtil {
     public static final OperationSelector operationSelector = new OperationSelector();
     private static final char OPENING_BRACKET = '(';
     private static final char CLOSING_BRACKET = ')';
