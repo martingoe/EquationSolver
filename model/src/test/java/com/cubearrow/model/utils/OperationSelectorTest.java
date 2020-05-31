@@ -1,6 +1,7 @@
-package com.cubearrow.model.utils.regex;
+package com.cubearrow.model.utils;
 
 import com.cubearrow.model.tree.nodes.operations.*;
+import com.cubearrow.model.utils.regex.OperationSelector;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

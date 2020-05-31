@@ -69,7 +69,7 @@ public abstract class Operation extends Node implements Simplifyable {
     private static String getOperationString(String operation, int startingIndex) {
         for (String operationRegex : OPERATION_REGEXES) {
             String operationString = RegExUtil.getFirstSubstring(operation, operationRegex + "(?![^\\(]*\\))", startingIndex);
-            if (operationString != null) {
+            if (!operationString.equals("")) {
                 return operationString;
             }
         }
