@@ -93,9 +93,9 @@ public abstract class Node<E> implements Cloneable {
      *
      * @return Returns the cloned Object, if a {@link CloneNotSupportedException} is thrown, returns null
      */
-    public Node clone() {
+    public Node<E> clone() {
         try {
-            return (Node) super.clone();
+            return (Node<E>) super.clone();
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
             return null;
@@ -162,9 +162,9 @@ public abstract class Node<E> implements Cloneable {
      * @param node The {@link Node} to be compared to
      * @return {@code true} if the content is the same; {@code false} if not
      */
-    public boolean equals(Node node) {
-        if (this == null || node == null) {
-            return this == node;
+    public boolean equals(Node<E> node) {
+        if (node == null) {
+            return false;
         }
 
         if (this.getClass() == node.getClass()) {
@@ -175,7 +175,8 @@ public abstract class Node<E> implements Cloneable {
     }
 
     public abstract String toString();
-    private boolean equalsSameClass(Node node) {
+
+    private boolean equalsSameClass(Node<E> node) {
         if (this instanceof Operation || this instanceof Equation) {
             return this.getRight().equals(node.getRight()) && this.getLeft().equals(node.getLeft());
         } else if (this instanceof Variable || this instanceof Number) {
